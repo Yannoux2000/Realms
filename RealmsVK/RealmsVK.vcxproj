@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{6435AF1B-97EF-4F22-9B0A-BA3A9DDC840A}</ProjectGuid>
+    <RootNamespace>RealmsVK</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\Extern\glm;..\Extern\glfw-3.3.bin.WIN64\include;..\Extern\json-develop\single_include;..\Extern\Lua-5.3.5\include;C:\VulkanSDK\1.1.126.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>F:\Workspace\Cpp\TakeTwoOnRealms\Extern\glfw-3.3.bin.WIN64\lib-vc2019;C:\VulkanSDK\1.1.126.0\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\Extern\glm;..\Extern\glfw-3.3.bin.WIN64\include;..\Extern\json-develop\single_include;..\Extern\Lua-5.3.5\include;C:\VulkanSDK\1.1.126.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>F:\Workspace\Cpp\TakeTwoOnRealms\Extern\glfw-3.3.bin.WIN64\lib-vc2019;C:\VulkanSDK\1.1.126.0\Lib32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\Extern\glm;..\Extern\glfw-3.3.bin.WIN64\include;..\Extern\json-develop\single_include;..\Extern\Lua-5.3.5\include;C:\VulkanSDK\1.1.126.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>F:\Workspace\Cpp\TakeTwoOnRealms\Extern\glfw-3.3.bin.WIN64\lib-vc2019;C:\VulkanSDK\1.1.126.0\Lib32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\Extern\glm;..\Extern\glfw-3.3.bin.WIN64\include;..\Extern\json-develop\single_include;..\Extern\Lua-5.3.5\include;C:\VulkanSDK\1.1.126.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>F:\Workspace\Cpp\TakeTwoOnRealms\Extern\glfw-3.3.bin.WIN64\lib-vc2019;C:\VulkanSDK\1.1.126.0\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Realms1\Module\Graphics\SwapChain.cpp" />
+    <ClCompile Include="Base\Allocators\Allocator.cpp" />
+    <ClCompile Include="Base\Allocators\FreeListAllocator.cpp" />
+    <ClCompile Include="Base\Allocators\LinearAllocator.cpp" />
+    <ClCompile Include="Base\Allocators\PoolAllocator.cpp" />
+    <ClCompile Include="Base\Allocators\ProxyAllocator.cpp" />
+    <ClCompile Include="Base\Allocators\StackAllocator.cpp" />
+    <ClCompile Include="Base\Logging\DebugConsoleLogger.cpp" />
+    <ClCompile Include="Base\Logging\FileLogger.cpp" />
+    <ClCompile Include="Base\Logging\ILogged.cpp" />
+    <ClCompile Include="Base\Logging\Logger.cpp" />
+    <ClCompile Include="Base\Logging\LoggerHandler.cpp" />
+    <ClCompile Include="Base\Logging\LogTime.cpp" />
+    <ClCompile Include="Base\Math\Vec2.cpp" />
+    <ClCompile Include="Base\Math\VoxelMath.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Module\Graphics\AspectRatio.cpp" />
+    <ClCompile Include="Module\Graphics\Camera.cpp" />
+    <ClCompile Include="Module\Graphics\GameRenderer.cpp" />
+    <ClCompile Include="Module\Graphics\GameShaderProgram.cpp" />
+    <ClCompile Include="Module\Graphics\GLError.cpp" />
+    <ClCompile Include="Module\Graphics\GraphicsManager.cpp" />
+    <ClCompile Include="Module\Graphics\GraphicsManager_Old.cpp" />
+    <ClCompile Include="Module\Graphics\IDrawable.cpp" />
+    <ClCompile Include="Module\Graphics\IRenderer.cpp" />
+    <ClCompile Include="Module\Graphics\IShaderProgram.cpp" />
+    <ClCompile Include="Module\Graphics\MeshNameSanitizer.cpp" />
+    <ClCompile Include="Module\Graphics\MeshRegister.cpp" />
+    <ClCompile Include="Module\Graphics\ScreenShaderProgram.cpp" />
+    <ClCompile Include="Module\Graphics\Shader.cpp" />
+    <ClCompile Include="Module\Graphics\StaticMesh.cpp" />
+    <ClCompile Include="Module\Graphics\UITexture.cpp" />
+    <ClCompile Include="Module\Graphics\ViewportFrameBuffer.cpp" />
+    <ClCompile Include="Module\Input\AssignSanitizer.cpp" />
+    <ClCompile Include="Module\Input\Input.cpp" />
+    <ClCompile Include="Module\Input\InputAssignement.cpp" />
+    <ClCompile Include="Module\Input\InputManager.cpp" />
+    <ClCompile Include="Module\Input\InputMap.cpp" />
+    <ClCompile Include="Module\World\BlockPrototype.cpp" />
+    <ClCompile Include="Module\World\BlockRegister.cpp" />
+    <ClCompile Include="Module\World\Chunk.cpp" />
+    <ClCompile Include="Module\World\ChunkManager.cpp" />
+    <ClCompile Include="Module\World\World.cpp" />
+    <ClCompile Include="Module\World\WorldManager.cpp" />
+    <ClCompile Include="Utility\FileIO\SettingsFile.cpp" />
+    <ClCompile Include="Utility\FileIO\SettingValue.cpp" />
+    <ClCompile Include="Utility\FileIO\Voxelite.cpp" />
+    <ClCompile Include="Utility\FileIO\VoxFileParser.cpp" />
+    <ClCompile Include="Utility\ModManagement\IModContainer.cpp" />
+    <ClCompile Include="Utility\ModManagement\ModLoader.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Realms1\Module\Graphics\SwapChain.h" />
+    <ClInclude Include="Base\Allocators\Allocator.h" />
+    <ClInclude Include="Base\Allocators\FreeListAllocator.h" />
+    <ClInclude Include="Base\Allocators\LinearAllocator.h" />
+    <ClInclude Include="Base\Allocators\PoolAllocator.h" />
+    <ClInclude Include="Base\Allocators\ProxyAllocator.h" />
+    <ClInclude Include="Base\Allocators\StackAllocator.h" />
+    <ClInclude Include="Base\Logging\DebugConsoleLogger.h" />
+    <ClInclude Include="Base\Logging\FileLogger.h" />
+    <ClInclude Include="Base\Logging\ILogged.h" />
+    <ClInclude Include="Base\Logging\Logger.h" />
+    <ClInclude Include="Base\Logging\LoggerHandler.h" />
+    <ClInclude Include="Base\Logging\LogTime.h" />
+    <ClInclude Include="Base\Math\IVoxel.h" />
+    <ClInclude Include="Base\Math\Rect.h" />
+    <ClInclude Include="Base\Math\Vec.h" />
+    <ClInclude Include="Base\Math\Vec2.h" />
+    <ClInclude Include="Base\Math\Vec3.h" />
+    <ClInclude Include="Base\Math\VoxelMath.h" />
+    <ClInclude Include="Base\RlmsException.h" />
+    <ClInclude Include="Constants.h" />
+    <ClInclude Include="CoreTypes.h" />
+    <ClInclude Include="Initializer.h" />
+    <ClInclude Include="Module\Graphics\AspectRatio.h" />
+    <ClInclude Include="Module\Graphics\Camera.h" />
+    <ClInclude Include="Module\Graphics\GameRenderer.h" />
+    <ClInclude Include="Module\Graphics\GameShaderProgram.h" />
+    <ClInclude Include="Module\Graphics\GLError.h" />
+    <ClInclude Include="Module\Graphics\GraphicsManager.h" />
+    <ClInclude Include="Module\Graphics\GraphicsManager_Old.h" />
+    <ClInclude Include="Module\Graphics\IDrawable.h" />
+    <ClInclude Include="Module\Graphics\IMesh.h" />
+    <ClInclude Include="Module\Graphics\IRenderer.h" />
+    <ClInclude Include="Module\Graphics\IShaderProgram.h" />
+    <ClInclude Include="Module\Graphics\MeshNameSanitizer.h" />
+    <ClInclude Include="Module\Graphics\MeshRegister.h" />
+    <ClInclude Include="Module\Graphics\OpenGL.h" />
+    <ClInclude Include="Module\Graphics\ScreenShaderProgram.h" />
+    <ClInclude Include="Module\Graphics\ScreenShaderPrototype1.h" />
+    <ClInclude Include="Module\Graphics\Shader.h" />
+    <ClInclude Include="Module\Graphics\ShaderPrototype1.h" />
+    <ClInclude Include="Module\Graphics\ShaderPrototype2.h" />
+    <ClInclude Include="Module\Graphics\ShaderPrototypeCulling.h" />
+    <ClInclude Include="Module\Graphics\ShaderPrototypeLights.h" />
+    <ClInclude Include="Module\Graphics\ShaderPrototypeSSAO.h" />
+    <ClInclude Include="Module\Graphics\StaticMesh.h" />
+    <ClInclude Include="Module\Graphics\UITexture.h" />
+    <ClInclude Include="Module\Graphics\ViewportFrameBuffer.h" />
+    <ClInclude Include="Module\Graphics\VulkanErrors.h" />
+    <ClInclude Include="Module\Input\AssignSanitizer.h" />
+    <ClInclude Include="Module\Input\Input.h" />
+    <ClInclude Include="Module\Input\InputAssignement.h" />
+    <ClInclude Include="Module\Input\InputManager.h" />
+    <ClInclude Include="Module\Input\InputMap.h" />
+    <ClInclude Include="Module\World\Block.h" />
+    <ClInclude Include="Module\World\BlockPrototype.h" />
+    <ClInclude Include="Module\World\BlockRegister.h" />
+    <ClInclude Include="Module\World\Chunk.h" />
+    <ClInclude Include="Module\World\ChunkManager.h" />
+    <ClInclude Include="Module\World\World.h" />
+    <ClInclude Include="Module\World\WorldManager.h" />
+    <ClInclude Include="RealmApplication.h" />
+    <ClInclude Include="RealmApplication_old.h" />
+    <ClInclude Include="RealmsVK.h" />
+    <ClInclude Include="Utility\FileIO\SettingsFile.h" />
+    <ClInclude Include="Utility\FileIO\SettingValue.h" />
+    <ClInclude Include="Utility\FileIO\Voxelite.h" />
+    <ClInclude Include="Utility\FileIO\VoxFileParser.h" />
+    <ClInclude Include="Utility\ModManagement\IModContainer.h" />
+    <ClInclude Include="Utility\ModManagement\ModLoader.h" />
+    <ClInclude Include="VKExemple.h" />
+    <ClInclude Include="_MemLeakMonitor.h" />
+    <ClInclude Include="_Preprocess.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Base\Allocators\Allocator.inl" />
+    <None Include="Base\Allocators\PointerMath.inl" />
+    <None Include="Base\Math\Rect.inl" />
+    <None Include="Base\Math\Vec.inl" />
+    <None Include="Base\Math\Vec3.inl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

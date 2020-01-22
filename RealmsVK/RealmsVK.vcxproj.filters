@@ -1,0 +1,451 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Utility\FileIO\SettingsFile.cpp">
+      <Filter>Utility\FileIO</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\FileIO\SettingValue.cpp">
+      <Filter>Utility\FileIO</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\FileIO\Voxelite.cpp">
+      <Filter>Utility\FileIO</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\FileIO\VoxFileParser.cpp">
+      <Filter>Utility\FileIO</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\ModManagement\IModContainer.cpp">
+      <Filter>Utility\ModManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\ModManagement\ModLoader.cpp">
+      <Filter>Utility\ModManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\World\BlockPrototype.cpp">
+      <Filter>Module\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\World\BlockRegister.cpp">
+      <Filter>Module\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\World\Chunk.cpp">
+      <Filter>Module\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\World\ChunkManager.cpp">
+      <Filter>Module\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\World\World.cpp">
+      <Filter>Module\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\World\WorldManager.cpp">
+      <Filter>Module\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Allocators\Allocator.cpp">
+      <Filter>Base\Allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Allocators\FreeListAllocator.cpp">
+      <Filter>Base\Allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Allocators\LinearAllocator.cpp">
+      <Filter>Base\Allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Allocators\PoolAllocator.cpp">
+      <Filter>Base\Allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Allocators\ProxyAllocator.cpp">
+      <Filter>Base\Allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Allocators\StackAllocator.cpp">
+      <Filter>Base\Allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Logging\DebugConsoleLogger.cpp">
+      <Filter>Base\Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Logging\FileLogger.cpp">
+      <Filter>Base\Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Logging\ILogged.cpp">
+      <Filter>Base\Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Logging\Logger.cpp">
+      <Filter>Base\Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Logging\LoggerHandler.cpp">
+      <Filter>Base\Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Logging\LogTime.cpp">
+      <Filter>Base\Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Math\Vec2.cpp">
+      <Filter>Base\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Math\VoxelMath.cpp">
+      <Filter>Base\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\AspectRatio.cpp">
+      <Filter>Module\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\IDrawable.cpp">
+      <Filter>Module\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\IRenderer.cpp">
+      <Filter>Module\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\StaticMesh.cpp">
+      <Filter>Module\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\GameShaderProgram.cpp">
+      <Filter>Module\Graphics\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\GameRenderer.cpp">
+      <Filter>Module\Graphics\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\Camera.cpp">
+      <Filter>Module\Graphics\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\IShaderProgram.cpp">
+      <Filter>Module\Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\Shader.cpp">
+      <Filter>Module\Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\ScreenShaderProgram.cpp">
+      <Filter>Module\Graphics\Screen</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\ViewportFrameBuffer.cpp">
+      <Filter>Module\Graphics\Screen</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\UITexture.cpp">
+      <Filter>Module\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Input\AssignSanitizer.cpp">
+      <Filter>Module\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Input\InputAssignement.cpp">
+      <Filter>Module\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Input\InputManager.cpp">
+      <Filter>Module\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Input\InputMap.cpp">
+      <Filter>Module\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\MeshNameSanitizer.cpp">
+      <Filter>Module\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\MeshRegister.cpp">
+      <Filter>Module\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\GLError.cpp">
+      <Filter>Module\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Input\Input.cpp">
+      <Filter>Module\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\GraphicsManager_Old.cpp">
+      <Filter>Module\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\GraphicsManager.cpp">
+      <Filter>Module\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Realms1\Module\Graphics\SwapChain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Base">
+      <UniqueIdentifier>{7bc580b4-1651-48de-9c51-2c6f493edbbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base\Allocators">
+      <UniqueIdentifier>{92e4669e-f4e2-4c9a-93f4-c3555afb1d87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base\Logging">
+      <UniqueIdentifier>{fb81d86c-9285-4c20-b689-9d44a310f68f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base\Math">
+      <UniqueIdentifier>{bea4448d-ad09-4aca-8656-9e56b7fff39f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{f8cd3325-dd63-40f9-9b47-c0c390ba3741}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Console">
+      <UniqueIdentifier>{9594b478-847c-4c50-b2cd-8571fe5d84b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\FileIO">
+      <UniqueIdentifier>{511b69b1-24b8-42ac-8d4c-15f9496c401d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\ModManagement">
+      <UniqueIdentifier>{3dce5ce6-ca98-4f58-87d6-40472ae4c46c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Networking">
+      <UniqueIdentifier>{c8dc1569-3ab5-49b1-a4b5-23afaadd6123}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Module">
+      <UniqueIdentifier>{ea6de798-229e-407d-8c22-96a9c0008829}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gameplay">
+      <UniqueIdentifier>{da7dfffc-2a98-40f5-9d3f-17db08a2700e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Module\Audio">
+      <UniqueIdentifier>{e2ab0584-54a0-4d80-8092-f276d50ad2f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Module\ECS">
+      <UniqueIdentifier>{b0f33090-d9e0-4d09-acd7-46e74a7a27c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Module\Graphics">
+      <UniqueIdentifier>{20f75cfd-c9d0-4221-9d07-24a8b3433aeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Module\GUI">
+      <UniqueIdentifier>{29b912ee-3b61-4579-9cb8-c431f955b67f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Module\Input">
+      <UniqueIdentifier>{b65db3c9-b119-4f66-91e2-853400cb45fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Module\ModLoader">
+      <UniqueIdentifier>{53ef8bee-f1d6-46d0-b0bd-069fbe3fbf73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Module\World">
+      <UniqueIdentifier>{91915beb-2a72-4cbd-9681-9324c4b6cd4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Module\Graphics\Shaders">
+      <UniqueIdentifier>{519229f4-ec15-42c8-b284-d322c2245871}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Module\Graphics\Screen">
+      <UniqueIdentifier>{631dd2ad-3b5b-4c55-a6ac-5323aaec9516}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Module\Graphics\Game">
+      <UniqueIdentifier>{f231c610-16d3-41df-a9b9-3308986a8d3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Module\Graphics\Effects">
+      <UniqueIdentifier>{b92563bc-952a-489e-83f8-41ddf763b394}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application">
+      <UniqueIdentifier>{3328fe7d-d00d-4949-af49-571e51eaa55d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Module\Graphics\Fondamentals">
+      <UniqueIdentifier>{85cdc5b4-fdc2-4859-a903-be875fb9407a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Base\RlmsException.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="_MemLeakMonitor.h" />
+    <ClInclude Include="Constants.h" />
+    <ClInclude Include="CoreTypes.h" />
+    <ClInclude Include="Utility\FileIO\SettingsFile.h">
+      <Filter>Utility\FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\FileIO\SettingValue.h">
+      <Filter>Utility\FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\FileIO\Voxelite.h">
+      <Filter>Utility\FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\FileIO\VoxFileParser.h">
+      <Filter>Utility\FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\ModManagement\IModContainer.h">
+      <Filter>Utility\ModManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\ModManagement\ModLoader.h">
+      <Filter>Utility\ModManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\World\Block.h">
+      <Filter>Module\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\World\BlockPrototype.h">
+      <Filter>Module\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\World\BlockRegister.h">
+      <Filter>Module\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\World\Chunk.h">
+      <Filter>Module\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\World\ChunkManager.h">
+      <Filter>Module\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\World\World.h">
+      <Filter>Module\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\World\WorldManager.h">
+      <Filter>Module\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Initializer.h" />
+    <ClInclude Include="RealmApplication.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="_Preprocess.h" />
+    <ClInclude Include="Base\Allocators\Allocator.h">
+      <Filter>Base\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Allocators\FreeListAllocator.h">
+      <Filter>Base\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Allocators\LinearAllocator.h">
+      <Filter>Base\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Allocators\PoolAllocator.h">
+      <Filter>Base\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Allocators\ProxyAllocator.h">
+      <Filter>Base\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Allocators\StackAllocator.h">
+      <Filter>Base\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Logging\DebugConsoleLogger.h">
+      <Filter>Base\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Logging\FileLogger.h">
+      <Filter>Base\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Logging\ILogged.h">
+      <Filter>Base\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Logging\Logger.h">
+      <Filter>Base\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Logging\LoggerHandler.h">
+      <Filter>Base\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Logging\LogTime.h">
+      <Filter>Base\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Math\IVoxel.h">
+      <Filter>Base\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Math\Rect.h">
+      <Filter>Base\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Math\Vec.h">
+      <Filter>Base\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Math\Vec2.h">
+      <Filter>Base\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Math\Vec3.h">
+      <Filter>Base\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Math\VoxelMath.h">
+      <Filter>Base\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\AspectRatio.h">
+      <Filter>Module\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\IDrawable.h">
+      <Filter>Module\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\IMesh.h">
+      <Filter>Module\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\IRenderer.h">
+      <Filter>Module\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\OpenGL.h">
+      <Filter>Module\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\StaticMesh.h">
+      <Filter>Module\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\VulkanErrors.h">
+      <Filter>Module\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\GameShaderProgram.h">
+      <Filter>Module\Graphics\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\GameRenderer.h">
+      <Filter>Module\Graphics\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\Camera.h">
+      <Filter>Module\Graphics\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\IShaderProgram.h">
+      <Filter>Module\Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\Shader.h">
+      <Filter>Module\Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\ShaderPrototype1.h">
+      <Filter>Module\Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\ShaderPrototype2.h">
+      <Filter>Module\Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\ShaderPrototypeCulling.h">
+      <Filter>Module\Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\ShaderPrototypeLights.h">
+      <Filter>Module\Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\ShaderPrototypeSSAO.h">
+      <Filter>Module\Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\ScreenShaderProgram.h">
+      <Filter>Module\Graphics\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\ScreenShaderPrototype1.h">
+      <Filter>Module\Graphics\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\ViewportFrameBuffer.h">
+      <Filter>Module\Graphics\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\UITexture.h">
+      <Filter>Module\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Input\AssignSanitizer.h">
+      <Filter>Module\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Input\InputAssignement.h">
+      <Filter>Module\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Input\InputManager.h">
+      <Filter>Module\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Input\InputMap.h">
+      <Filter>Module\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="RealmApplication_old.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\MeshNameSanitizer.h">
+      <Filter>Module\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\MeshRegister.h">
+      <Filter>Module\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="RealmsVK.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\GLError.h">
+      <Filter>Module\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="VKExemple.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Input\Input.h">
+      <Filter>Module\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\GraphicsManager_Old.h">
+      <Filter>Module\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\GraphicsManager.h">
+      <Filter>Module\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Realms1\Module\Graphics\SwapChain.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Base\Allocators\Allocator.inl">
+      <Filter>Base\Allocators</Filter>
+    </None>
+    <None Include="Base\Allocators\PointerMath.inl">
+      <Filter>Base\Allocators</Filter>
+    </None>
+    <None Include="Base\Math\Rect.inl">
+      <Filter>Base\Math</Filter>
+    </None>
+    <None Include="Base\Math\Vec.inl">
+      <Filter>Base\Math</Filter>
+    </None>
+    <None Include="Base\Math\Vec3.inl">
+      <Filter>Base\Math</Filter>
+    </None>
+  </ItemGroup>
+</Project>
