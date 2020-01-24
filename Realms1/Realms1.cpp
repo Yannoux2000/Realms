@@ -157,8 +157,8 @@ int old_main () {
 
 	void* mem = malloc (4096);
 	ProxyAllocator* app_alloc = new ProxyAllocator (mem, 4096);
-	rlms::GraphicsManagerOld::Initialize (app_alloc, 4096, main_logger);
-	rlms::GraphicsManagerOld::Load ();
+	rlms::GraphicsManager::Initialize (app_alloc, 4096, main_logger);
+	rlms::GraphicsManager::Load ();
 
 	main_logger->tag (LogTags::Info) << "loading Shaders...\n";
 	Shader vexShad = ShaderPrototype1::vertexShader ();
@@ -201,23 +201,23 @@ int old_main () {
 	}
 
 	{
-		rlms::GraphicsManagerOld::Register (0, "Models/Default/Workbench.vox");
-		rlms::GraphicsManagerOld::Register (1, "Models/Default/Blocks/Dirt.vox");
-		rlms::GraphicsManagerOld::Register (2, "Models/Default/Blocks/Wood.vox");
-		rlms::GraphicsManagerOld::Register (3, "Models/Default/Perso_m1.vox");
+		rlms::GraphicsManager::Register (0, "Models/Default/Workbench.vox");
+		rlms::GraphicsManager::Register (1, "Models/Default/Blocks/Dirt.vox");
+		rlms::GraphicsManager::Register (2, "Models/Default/Blocks/Wood.vox");
+		rlms::GraphicsManager::Register (3, "Models/Default/Perso_m1.vox");
 
 		try {
-			rlms::GraphicsManagerOld::LoadModels ();
+			rlms::GraphicsManager::LoadModels ();
 		} catch (std::exception error) {
 			main_logger->tag (LogTags::Error) << error.what () << "\n";
 			running = false;
 		}
 	}
-	rlms::GraphicsManagerOld::LoadRenderer ();
-	rlms::GraphicsManagerOld::Load ();
+	rlms::GraphicsManager::LoadRenderer ();
+	rlms::GraphicsManager::Load ();
 
-	BlockRegister::Register (3, rlms::GraphicsManagerOld::GetMesh (1));
-	BlockRegister::Register (4, rlms::GraphicsManagerOld::GetMesh (2));
+	BlockRegister::Register (3, rlms::GraphicsManager::GetMesh (1));
+	BlockRegister::Register (4, rlms::GraphicsManager::GetMesh (2));
 
 	struct dirLight {
 		glm::vec3 direction;
@@ -421,7 +421,7 @@ int old_main () {
 		//}
 
 		{
-			rlms::GraphicsManagerOld::Draw ();
+			rlms::GraphicsManager::Draw ();
 			// Termine la frame courante (en interne, échange les deux tampons de rendu)
 			window.display ();
 		}
@@ -434,8 +434,8 @@ int old_main () {
 	// libération des ressources...
 	//vfb.unload ();
 
-	rlms::GraphicsManagerOld::Unload ();
-	rlms::GraphicsManagerOld::Terminate ();
+	rlms::GraphicsManager::Unload ();
+	rlms::GraphicsManager::Terminate ();
 
 	delete app_alloc;
 	free (mem);

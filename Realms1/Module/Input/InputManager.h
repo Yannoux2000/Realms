@@ -7,9 +7,7 @@
 #include "../../Base/RlmsException.h"
 
 #include "SFML/System/Vector2.hpp"
-#include "SFML/Window/Mouse.hpp"
-#include "SFML/Window/Keyboard.hpp"
-#include "SFML/Window/Event.hpp"
+#include "SFML/Window.hpp"
 
 //Voc:
 // *hardware* input : the key being pressed (as presented from the OS)
@@ -40,7 +38,6 @@ the idea :
 		For each Assignement Mapped, check inputs
 
 		generate command list
-
 */
 namespace rlms {
 	class InvalidInput : public RlmsException {

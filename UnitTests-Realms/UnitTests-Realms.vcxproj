@@ -93,7 +93,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\Extern\glm;..\Extern\glew-2.1.0\include;..\Extern\SFML-2.5.1\include;..\Extern\Lua-5.3.5\include;..\Realms1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Extern\glm;..\Extern\glew\include;..\Extern\SFML\include;..\Extern\Lua-5.3.5\include;..\Realms1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

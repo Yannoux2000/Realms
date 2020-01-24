@@ -1,0 +1,20 @@
+[OPTIONS]
+  Binary Index=No
+  Compatibility=1.0
+  Compiled file=lua.chm
+  Contents file=lua.hhc
+  Default topic=../readme.html
+  Display compile notes=Yes
+  Display compile progress=Yes
+  Full-text search=Yes
+  Language=0x0409 English - United States
+  Title=Lua 5.3
+
+[FILES]
+  ../contents.html
+  ../manual.html
+  ../readme.html
+  README.txt
+  LUABINARIES.txt
+  
+[INFOTYPES]

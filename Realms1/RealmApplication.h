@@ -89,8 +89,8 @@ namespace rlms {
 		}
 
 		void stop () {
-			GraphicsManagerOld::Unload ();
-			GraphicsManagerOld::Terminate ();
+			GraphicsManager::Unload ();
+			GraphicsManager::Terminate ();
 			InputManager::Terminate ();
 
 			//delete windows
@@ -101,6 +101,7 @@ namespace rlms {
 		}
 
 	private:
+		sf::Window* window;
 		bool running = false;
 
 		std::unique_ptr<ProxyAllocator> app_alloc;
@@ -112,9 +113,18 @@ namespace rlms {
 		void initWindow (ApplicationSettings& stgs) {
 			logger->tag (LogTags::Debug) << "Initializing Window.";
 
-			AspectRatio::Set (stgs.aspect_width, stgs.aspect_height);
+			sf::ContextSettings settings;
+			settings.depthBits = 24;
+			settings.stencilBits = 8;
+			settings.antialiasingLevel = 8;
+			settings.majorVersion = 3;
+			settings.minorVersion = 3;
+			settings.attributeFlags = settings.Core;
 
+			AspectRatio::Set (stgs.aspect_width, stgs.aspect_height);
 			logger->tag (LogTags::Dev) << "( " << AspectRatio::Width () << ", " << AspectRatio::Height () << ")\n";
+
+			window = new sf::Window (sf::VideoMode (AspectRatio::Width (), AspectRatio::Height (), 32), "Realms", sf::Style::Titlebar | sf::Style::Close, settings);
 
 		}
 
@@ -143,19 +153,19 @@ namespace rlms {
 		}
 
 		void initGraphics (ApplicationSettings& stgs) {
-			rlms::GraphicsManagerOld::Initialize (app_alloc.get (), stgs.memory.mesh_size, logger);
+			rlms::GraphicsManager::Initialize (app_alloc.get (), stgs.memory.mesh_size, logger);
 
-			rlms::GraphicsManagerOld::Register (0, "Models/Default/Workbench.vox");
-			rlms::GraphicsManagerOld::Register (1, "Models/Default/Blocks/Dirt.vox");
-			rlms::GraphicsManagerOld::Register (2, "Models/Default/Blocks/Wood.vox");
-			rlms::GraphicsManagerOld::Register (3, "Models/Default/Perso_m1.vox");
+			rlms::GraphicsManager::Register (0, "Models/Default/Workbench.vox");
+			rlms::GraphicsManager::Register (1, "Models/Default/Blocks/Dirt.vox");
+			rlms::GraphicsManager::Register (2, "Models/Default/Blocks/Wood.vox");
+			rlms::GraphicsManager::Register (3, "Models/Default/Perso_m1.vox");
 
 			try {
-				rlms::GraphicsManagerOld::LoadModels ();
+				rlms::GraphicsManager::LoadModels ();
 				openGL_Error_Poll ();
-				rlms::GraphicsManagerOld::LoadRenderer ();
+				rlms::GraphicsManager::LoadRenderer ();
 				openGL_Error_Poll ();
-				rlms::GraphicsManagerOld::Load ();
+				rlms::GraphicsManager::Load ();
 				openGL_Error_Poll ();
 
 			} catch (RlmsException& e) {
@@ -212,7 +222,7 @@ namespace rlms {
 		}
 
 		void DisplayLoop () {
-			rlms::GraphicsManagerOld::Draw ();
+			rlms::GraphicsManager::Draw ();
 			// Termine la frame courante (en interne, échange les deux tampons de rendu)
 			window->display ();
 		}

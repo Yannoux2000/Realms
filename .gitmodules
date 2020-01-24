@@ -1,0 +1,19 @@
+[submodule "Extern/glfw"]
+	path = Extern/glfw
+	url = https://github.com/glfw/glfw.git
+	branch = 3.3.2
+[submodule "Extern/SFML"]
+	path = Extern/SFML
+	url = https://github.com/SFML/SFML.git
+	branch = 2.5.1
+[submodule "Extern/glm"]
+	path = Extern/glm
+	url = https://github.com/g-truc/glm.git
+	branch = 0.9.9.7
+[submodule "Extern/glew"]
+	path = Extern/glew
+	url = https://github.com/nigels-com/glew.git
+	branch = master
+[submodule "Extern/json"]
+	path = Extern/json
+	url = https://github.com/nlohmann/json.git
