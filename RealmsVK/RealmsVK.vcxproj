@@ -135,7 +135,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Realms1\Module\Graphics\SwapChain.cpp" />
     <ClCompile Include="Base\Allocators\Allocator.cpp" />
     <ClCompile Include="Base\Allocators\FreeListAllocator.cpp" />
     <ClCompile Include="Base\Allocators\LinearAllocator.cpp" />
@@ -160,6 +159,7 @@
     <ClCompile Include="Module\Graphics\GraphicsManager_Old.cpp" />
     <ClCompile Include="Module\Graphics\IDrawable.cpp" />
     <ClCompile Include="Module\Graphics\IRenderer.cpp" />
+    <ClCompile Include="Module\Graphics\IRenderPipeline.cpp" />
     <ClCompile Include="Module\Graphics\IShaderProgram.cpp" />
     <ClCompile Include="Module\Graphics\MeshNameSanitizer.cpp" />
     <ClCompile Include="Module\Graphics\MeshRegister.cpp" />
@@ -187,7 +187,6 @@
     <ClCompile Include="Utility\ModManagement\ModLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Realms1\Module\Graphics\SwapChain.h" />
     <ClInclude Include="Base\Allocators\Allocator.h" />
     <ClInclude Include="Base\Allocators\FreeListAllocator.h" />
     <ClInclude Include="Base\Allocators\LinearAllocator.h" />
@@ -220,6 +219,7 @@
     <ClInclude Include="Module\Graphics\IDrawable.h" />
     <ClInclude Include="Module\Graphics\IMesh.h" />
     <ClInclude Include="Module\Graphics\IRenderer.h" />
+    <ClInclude Include="Module\Graphics\IRenderPipeline.h" />
     <ClInclude Include="Module\Graphics\IShaderProgram.h" />
     <ClInclude Include="Module\Graphics\MeshNameSanitizer.h" />
     <ClInclude Include="Module\Graphics\MeshRegister.h" />

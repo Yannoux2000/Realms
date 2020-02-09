@@ -146,7 +146,9 @@
     <ClCompile Include="Module\Graphics\GraphicsManager.cpp">
       <Filter>Module\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\Realms1\Module\Graphics\SwapChain.cpp" />
+    <ClCompile Include="Module\Graphics\IRenderPipeline.cpp">
+      <Filter>Module\Graphics\Fondamentals</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -220,6 +222,9 @@
     </Filter>
     <Filter Include="Module\Graphics\Fondamentals">
       <UniqueIdentifier>{85cdc5b4-fdc2-4859-a903-be875fb9407a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\MultiThreading">
+      <UniqueIdentifier>{64358737-1545-4f5e-943d-1686ad86932e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -429,7 +434,9 @@
     <ClInclude Include="Module\Graphics\GraphicsManager.h">
       <Filter>Module\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\Realms1\Module\Graphics\SwapChain.h" />
+    <ClInclude Include="Module\Graphics\IRenderPipeline.h">
+      <Filter>Module\Graphics\Fondamentals</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Base\Allocators\Allocator.inl">
