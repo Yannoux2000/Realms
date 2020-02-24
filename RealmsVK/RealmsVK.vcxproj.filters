@@ -152,14 +152,18 @@
     <ClCompile Include="Module\Graphics\VulkanEnvironment.cpp">
       <Filter>Module\Graphics\Fondamentals</Filter>
     </ClCompile>
-    <ClCompile Include="Module\Graphics\Vulkan.cpp" />
-    <ClCompile Include="Module\Graphics\VulkanDevices.cpp">
-      <Filter>Module\Graphics\Fondamentals</Filter>
-    </ClCompile>
     <ClCompile Include="Module\Graphics\VulkanRenderPipeline.cpp">
       <Filter>Module\Graphics\Fondamentals</Filter>
     </ClCompile>
-    <ClCompile Include="VulkanSwapChain.cpp" />
+    <ClCompile Include="Module\Graphics\Vulkan.cpp">
+      <Filter>Module\Graphics\Fondamentals</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\VulkanDevice.cpp">
+      <Filter>Module\Graphics\Fondamentals</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\VulkanSwapChain.cpp">
+      <Filter>Module\Graphics\Fondamentals</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -451,13 +455,15 @@
     <ClInclude Include="Module\Graphics\VulkanEnvironment.h">
       <Filter>Module\Graphics\Fondamentals</Filter>
     </ClInclude>
-    <ClInclude Include="Module\Graphics\VulkanDevices.h">
-      <Filter>Module\Graphics\Fondamentals</Filter>
-    </ClInclude>
     <ClInclude Include="Module\Graphics\VulkanRenderPipeline.h">
       <Filter>Module\Graphics\Fondamentals</Filter>
     </ClInclude>
-    <ClInclude Include="Module\Graphics\VulkanSwapChain.h" />
+    <ClInclude Include="Module\Graphics\VulkanSwapChain.h">
+      <Filter>Module\Graphics\Fondamentals</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\VulkanDevice.h">
+      <Filter>Module\Graphics\Fondamentals</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Base\Allocators\Allocator.inl">
