@@ -1,19 +1,17 @@
-#pragma once
-#include <vulkan/vulkan.h>
-#include <stdexcept>
+#include "Vulkan.h"
 
 void VulkanResultCheck (VkResult res) {
 	switch (res) {
 		case VkResult::VK_SUCCESS:
 			return;
 
-		case VkResult::VK_NOT_READY :
+		case VkResult::VK_NOT_READY:
 			throw std::runtime_error ("VK_NOT_READY");
 
-		case VkResult::VK_TIMEOUT :
+		case VkResult::VK_TIMEOUT:
 			throw std::runtime_error ("VK_TIMEOUT");
 
-		case VkResult::VK_EVENT_SET :
+		case VkResult::VK_EVENT_SET:
 			throw std::runtime_error ("VK_EVENT_SET");
 
 		case VkResult::VK_EVENT_RESET:
