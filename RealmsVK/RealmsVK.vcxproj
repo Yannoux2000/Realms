@@ -76,7 +76,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Extern\glm;..\Extern\glfw\lib\include;..\Extern\json\single_include;..\Extern\Lua-5.3.5\include;C:\VulkanSDK\1.1.126.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ExtLibs\include;C:\VulkanSDK\1.2.131.2\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -90,7 +90,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Extern\glm;..\Extern\glfw\lib\include;..\Extern\json\single_include;..\Extern\Lua-5.3.5\include;C:\VulkanSDK\1.1.126.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ExtLibs\include;C:\VulkanSDK\1.2.131.2\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -106,7 +106,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Extern\glm;..\Extern\glfw\lib\include;..\Extern\json\single_include;..\Extern\Lua-5.3.5\include;C:\VulkanSDK\1.1.126.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ExtLibs\include;C:\VulkanSDK\1.2.131.2\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -124,7 +124,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Extern\glm;..\Extern\glfw\lib\include;..\Extern\json\single_include;..\Extern\Lua-5.3.5\include;C:\VulkanSDK\1.1.126.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ExtLibs\include;C:\VulkanSDK\1.2.131.2\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -189,6 +189,7 @@
     <ClCompile Include="Utility\FileIO\VoxFileParser.cpp" />
     <ClCompile Include="Utility\ModManagement\IModContainer.cpp" />
     <ClCompile Include="Utility\ModManagement\ModLoader.cpp" />
+    <ClCompile Include="VulkanSwapChain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base\Allocators\Allocator.h" />
@@ -243,6 +244,7 @@
     <ClInclude Include="Module\Graphics\VulkanDevices.h" />
     <ClInclude Include="Module\Graphics\VulkanEnvironment.h" />
     <ClInclude Include="Module\Graphics\VulkanRenderPipeline.h" />
+    <ClInclude Include="Module\Graphics\VulkanSwapChain.h" />
     <ClInclude Include="Module\Input\AssignSanitizer.h" />
     <ClInclude Include="Module\Input\Input.h" />
     <ClInclude Include="Module\Input\InputAssignement.h" />

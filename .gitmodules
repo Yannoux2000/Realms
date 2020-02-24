@@ -13,7 +13,6 @@
 [submodule "Extern/glew"]
 	path = Extern/glew
 	url = https://github.com/nigels-com/glew.git
-	branch = master
 [submodule "Extern/json"]
 	path = Extern/json
 	url = https://github.com/nlohmann/json.git

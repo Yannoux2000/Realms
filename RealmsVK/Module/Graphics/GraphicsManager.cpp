@@ -14,27 +14,7 @@
 #include "VulkanEnvironment.h"
 #include "VulkanDevices.h"
 
-#include <fstream>
-
 using namespace rlms;
-
-std::vector<char> readFile (const std::string& filename) {
-	std::ifstream file (filename, std::ios::ate | std::ios::binary);
-
-	if (!file.is_open ()) {
-		throw std::runtime_error ("failed to open file!");
-	}
-
-	size_t fileSize = (size_t)file.tellg ();
-	std::vector<char> buffer (fileSize);
-
-	file.seekg (0);
-	file.read (buffer.data (), fileSize);
-
-	file.close ();
-
-	return buffer;
-}
 
 class RenderPipeline {
 public:
@@ -42,13 +22,14 @@ public:
 	std::vector<VkImage> swapChainImages;
 	VkFormat swapChainImageFormat;
 	VkExtent2D swapChainExtent;
+
 	std::vector<VkImageView> swapChainImageViews;
+
+	std::vector<VkFramebuffer> swapChainFramebuffers;
 
 	VkRenderPass renderPass;
 	VkPipelineLayout pipelineLayout;
 	VkPipeline graphicsPipeline;
-
-	std::vector<VkFramebuffer> swapChainFramebuffers;
 
 	void start ();
 	void stop ();
