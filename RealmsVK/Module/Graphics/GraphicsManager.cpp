@@ -50,8 +50,8 @@ private:
 	void stop ();
 
 	MeshRegister* getRegister ();
-	void Register (IMODEL_TYPE_ID const& type_id, std::string&& filename, std::string&& meshAlias);
-	IMesh* getMesh (IMODEL_TYPE_ID const& type_id);
+	void Register (IMESH_TYPE_ID const& type_id, std::string&& filename, std::string&& meshAlias);
+	IMesh* getMesh (IMESH_TYPE_ID const& type_id);
 
 	void load ();
 	void draw ();

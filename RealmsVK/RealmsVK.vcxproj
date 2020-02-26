@@ -140,6 +140,7 @@
     <ClCompile Include="Base\Allocators\FreeListAllocator.cpp" />
     <ClCompile Include="Base\Allocators\InvalidMemory.cpp" />
     <ClCompile Include="Base\Allocators\LinearAllocator.cpp" />
+    <ClCompile Include="Base\Allocators\MasqueradeAllocator.cpp" />
     <ClCompile Include="Base\Allocators\PoolAllocator.cpp" />
     <ClCompile Include="Base\Allocators\ProxyAllocator.cpp" />
     <ClCompile Include="Base\Allocators\StackAllocator.cpp" />
@@ -155,6 +156,7 @@
     <ClCompile Include="Module\ECS\Entity.cpp" />
     <ClCompile Include="Module\ECS\EntityManager.cpp" />
     <ClCompile Include="Module\ECS\GameCore.cpp" />
+    <ClCompile Include="Module\ECS\MeshComponent.cpp" />
     <ClCompile Include="Module\Graphics\AspectRatio.cpp" />
     <ClCompile Include="Module\Graphics\Camera.cpp" />
     <ClCompile Include="Module\Graphics\GameRenderer.cpp" />
@@ -202,6 +204,7 @@
     <ClInclude Include="Base\Allocators\FreeListAllocator.h" />
     <ClInclude Include="Base\Allocators\InvalidMemory.h" />
     <ClInclude Include="Base\Allocators\LinearAllocator.h" />
+    <ClInclude Include="Base\Allocators\MasqueradeAllocator.h" />
     <ClInclude Include="Base\Allocators\PoolAllocator.h" />
     <ClInclude Include="Base\Allocators\ProxyAllocator.h" />
     <ClInclude Include="Base\Allocators\StackAllocator.h" />
@@ -226,6 +229,7 @@
     <ClInclude Include="Module\ECS\EntityManager.h" />
     <ClInclude Include="Module\ECS\GameCore.h" />
     <ClInclude Include="Module\ECS\IComponent.h" />
+    <ClInclude Include="Module\ECS\MeshComponent.h" />
     <ClInclude Include="Module\ECS\TransformComponent.h" />
     <ClInclude Include="Module\Graphics\AspectRatio.h" />
     <ClInclude Include="Module\Graphics\Camera.h" />
@@ -264,6 +268,7 @@
     <ClInclude Include="Module\Input\InputAssignement.h" />
     <ClInclude Include="Module\Input\InputManager.h" />
     <ClInclude Include="Module\Input\InputMap.h" />
+    <ClInclude Include="Module\LuaBindings\lua.h" />
     <ClInclude Include="Module\World\Block.h" />
     <ClInclude Include="Module\World\BlockPrototype.h" />
     <ClInclude Include="Module\World\BlockRegister.h" />
@@ -290,6 +295,7 @@
     <None Include="Base\Math\Rect.inl" />
     <None Include="Base\Math\Vec.inl" />
     <None Include="Base\Math\Vec3.inl" />
+    <None Include="Gameplay\ghost.lua" />
     <None Include="Module\ECS\ComponentManager.inl" />
     <None Include="Module\ECS\Entity.inl" />
   </ItemGroup>

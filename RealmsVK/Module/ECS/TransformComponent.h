@@ -2,11 +2,10 @@
 #include "IComponent.h"
 
 #include <string>
+#include "../../Base/Math/Vec3.h"
 
 namespace rlms {
-	class TransformComponent : public IComponent {
-	public:
-		std::string phrase = "wow";
-		TransformComponent (ENTITY_ID entity_id, COMPONENT_ID const& component_id) : IComponent (entity_id, component_id) {}
+	struct TransformComponent : public IComponent {
+		Vec3<double> position;
 	};
 }

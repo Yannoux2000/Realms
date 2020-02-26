@@ -49,7 +49,7 @@ void ComponentManagerImpl::start (Allocator* const& alloc, size_t comp_pool_size
 	startLogger (funnel);
 	logger->tag (LogTags::None) << "Initializing !" << '\n';
 
-	m_comp_Allocator = std::unique_ptr<FreeListAllocator> (new FreeListAllocator (alloc->allocate (comp_pool_size), comp_pool_size));
+	m_comp_Allocator = std::unique_ptr<alloc_type> (new alloc_type (alloc->allocate (comp_pool_size), comp_pool_size));
 
 	_id_iter = 1;
 	ComponentManager::n_errors = 0;
@@ -63,6 +63,8 @@ void ComponentManagerImpl::stop () {
 		it->second->~IComponent ();
 		allocator::deallocateDelete (*m_comp_Allocator.get(), it->second);
 	}
+
+	m_comp_Allocator.reset ();
 
 	logger->tag (LogTags::None) << "Stopped correctly !" << '\n';
 }

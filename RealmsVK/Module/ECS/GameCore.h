@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Base/Allocators/FreeListAllocator.h"
+#include "../../Base/Allocators/Allocator.h"
 #include "../../Base/Logging/ILogged.h"
 
 #include "EntityManager.h"

@@ -19,8 +19,8 @@ namespace rlms {
 
 		static MeshRegister* GetRegister ();
 
-		static void Register (IMODEL_TYPE_ID const& type_id, std::string&& filename, std::string&& meshAlias = "");
-		static IMesh* GetMesh (IMODEL_TYPE_ID const& type_id);
+		static void Register (IMESH_TYPE_ID const& type_id, std::string&& filename, std::string&& meshAlias = "");
+		static IMesh* GetMesh (IMESH_TYPE_ID const& type_id);
 
 		static void Load ();
 		static void LoadModels ();

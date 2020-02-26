@@ -28,6 +28,7 @@
 #include <array>
 #include <sstream>
 
+#include "Module/LuaBindings/lua.h"
 
 namespace rlms {
 	class RealmApplication : public ILogged {
@@ -179,18 +180,32 @@ namespace rlms {
 			rlms::GameCore::Initialize (app_alloc.get (), stgs.memory.ecs_size, logger);
 
 			logger->tag (LogTags::Dev) << "Testing GameCore's Entity system.\n";
-			auto e = rlms::EntityManager::Create ();
-			auto p_e = rlms::EntityManager::Get (e);
-			p_e->setType ("ghost");
 
-			auto p = p_e->get<IComponent> ();
+			ENTITY_ID e = Entity::NULL_ID;
+			Entity* p_e;
+			//e = rlms::EntityManager::Create ();
+			//p_e = rlms::EntityManager::Get (e);
+			//p_e->setType ("ghost");
 
-			auto c = rlms::ComponentManager::CreateComponent<TransformComponent> (p_e);
-			auto p_c = rlms::ComponentManager::GetComponent<TransformComponent> (e);
-			p_c->phrase = "Wow i'm so scary";
+			//auto p = p_e->get<IComponent> ();
 
+			//auto c = rlms::ComponentManager::CreateComponent<TransformComponent> (p_e);
+			//auto p_c = rlms::ComponentManager::GetComponent<TransformComponent> (e);
+			//p_c->phrase = "Wow i'm so scary";
 
+			lua_State* L = luaL_newstate (); 
+			luaL_dostring (L,
+				R"(ghost = {
+					TransformComponent = {
+						phrase = "I'M A SCARY GHOST!!!"
+					}
+				})");
 
+			lua_getglobal (L, "ghost");
+			assert (lua_istable (L, -1));
+			lua_getfield (L, -1, "TransformComponent");
+
+			lua_close (L);
 			p_e = rlms::EntityManager::Get (e);
 			if (p_e->has<TransformComponent> ()) {
 				logger->tag (LogTags::Info) << "Good the component is register\n";

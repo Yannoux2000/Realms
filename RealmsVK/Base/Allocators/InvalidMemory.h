@@ -8,7 +8,11 @@ namespace rlms {
 		InvalidMemory (std::string t_type, std::string t_description) noexcept : Exception (t_type, t_description) {};
 	};
 
-	struct OutOfMemory: public InvalidMemory{
+	struct OutOfMemory : public InvalidMemory {
 		OutOfMemory () noexcept : InvalidMemory ("Out Of Memory", "Make sure your have allocated sufficient memory for the game.") {}
+	};
+
+	struct BadAlloc: public InvalidMemory {
+		BadAlloc () noexcept : InvalidMemory ("Bad Allocation", "Make sure your have allocated sufficient RAM for the game.") {}
 	};
 }

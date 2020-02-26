@@ -14,7 +14,7 @@ namespace rlms {
 	using GAME_TICK_TYPE = uint16_t;
 	using BLOCK_TYPE_ID = uint16_t;
 
-	using IMODEL_TYPE_ID = uint16_t;
+	using IMESH_TYPE_ID = uint16_t;
 
 	using BLOCK_COORDS_TYPE = uint16_t;
 	using CHUNK_COORDS_TYPE = int32_t;

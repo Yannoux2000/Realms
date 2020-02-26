@@ -2,6 +2,7 @@
 
 //#include "../../Base/Allocators/PoolAllocator.h"
 #include "../../Base/Allocators/FreeListAllocator.h"
+#include "../../Base/Allocators/MasqueradeAllocator.h"
 
 using namespace rlms;
 
@@ -12,9 +13,10 @@ private:
 	std::string getLogName () override {
 		return "EntityManager";
 	};
+	using alloc_type = MasqueradeAllocator;
 
 	std::map<ENTITY_ID, Entity*> m_lookup_table;
-	std::unique_ptr<FreeListAllocator> m_entity_Allocator;
+	std::unique_ptr<alloc_type> m_entity_Allocator;
 
 	void start (Allocator* const& alloc, size_t entity_pool_size, std::shared_ptr<Logger> funnel);
 	void stop ();
@@ -80,7 +82,7 @@ void EntityManagerImpl::start (Allocator* const& alloc, size_t entity_pool_size,
 	startLogger (funnel);
 	logger->tag (LogTags::None) << "Initializing !" << '\n';
 
-	m_entity_Allocator = std::unique_ptr<FreeListAllocator>(new FreeListAllocator (alloc->allocate (entity_pool_size), entity_pool_size));
+	m_entity_Allocator = std::unique_ptr<alloc_type>(new alloc_type (alloc->allocate (entity_pool_size), entity_pool_size));
 
 	_id_iter = 1;
 	EntityManager::n_errors = 0;
@@ -94,6 +96,8 @@ void EntityManagerImpl::stop () {
 		it->second->~Entity ();
 		allocator::deallocateDelete (*m_entity_Allocator.get (), it->second);
 	}
+
+	m_entity_Allocator.reset ();
 
 	logger->tag (LogTags::None) << "Stopped correctly !" << '\n';
 }

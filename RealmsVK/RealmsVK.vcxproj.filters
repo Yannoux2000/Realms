@@ -179,6 +179,12 @@
     <ClCompile Include="Base\Allocators\InvalidMemory.cpp">
       <Filter>Base\Allocators</Filter>
     </ClCompile>
+    <ClCompile Include="Base\Allocators\MasqueradeAllocator.cpp">
+      <Filter>Base\Allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\ECS\MeshComponent.cpp">
+      <Filter>Module\ECS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -229,9 +235,6 @@
     <Filter Include="Module\Input">
       <UniqueIdentifier>{b65db3c9-b119-4f66-91e2-853400cb45fd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Module\ModLoader">
-      <UniqueIdentifier>{53ef8bee-f1d6-46d0-b0bd-069fbe3fbf73}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Module\World">
       <UniqueIdentifier>{91915beb-2a72-4cbd-9681-9324c4b6cd4c}</UniqueIdentifier>
     </Filter>
@@ -258,6 +261,9 @@
     </Filter>
     <Filter Include="Base\old_Allocators">
       <UniqueIdentifier>{ff5c8bdc-9f4b-4129-aafe-25f8c3e8e4b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Module\LuaBindings">
+      <UniqueIdentifier>{53ef8bee-f1d6-46d0-b0bd-069fbe3fbf73}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -506,6 +512,15 @@
     <ClInclude Include="Base\Exception.h">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="Base\Allocators\MasqueradeAllocator.h">
+      <Filter>Base\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\LuaBindings\lua.h">
+      <Filter>Module\LuaBindings</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\ECS\MeshComponent.h">
+      <Filter>Module\ECS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Base\Allocators\Allocator.inl">
@@ -528,6 +543,9 @@
     </None>
     <None Include="Module\ECS\ComponentManager.inl">
       <Filter>Module\ECS</Filter>
+    </None>
+    <None Include="Gameplay\ghost.lua">
+      <Filter>Gameplay</Filter>
     </None>
   </ItemGroup>
 </Project>

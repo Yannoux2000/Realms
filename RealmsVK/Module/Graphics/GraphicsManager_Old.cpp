@@ -31,8 +31,8 @@ private:
 	void stop ();
 
 	MeshRegister* getRegister ();
-	void Register (IMODEL_TYPE_ID const& type_id, std::string&& filename, std::string&& meshAlias);
-	IMesh* getMesh (IMODEL_TYPE_ID const& type_id);
+	void Register (IMESH_TYPE_ID const& type_id, std::string&& filename, std::string&& meshAlias);
+	IMesh* getMesh (IMESH_TYPE_ID const& type_id);
 
 	void load ();
 	void loadModels ();
@@ -75,7 +75,7 @@ MeshRegister* rlms::GraphicsManagerImplOld::getRegister () {
 	return meshRegister.get ();
 }
 
-void rlms::GraphicsManagerImplOld::Register (IMODEL_TYPE_ID const& type_id, std::string&& filename, std::string&& meshAlias) {
+void rlms::GraphicsManagerImplOld::Register (IMESH_TYPE_ID const& type_id, std::string&& filename, std::string&& meshAlias) {
 	meshRegister->Register<StaticMesh> (type_id, std::move(filename));
 
 	if (!meshAlias.empty ()) {
@@ -83,7 +83,7 @@ void rlms::GraphicsManagerImplOld::Register (IMODEL_TYPE_ID const& type_id, std:
 	}
 }
 
-IMesh* rlms::GraphicsManagerImplOld::getMesh (IMODEL_TYPE_ID const& type_id) {
+IMesh* rlms::GraphicsManagerImplOld::getMesh (IMESH_TYPE_ID const& type_id) {
 	return meshRegister->get (type_id);
 }
 
@@ -222,11 +222,11 @@ MeshRegister* rlms::GraphicsManagerOld::GetRegister () {
 	return instance->getRegister ();
 }
 
-void rlms::GraphicsManagerOld::Register (IMODEL_TYPE_ID const& type_id, std::string&& filename, std::string&& meshAlias) {
+void rlms::GraphicsManagerOld::Register (IMESH_TYPE_ID const& type_id, std::string&& filename, std::string&& meshAlias) {
 	instance->Register (type_id, std::move(filename), std::move(meshAlias));
 }
 
-IMesh* rlms::GraphicsManagerOld::GetMesh (IMODEL_TYPE_ID const& type_id) {
+IMesh* rlms::GraphicsManagerOld::GetMesh (IMESH_TYPE_ID const& type_id) {
 	return instance->getMesh(type_id);
 }
 

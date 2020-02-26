@@ -23,7 +23,7 @@ void rlms::MeshRegister::stop () {
 	logger->tag (LogTags::None) << "Stopped correctly !" << '\n';
 }
 
-void rlms::MeshRegister::RegisterAlias (IMODEL_TYPE_ID type_id, std::string&& name) {
+void rlms::MeshRegister::RegisterAlias (IMESH_TYPE_ID type_id, std::string&& name) {
 	name = MeshNameSanitizer::Sanitize (name);
 
 	auto it = m_dict.find (name);
@@ -66,15 +66,30 @@ void rlms::MeshRegister::free () {
 	}
 }
 
-IMesh* rlms::MeshRegister::get (IMODEL_TYPE_ID const& type_id) {
+IMesh* rlms::MeshRegister::get (IMESH_TYPE_ID const& type_id) {
 	return m_register[type_id];
 }
 
-IMesh* rlms::MeshRegister::get (std::string && alias) {
+IMesh* rlms::MeshRegister::get (std::string const& alias) {
 	auto it = m_dict.find (alias);
 	if (it == m_dict.end ()) {
 		throw Exception ("Mesh not found");
 	}
-	IMODEL_TYPE_ID const type_id = it->second;
+	IMESH_TYPE_ID const type_id = it->second;
 	return m_register[type_id];
+}
+
+IMESH_TYPE_ID rlms::MeshRegister::getId (std::string const& alias) {
+	auto it = m_dict.find (alias);
+	if (it == m_dict.end ()) {
+		throw Exception ("Mesh not found");
+	}
+	IMESH_TYPE_ID const type_id = it->second;
+}
+
+std::string rlms::MeshRegister::getAlias (IMESH_TYPE_ID const& type_id) {
+	for (auto it = m_dict.begin(); it != m_dict.end(); it++) {
+		if (it->second == type_id) return it->first;
+	}
+	throw Exception ("Mesh not found");
 }
