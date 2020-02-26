@@ -1,10 +1,10 @@
 #pragma once
 #include "Allocator.h"
-class FreeListAllocator : public Allocator {
+class FreeListAllocator_old : public Allocator {
 public:
 
-	FreeListAllocator (void* start, size_t size);
-	~FreeListAllocator ();
+	FreeListAllocator_old (void* start, size_t size);
+	~FreeListAllocator_old ();
 
 	void* allocate (size_t size, uint8_t alignment) override;
 	void deallocate (void*&& p) override;
@@ -21,8 +21,8 @@ private:
 		FreeBlock* next;
 	};
 
-	FreeListAllocator (const FreeListAllocator&);
+	FreeListAllocator_old (const FreeListAllocator_old&);
 	//Prevent copies because it might cause errors 
-	FreeListAllocator& operator=(const FreeListAllocator&) = delete;
+	FreeListAllocator_old& operator=(const FreeListAllocator_old&) = delete;
 	FreeBlock* _free_blocks;
 };

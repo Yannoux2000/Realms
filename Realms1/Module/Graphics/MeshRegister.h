@@ -19,7 +19,7 @@ namespace rlms {
 		//links an id to one or multiples names
 		std::map<std::string, IMODEL_TYPE_ID> m_dict;
 
-		std::unique_ptr<FreeListAllocator> m_model_Allocator;
+		std::unique_ptr<FreeListAllocator_old> m_model_Allocator;
 		
 		std::string getLogName () override {
 			return "MeshRegister";

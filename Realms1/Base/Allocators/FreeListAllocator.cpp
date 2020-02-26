@@ -2,17 +2,17 @@
 
 #include <cassert>
 
-FreeListAllocator::FreeListAllocator (void* start, size_t size) : Allocator (start, size), _free_blocks ((FreeBlock*)start) {
+FreeListAllocator_old::FreeListAllocator_old (void* start, size_t size) : Allocator (start, size), _free_blocks ((FreeBlock*)start) {
 	assert (size > sizeof (FreeBlock));
 	_free_blocks->size = size;
 	_free_blocks->next = nullptr;
 }
 
-FreeListAllocator::~FreeListAllocator () {
+FreeListAllocator_old::~FreeListAllocator_old () {
 	_free_blocks = nullptr;
 }
 
-void* FreeListAllocator::allocate (size_t size, uint8_t alignment) {
+void* FreeListAllocator_old::allocate (size_t size, uint8_t alignment) {
 	assert (size != 0 && alignment != 0);
 	FreeBlock* prev_free_block = nullptr;
 	FreeBlock* free_block = _free_blocks;
@@ -69,7 +69,7 @@ void* FreeListAllocator::allocate (size_t size, uint8_t alignment) {
 	return nullptr;
 }
 
-void FreeListAllocator::deallocate (void*&& p) {
+void FreeListAllocator_old::deallocate (void*&& p) {
 	assert (p != nullptr);
 
 	AllocationHeader* header = (AllocationHeader*)pointerMath::subtract (p, sizeof (AllocationHeader));

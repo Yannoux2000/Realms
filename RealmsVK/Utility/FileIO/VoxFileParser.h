@@ -1,13 +1,13 @@
 #pragma once
 #include "Voxelite.h"
 #include <string>
-#include "../../Base/RlmsException.h"
+#include "../../Base/Exception.h"
 
 namespace rlms {
-	class InvalidVox : public RlmsException {
+	class InvalidVox : public Exception {
 	public:
-		InvalidVox (std::string t_type) noexcept : RlmsException (t_type) {};
-		InvalidVox (std::string t_type, std::string t_description) noexcept : RlmsException (t_type, t_description) {};
+		InvalidVox (std::string t_type) noexcept : Exception (t_type) {};
+		InvalidVox (std::string t_type, std::string t_description) noexcept : Exception (t_type, t_description) {};
 	};
 
 //the file has not been found or is not name the right way

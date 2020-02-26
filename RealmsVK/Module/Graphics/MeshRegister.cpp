@@ -1,6 +1,6 @@
 #include "MeshRegister.h"
 
-#include "../../Base/RlmsException.h"
+#include "../../Base/Exception.h"
 
 #include "MeshNameSanitizer.h"
 
@@ -29,8 +29,8 @@ void rlms::MeshRegister::RegisterAlias (IMODEL_TYPE_ID type_id, std::string&& na
 	auto it = m_dict.find (name);
 	if (it != m_dict.end()) {
 		//alias already taken
-		logger->tag (LogTags::Warning) << "Alias "<< name << " for id("<< type_id <<") already taken, by block of id(" << it->second << ")" << '\n';
-		throw RlmsException ("Mesh Alias already Taken");
+		logger->tag (LogTags::Warn) << "Alias "<< name << " for id("<< type_id <<") already taken, by block of id(" << it->second << ")" << '\n';
+		throw Exception ("Mesh Alias already Taken");
 	}
 
 	m_dict.emplace (std::make_pair (name, type_id));
@@ -73,7 +73,7 @@ IMesh* rlms::MeshRegister::get (IMODEL_TYPE_ID const& type_id) {
 IMesh* rlms::MeshRegister::get (std::string && alias) {
 	auto it = m_dict.find (alias);
 	if (it == m_dict.end ()) {
-		throw RlmsException ("Mesh not found");
+		throw Exception ("Mesh not found");
 	}
 	IMODEL_TYPE_ID const type_id = it->second;
 	return m_register[type_id];

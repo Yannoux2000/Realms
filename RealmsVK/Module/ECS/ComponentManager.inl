@@ -53,7 +53,7 @@ template<class C> inline const COMPONENT_ID ComponentManagerImpl::createComponen
 
 	//Valid
 
-	C* new_component = new (m_object_Allocator->allocate (sizeof (C), __alignof(C))) C (Entity::NULL_ID, c_id);
+	C* new_component = new (m_comp_Allocator->allocate (sizeof (C), __alignof(C))) C (Entity::NULL_ID, c_id);
 	_lookup_table.insert (std::pair<COMPONENT_ID, IComponent*> (c_id, new_component));
 	return c_id;
 }
@@ -79,7 +79,7 @@ template<class C> inline const COMPONENT_ID ComponentManagerImpl::createComponen
 
 	//Valid
 
-	C* new_component = new (m_object_Allocator->allocate (sizeof (C), __alignof(C))) C (Entity::NULL_ID, c_id);
+	C* new_component = new (m_comp_Allocator->allocate (sizeof (C), __alignof(C))) C (Entity::NULL_ID, c_id);
 	_lookup_table.insert (std::pair<COMPONENT_ID, IComponent*> (c_id, new_component));
 	return c_id;
 }
@@ -96,7 +96,7 @@ template<class C> inline const COMPONENT_ID ComponentManagerImpl::createComponen
 	}
 
 	//Component is not duplicate
-	if (entity->hasComponent<C> ()) {
+	if (entity->has<C> ()) {
 		logger->tag (LogTags::Error) << "Component already exists for this Entity!" << '\n';
 		ComponentManager::n_errors++;
 		return IComponent::NULL_ID;
@@ -112,11 +112,10 @@ template<class C> inline const COMPONENT_ID ComponentManagerImpl::createComponen
 	}
 
 	//Valid
-
-	C* new_component = allocator::allocateNew<C,ENTITY_ID, COMPONENT_ID> (*m_object_Allocator.get (), std::move(entity->id()), std::move (c_id));
-	_lookup_table.insert (std::pair<COMPONENT_ID, IComponent*> (c_id, new_component));
-	entity->addComponent<C> (new_component);
-	return c_id;
+	C* new_component = new (m_comp_Allocator->allocate (sizeof (C), __alignof(C))) C (entity->id(), c_id);
+	_lookup_table.insert (std::pair<COMPONENT_ID, IComponent*> (new_component->id(), new_component));
+	entity->add<C> (new_component);
+	return new_component->id ();
 }
 
 template<class C> inline const COMPONENT_ID ComponentManagerImpl::createComponent (Entity* entity, COMPONENT_ID c_id) {
@@ -137,7 +136,7 @@ template<class C> inline const COMPONENT_ID ComponentManagerImpl::createComponen
 	}
 
 	//Component is not duplicate
-	if (entity->hasComponent<C> ()) {
+	if (entity->has<C> ()) {
 		logger->tag (LogTags::Error) << "Component already exists for this Entity!" << '\n';
 		ComponentManager::n_errors++;
 		return IComponent::NULL_ID;
@@ -153,14 +152,14 @@ template<class C> inline const COMPONENT_ID ComponentManagerImpl::createComponen
 	}
 
 	//Valid
-	C* new_component = new (m_object_Allocator->allocate (sizeof (C), __alignof(C))) C (entity->id(), c_id);
+	C* new_component = new (m_comp_Allocator->allocate (sizeof (C), __alignof(C))) C (entity->id(), c_id);
 	_lookup_table.insert (std::pair<COMPONENT_ID, IComponent*> (c_id, new_component));
-	entity->addComponent<C> (new_component);
+	entity->add<C> (new_component);
 	return c_id;
 }
 
 template<class C> inline const bool ComponentManagerImpl::hasComponent (Entity* entity) {
-	return entity->hasComponent<C>();
+	return entity->has<C>();
 }
 
 template<class C>inline const bool ComponentManagerImpl::hasComponent (COMPONENT_ID c_id) {
@@ -179,13 +178,13 @@ template<class C> inline C* ComponentManagerImpl::getComponent (Entity* entity) 
 	}
 
 	//Component exists
-	if (!entity->hasComponent<C>()) {
+	if (!entity->has<C>()) {
 		logger->tag (LogTags::Error) << "Entity does not have Component of that type !" << '\n';
 		ComponentManager::n_errors++;
 		return IComponent::NULL_ID;
 	}
 
-	return entity->getComponent<C>();
+	return entity->get<C>();
 }
 
 template<class C> inline C* ComponentManagerImpl::getComponent (COMPONENT_ID const& c_id) {
@@ -232,7 +231,7 @@ template<class C> inline void ComponentManagerImpl::destroyComponent (Entity* en
 		return;
 	}
 
-	C* comp = entity->getComponent<C>();
+	C* comp = entity->get<C>();
 
 	//
 	if (comp == nullptr) {
@@ -242,7 +241,7 @@ template<class C> inline void ComponentManagerImpl::destroyComponent (Entity* en
 	}
 
 	comp->~C ();
-	m_object_Allocator->deallocate (comp);
-	entity->remComponent<C> ();
+	m_comp_Allocator->deallocate (comp);
+	entity->rem<C> ();
 	_lookup_table.erase (comp->id ());
 }

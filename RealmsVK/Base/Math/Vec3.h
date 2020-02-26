@@ -4,7 +4,7 @@
 #include "../../CoreTypes.h"
 #include "Vec.h"
 
-#include "glm/vec3.hpp"
+#include "glm/glm.hpp"
 
 namespace rlms {
 	template <typename T> class Vec3 : public Vec<T, 3> {

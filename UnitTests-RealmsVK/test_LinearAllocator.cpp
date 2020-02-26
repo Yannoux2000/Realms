@@ -143,3 +143,47 @@ TEST_F (TestLinearAllocator, Proxy_data_obj) {
 
 	alloc.clear ();
 }
+
+TEST_F (TestLinearAllocator, Proxy_data_objs) {
+	data_obj* a,* b,* c,* d;
+	a = b = c = d = nullptr;
+
+	ASSERT_NE (nullptr, large_mem);
+	ASSERT_EQ (nullptr, a);
+	ASSERT_EQ (nullptr, b);
+	ASSERT_EQ (nullptr, c);
+	ASSERT_EQ (nullptr, d);
+
+	LinearAllocator alloc (large_mem, large_size);
+	a = allocator::allocateNew<data_obj> (alloc);
+	{
+		SCOPED_TRACE ("Alloc");
+		ASSERT_NE (nullptr, a);
+	}
+
+	b = allocator::allocateNew<data_obj> (alloc);
+	{
+		SCOPED_TRACE ("Alloc");
+		ASSERT_NE (nullptr, b);
+		ASSERT_NE (a, b);
+	}
+
+	c = allocator::allocateNew<data_obj> (alloc);
+	{
+		SCOPED_TRACE ("Alloc");
+		ASSERT_NE (nullptr, c);
+		ASSERT_NE (a, c);
+		ASSERT_NE (b, c);
+	}
+
+	d = allocator::allocateNew<data_obj> (alloc);
+	{
+		SCOPED_TRACE ("Alloc");
+		ASSERT_NE (nullptr, d);
+		ASSERT_NE (a, d);
+		ASSERT_NE (b, d);
+		ASSERT_NE (c, d);
+	}
+
+	alloc.clear ();
+}

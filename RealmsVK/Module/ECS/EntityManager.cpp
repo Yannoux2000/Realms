@@ -1,5 +1,8 @@
 #include "EntityManager.h"
-/*
+
+//#include "../../Base/Allocators/PoolAllocator.h"
+#include "../../Base/Allocators/FreeListAllocator.h"
+
 using namespace rlms;
 
 class rlms::EntityManagerImpl : public ILogged {
@@ -13,7 +16,7 @@ private:
 	std::map<ENTITY_ID, Entity*> m_lookup_table;
 	std::unique_ptr<FreeListAllocator> m_entity_Allocator;
 
-	bool start (Allocator* const& alloc, size_t entity_pool_size, std::shared_ptr<Logger> funnel);
+	void start (Allocator* const& alloc, size_t entity_pool_size, std::shared_ptr<Logger> funnel);
 	void stop ();
 
 	const ENTITY_ID createEntity ();
@@ -39,9 +42,9 @@ std::shared_ptr<LoggerHandler> EntityManager::GetLogger () {
 	return instance->getLogger ();
 }
 
-bool EntityManager::Initialize (Allocator* const& alloc, size_t entity_pool_size, std::shared_ptr<Logger> funnel) {
+void EntityManager::Initialize (Allocator* const& alloc, size_t entity_pool_size, std::shared_ptr<Logger> funnel) {
 	instance = std::make_unique<EntityManagerImpl> ();
-	return instance->start(alloc, entity_pool_size, funnel);
+	instance->start(alloc, entity_pool_size, funnel);
 }
 
 void EntityManager::Terminate () {
@@ -49,30 +52,30 @@ void EntityManager::Terminate () {
 	instance.reset ();
 }
 
-const ENTITY_ID EntityManager::CreateEntity () {
+const ENTITY_ID EntityManager::Create () {
 	return instance->createEntity ();
 }
 
-const ENTITY_ID EntityManager::CreateEntity (ENTITY_ID id) {
+const ENTITY_ID EntityManager::Create (ENTITY_ID id) {
 	return instance->createEntity (id);
 }
 
-Entity* EntityManager::GetEntity (ENTITY_ID id) {
+Entity* EntityManager::Get (ENTITY_ID id) {
 	return instance->getEntity (id);
 }
 
-bool EntityManager::HasEntity (ENTITY_ID id) {
+bool EntityManager::Has (ENTITY_ID id) {
 	return instance->hasEntity(id);
 }
 
-void EntityManager::DestroyEntity (ENTITY_ID id) {
+void EntityManager::Destroy (ENTITY_ID id) {
 	instance->destroyEntity (id);
 }
 
 EntityManagerImpl::EntityManagerImpl () : _id_iter(1), m_lookup_table () {}
 EntityManagerImpl::~EntityManagerImpl () {}
 
-bool EntityManagerImpl::start (Allocator* const& alloc, size_t entity_pool_size, std::shared_ptr<Logger> funnel) {
+void EntityManagerImpl::start (Allocator* const& alloc, size_t entity_pool_size, std::shared_ptr<Logger> funnel) {
 		
 	startLogger (funnel);
 	logger->tag (LogTags::None) << "Initializing !" << '\n';
@@ -82,7 +85,6 @@ bool EntityManagerImpl::start (Allocator* const& alloc, size_t entity_pool_size,
 	_id_iter = 1;
 	EntityManager::n_errors = 0;
 	logger->tag (LogTags::None) << "Initialized correctly !" << '\n';
-	return true;
 }
 
 void EntityManagerImpl::stop () {
@@ -90,7 +92,7 @@ void EntityManagerImpl::stop () {
 
 	for (auto it = m_lookup_table.begin(); it != m_lookup_table.end(); it++) {
 		it->second->~Entity ();
-		m_entity_Allocator->deallocate (it->second);
+		allocator::deallocateDelete (*m_entity_Allocator.get (), it->second);
 	}
 
 	logger->tag (LogTags::None) << "Stopped correctly !" << '\n';
@@ -120,8 +122,8 @@ const ENTITY_ID EntityManagerImpl::createEntity () {
 	//Valid
 	_id_iter++;
 	new_entity = allocator::allocateNew<Entity, ENTITY_ID> (*m_entity_Allocator.get(), std::move(id));
-	m_lookup_table.insert (std::pair<ENTITY_ID, Entity*> (id, new_entity));
-	return id;
+	m_lookup_table.insert (std::pair<ENTITY_ID, Entity*> (new_entity->id(), new_entity));
+	return new_entity->id ();
 }
 
 const ENTITY_ID EntityManagerImpl::createEntity (ENTITY_ID id) {
@@ -196,7 +198,6 @@ void EntityManagerImpl::destroyEntity (ENTITY_ID id) {
 	}
 
 	it->second->~Entity ();
-	m_entity_Allocator->deallocate (it->second);
+	allocator::deallocateDelete (*m_entity_Allocator.get (), it->second);
 	m_lookup_table.erase (id);
 }
-*/

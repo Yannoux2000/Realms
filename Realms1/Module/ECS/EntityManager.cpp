@@ -49,23 +49,23 @@ void EntityManager::Terminate () {
 	instance.reset ();
 }
 
-const ENTITY_ID EntityManager::CreateEntity () {
+const ENTITY_ID EntityManager::Create () {
 	return instance->createEntity ();
 }
 
-const ENTITY_ID EntityManager::CreateEntity (ENTITY_ID id) {
+const ENTITY_ID EntityManager::Create (ENTITY_ID id) {
 	return instance->createEntity (id);
 }
 
-Entity* EntityManager::GetEntity (ENTITY_ID id) {
+Entity* EntityManager::Get (ENTITY_ID id) {
 	return instance->getEntity (id);
 }
 
-bool EntityManager::HasEntity (ENTITY_ID id) {
+bool EntityManager::Has (ENTITY_ID id) {
 	return instance->hasEntity(id);
 }
 
-void EntityManager::DestroyEntity (ENTITY_ID id) {
+void EntityManager::Destroy (ENTITY_ID id) {
 	instance->destroyEntity (id);
 }
 

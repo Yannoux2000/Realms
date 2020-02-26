@@ -11,7 +11,7 @@ private:
 	};
 
 	std::map<BLOCK_TYPE_ID, BlockPrototype> m_register;
-	std::unique_ptr<FreeListAllocator> m_chunk_allocator;
+	std::unique_ptr<FreeListAllocator_old> m_chunk_allocator;
 
 	bool start (Allocator* const& alloc, size_t chunk_pool_size, std::shared_ptr<Logger> funnel = nullptr);
 	void stop ();
@@ -22,7 +22,7 @@ bool rlms::WorldManagerImpl::start (Allocator* const& alloc, size_t chunk_pool_s
 	startLogger (funnel);
 	logger->tag (LogTags::None) << "Initializing !" << '\n';
 
-	m_chunk_allocator = std::unique_ptr<FreeListAllocator> (new FreeListAllocator (alloc->allocate (chunk_pool_size), chunk_pool_size));
+	m_chunk_allocator = std::unique_ptr<FreeListAllocator_old> (new FreeListAllocator_old (alloc->allocate (chunk_pool_size), chunk_pool_size));
 
 	WorldManager::n_errors = 0;
 	logger->tag (LogTags::None) << "Initialized correctly !" << '\n';

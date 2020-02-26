@@ -7,8 +7,8 @@ namespace rlms {
 
 	class VulkanRenderPipeline {
 	private:
-		VulkanDevice* r_device;
-		VkSurfaceKHR* r_surface;
+		VulkanDevice* r_device = nullptr;
+		VkSurfaceKHR* r_surface = nullptr;
 
 		VulkanSwapChain _SwapChain;
 

@@ -8,7 +8,7 @@ void rlms::MeshRegister::start (Allocator* const& alloc, size_t mesh_pool_size, 
 	startLogger (funnel);
 	logger->tag (LogTags::None) << "Initializing !" << '\n';
 
-	m_model_Allocator = std::unique_ptr<FreeListAllocator> (new FreeListAllocator (alloc->allocate (mesh_pool_size), mesh_pool_size));
+	m_model_Allocator = std::unique_ptr<FreeListAllocator_old> (new FreeListAllocator_old (alloc->allocate (mesh_pool_size), mesh_pool_size));
 
 	logger->tag (LogTags::None) << "Initialized correctly !" << '\n';
 }

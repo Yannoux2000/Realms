@@ -5,6 +5,7 @@
 #include "Base/Logging/FileLogger.h"
 
 #include "Base/Allocators/ProxyAllocator.h"
+#include "Base/Allocators/StackAllocator.h"
 
 #include "Utility/FileIO/VoxFileParser.h"
 
@@ -12,6 +13,9 @@
 
 #include "Module/Graphics/AspectRatio.h"
 #include "Module/Graphics/GraphicsManager.h"
+
+#include "Module/ECS/GameCore.h"
+#include "Module/ECS/TransformComponent.h"
 
 #include "Module/World/BlockRegister.h"
 #include "Module/World/Chunk.h"
@@ -27,10 +31,15 @@
 
 namespace rlms {
 	class RealmApplication : public ILogged {
+	private:
+		using _allocType = StackAllocator;
+
+
 	public:
 		struct MemorySettings {
-			size_t total_size = 4096;
+			size_t total_size = 16384;
 			size_t mesh_size = 4096;
+			size_t ecs_size = 8192;
 		};
 
 		struct ApplicationSettings {
@@ -51,7 +60,7 @@ namespace rlms {
 			initWindow (stgs);
 			initGraphics (stgs);
 			initInputs (stgs);
-
+			initGameCore (stgs);
 			logger->tag (LogTags::None) << "Application is Started.\n";
 		}
 
@@ -83,6 +92,12 @@ namespace rlms {
 
 				auto graphics_end = std::chrono::high_resolution_clock::now ();
 				std::chrono::duration<double, std::milli> fp_gfx_ms = graphics_end - start;
+
+				//logger->tag (LogTags::Dev) 
+				//	<< "inputs :" << fp_in_ms.count () << "ms;"
+				//	<< " updates :" << fp_up_ms.count () << "ms;"
+				//	<< "models :" << fp_mdl_ms.count () << "ms;"
+				//	<< "display :" << fp_gfx_ms.count () << "ms\n";
 			}
 		}
 
@@ -92,6 +107,7 @@ namespace rlms {
 			termGraphics ();
 			termWindow ();
 			termMemory ();
+			termGameCore ();
 			logger->tag (LogTags::None) << "Application has Terminated.\n";
 		}
 
@@ -99,7 +115,7 @@ namespace rlms {
 		GLFWwindow* window;
 
 		bool running = false;
-		std::unique_ptr<ProxyAllocator> app_alloc;
+		std::unique_ptr<_allocType> app_alloc;
 
 		std::string getLogName () override {
 			return "Realms";
@@ -107,9 +123,8 @@ namespace rlms {
 
 		void initMemory (ApplicationSettings& stgs) {
 			void* mem = malloc (stgs.memory.total_size);
-			app_alloc = std::make_unique<ProxyAllocator> (mem, stgs.memory.total_size);
+			app_alloc = std::make_unique<_allocType> (mem, stgs.memory.total_size);
 		}
-
 		void initWindow (ApplicationSettings& stgs) {
 			logger->tag (LogTags::Debug) << "Initializing Window.";
 
@@ -131,7 +146,6 @@ namespace rlms {
 				window = glfwCreateWindow (AspectRatio::Width (), AspectRatio::Height (), "Realms", nullptr, nullptr);
 			}
 		}
-
 		void initInputs (ApplicationSettings& stgs) {
 			rlms::InputManager::Initialize (logger);
 
@@ -157,13 +171,36 @@ namespace rlms {
 			rlms::InputManager::BindKey ("cam::right", glfwGetKeyScancode (GLFW_KEY_D));
 			rlms::InputManager::EnableInputMap ("cam");
 		}
-
 		void initGraphics (ApplicationSettings& stgs) {
 			rlms::GraphicsManager::Initialize (app_alloc.get (), stgs.memory.mesh_size, window, logger);
 			rlms::GraphicsManager::Load ();
 		}
+		void initGameCore (ApplicationSettings& stgs) {
+			rlms::GameCore::Initialize (app_alloc.get (), stgs.memory.ecs_size, logger);
+
+			logger->tag (LogTags::Dev) << "Testing GameCore's Entity system.\n";
+			auto e = rlms::EntityManager::Create ();
+			auto p_e = rlms::EntityManager::Get (e);
+			p_e->setType ("ghost");
+
+			auto p = p_e->get<IComponent> ();
+
+			auto c = rlms::ComponentManager::CreateComponent<TransformComponent> (p_e);
+			auto p_c = rlms::ComponentManager::GetComponent<TransformComponent> (e);
+			p_c->phrase = "Wow i'm so scary";
 
 
+
+			p_e = rlms::EntityManager::Get (e);
+			if (p_e->has<TransformComponent> ()) {
+				logger->tag (LogTags::Info) << "Good the component is register\n";
+
+				auto comp = p_e->get<TransformComponent> ();
+
+				logger->tag (LogTags::Dev) << p_e->getType () << " says :" << comp->phrase << "\n";
+			}
+			logger->tag (LogTags::Dev) << "Tests done!\n";
+		}
 
 		void InputLoop () {
 			rlms::InputManager::Poll (window);
@@ -203,39 +240,37 @@ namespace rlms {
 				Camera::MainCamera->look (delta);
 			}
 		}
-
 		void UpdateLoop () {
 
 		}
-
 		void ModelLoop () {
 
 		}
-
 		void DisplayLoop () {
 			rlms::GraphicsManager::Draw ();
 		}
+		void GameCoreLoop () {
 
-
+		}
 
 		void termMemory () {
 			void* mem = app_alloc->getStart ();
 			app_alloc.reset ();
 			free (mem);
 		}
-
 		void termWindow () {
 			glfwDestroyWindow (window);
 			glfwTerminate ();
 		}
-
 		void termInputs () {
 			InputManager::Terminate ();
 		}
-
 		void termGraphics () {
 			rlms::GraphicsManager::Unload ();
 			rlms::GraphicsManager::Terminate ();
+		}
+		void termGameCore () {
+			rlms::GameCore::Terminate ();
 		}
 	};
 }

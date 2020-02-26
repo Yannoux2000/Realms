@@ -3,8 +3,9 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include "Memory/FreeListAllocator.h"
-#include "IO/ILogged.h"
+
+#include "../../Base/Allocators/FreeListAllocator.h"
+#include "../../Base/Logging/ILogged.h"
 #include "EntityManager.h"
 #include "IComponent.h"
 #include "Entity.h"
@@ -25,20 +26,16 @@ namespace rlms {
 	////////////////////////////////////////////////////////////
 	class ComponentManager : public ILogged {
 	private:
-
 		////////////////////////////////////////////////////////////
 		// Member data
 		////////////////////////////////////////////////////////////
-
 		static std::unique_ptr<ComponentManagerImpl> instance; ///< PImpl (check out https://en.cppreference.com/w/cpp/language/pimpl)
 
 	public:
-
 		////////////////////////////////////////////////////////////
 		// Static member data
 		////////////////////////////////////////////////////////////
 		static int n_errors; ///< Public simple var to check how many errors happenned.
-
 
 		////////////////////////////////////////////////////////////
 		/// \brief access to the Logger reference
@@ -54,7 +51,7 @@ namespace rlms {
 		/// \return bool saying rather or not the start was 
 		///
 		////////////////////////////////////////////////////////////
-		static bool Initialize (Allocator* const& alloc, size_t entity_pool_size, std::shared_ptr<Logger> funnel = nullptr);
+		static void Initialize (Allocator* const& alloc, size_t comp_pool_size, std::shared_ptr<Logger> funnel = nullptr);
 
 		////////////////////////////////////////////////////////////
 		/// \brief End the ComponentManager in the expected manner.
@@ -95,9 +92,9 @@ namespace rlms {
 		};
 
 		std::map<ENTITY_ID, IComponent*> _lookup_table;
-		std::unique_ptr<FreeListAllocator> m_object_Allocator;
+		std::unique_ptr<FreeListAllocator> m_comp_Allocator;
 
-		bool start (Allocator* const& alloc, size_t entity_pool_size, std::shared_ptr<Logger> funnel);
+		void start (Allocator* const& alloc, size_t entity_pool_size, std::shared_ptr<Logger> funnel);
 		void stop ();
 
 		template<class C> const COMPONENT_ID createComponent ();

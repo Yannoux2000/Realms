@@ -228,7 +228,7 @@ void rlms::InputManagerImpl::unbindInput (std::string const& name) {
 }
 
 void rlms::InputManagerImpl::clearInputs () {
-	logger->tag (LogTags::Warning) << "Clearing all Inputs.\n";
+	logger->tag (LogTags::Warn) << "Clearing all Inputs.\n";
 	while (!m_maps.empty ()) {
 		auto it = m_maps.begin ();
 		it->second->clearInputs ();

@@ -1,4 +1,8 @@
 #include "WorldManager.h"
+#include "../../Base/Allocators/FreeListAllocator.h"
+
+#include "BlockPrototype.h"
+#include <map>
 
 using namespace rlms;
 

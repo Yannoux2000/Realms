@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../CoreTypes.h"
-#include "../../Base/RlmsException.h"
+#include "../../Base/Exception.h"
 #include "../../Base/Allocators/FreeListAllocator.h"
 #include "../../Base/Logging/ILogged.h"
 #include "IMesh.h"

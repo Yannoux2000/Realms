@@ -12,18 +12,15 @@ private:
 
 	double m_dt_offset;
 
-	GameCoreSettings stgs;
-
-	IGameLoaderSystem* _loader_system;
 	std::unique_ptr<FreeListAllocator> m_global_allocator;
 
-	bool start (std::shared_ptr<Logger> funnel);
+	void start (Allocator* const& alloc, size_t comp_pool_size, std::shared_ptr<Logger> funnel);
 
 	void update (double dt);
 
-	void preUpdate (GAME_TICK_TYPE _current_tick);
-	void midUpdate (GAME_TICK_TYPE _current_tick);
-	void postUpdate (GAME_TICK_TYPE _current_tick);
+	//void preUpdate (GAME_TICK_TYPE _current_tick);
+	//void midUpdate (GAME_TICK_TYPE _current_tick);
+	//void postUpdate (GAME_TICK_TYPE _current_tick);
 
 	void stop ();
 
@@ -39,20 +36,9 @@ std::shared_ptr<LoggerHandler> GameCore::GetLogger () {
 	return instance->getLogger();
 }
 
-bool GameCore::Initialize (std::shared_ptr<Logger> funnel) {
+void GameCore::Initialize (Allocator* const& alloc, size_t ecs_pool_size, std::shared_ptr<Logger> funnel) {
 	instance = std::make_unique<GameCoreImpl> ();
-	return instance->start (funnel);
-}
-
-bool GameCore::LoadSettings (std::string config_file) {
-	
-
-
-	return true;
-}
-
-void GameCore::setGameLoaderSystem (IGameLoaderSystem* loader) {
-	instance->_loader_system = loader;
+	instance->start (alloc, ecs_pool_size, funnel);
 }
 
 void GameCore::Update (double dt) {
@@ -63,40 +49,27 @@ void GameCore::Terminate () {
 	instance->stop ();
 }
 
-bool GameCoreImpl::start (std::shared_ptr<Logger> funnel) {
+void GameCoreImpl::start (Allocator* const& alloc, size_t ecs_pool_size, std::shared_ptr<Logger> funnel) {
 	startLogger (funnel);
-
-	//invalid amount of memory
-	if (stgs.game_mem_alloc_size <= 0) {
-		logger->tag (LogTags::Error) << "Please be more reasonable with the memory amount : 1024M is good enouth." << '\n';
-		return false;
-	}
-
-	//invalid amount of memory
-	if (stgs.game_mem_alloc_size < (
-		stgs.entity_mem_alloc_size
-		+ stgs.component_mem_alloc_size
-		+ stgs.system_mem_alloc_size
-		+ stgs.event_mem_alloc_size
-		)) {
-		logger->tag (LogTags::Error) << "Amount of memory requested does not add up." << '\n';
-		return false;
-	}
+	logger->tag (LogTags::None) << "Initializing !" << '\n';
 
 	//Valid
-	void* alloc = malloc (stgs.game_mem_alloc_size);
-	m_global_allocator = std::make_unique<FreeListAllocator, void*, size_t> (std::move (alloc), std::move (stgs.game_mem_alloc_size));
+	m_global_allocator = std::unique_ptr<FreeListAllocator> (new FreeListAllocator (alloc->allocate (ecs_pool_size), ecs_pool_size));
 
+	EntityManager::Initialize (m_global_allocator.get (), ecs_pool_size / 4, logger);
+	ComponentManager::Initialize (m_global_allocator.get (), ecs_pool_size / 4, logger);
 
-	EntityManager::Initialize (m_global_allocator.get (), stgs.entity_mem_alloc_size, logger);
-	ComponentManager::Initialize (m_global_allocator.get (), stgs.component_mem_alloc_size, logger);
-	SystemManager::Initialize (m_global_allocator.get (), stgs.system_mem_alloc_size, logger);
-	EventManager::Initialize (m_global_allocator.get (), stgs.event_mem_alloc_size, logger);
-	WorldManager::Initialize (m_global_allocator.get (), stgs.world_mem_alloc_size, logger);
-
-	return true;
+	logger->tag (LogTags::None) << "Initialized correctly !" << '\n';
 }
 
-GameCoreImpl::GameCoreImpl () : _loader_system(nullptr), m_dt_offset(0) {}
+void rlms::GameCoreImpl::update (double dt) {
+
+}
+
+void rlms::GameCoreImpl::stop () {
+
+}
+
+GameCoreImpl::GameCoreImpl () : m_dt_offset(0) {}
 
 GameCoreImpl::~GameCoreImpl () {}

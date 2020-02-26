@@ -1,17 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <ClCompile Include="test.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Test_vec3.cpp">
-      <Filter>Base\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="test_ProxyAllocator.cpp">
-      <Filter>Base\Allocators</Filter>
-    </ClCompile>
-    <ClCompile Include="pch_allocators.cpp">
-      <Filter>Base\Allocators</Filter>
-    </ClCompile>
-    <ClCompile Include="test_StackAllocator.cpp">
+    <ClCompile Include="Test_Allocators.cpp">
       <Filter>Base\Allocators</Filter>
     </ClCompile>
     <ClCompile Include="test_FreeListAllocator.cpp">
@@ -23,11 +15,20 @@
     <ClCompile Include="test_PoolAllocator.cpp">
       <Filter>Base\Allocators</Filter>
     </ClCompile>
-    <ClCompile Include="test_AssignSanitizer.cpp">
-      <Filter>Modules\Input</Filter>
+    <ClCompile Include="test_ProxyAllocator.cpp">
+      <Filter>Base\Allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="test_StackAllocator.cpp">
+      <Filter>Base\Allocators</Filter>
     </ClCompile>
     <ClCompile Include="test_MeshSanitizer.cpp">
       <Filter>Modules\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="test_AssignSanitizer.cpp">
+      <Filter>Modules\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="pch_allocators.cpp">
+      <Filter>Base\Allocators</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -38,25 +39,22 @@
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
-      <UniqueIdentifier>{eccaa951-b7a8-40e4-b19a-88133b64eefa}</UniqueIdentifier>
+      <UniqueIdentifier>{759e8752-b30e-4c28-9a2e-38ec682eaa8e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Base\Math">
-      <UniqueIdentifier>{217bcd6b-396c-457f-8bc0-a50fc5358a96}</UniqueIdentifier>
+      <UniqueIdentifier>{857edcee-97ae-43af-9e52-84576bca693d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Base\Allocators">
-      <UniqueIdentifier>{a9b4a3f5-187d-4d30-b138-d6551c220a8d}</UniqueIdentifier>
+      <UniqueIdentifier>{d744b50e-efee-40b3-96d9-2f06b5df750f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Modules">
-      <UniqueIdentifier>{2e57c2c4-0267-4ce7-b7d4-ebc1574bbdc3}</UniqueIdentifier>
+      <UniqueIdentifier>{fa2057ae-af8a-4aa0-8052-b64c7855b6dd}</UniqueIdentifier>
     </Filter>
     <Filter Include="Modules\Input">
-      <UniqueIdentifier>{153575c3-75c7-4d4a-becb-6ea6039956d1}</UniqueIdentifier>
+      <UniqueIdentifier>{6d0b3a6a-b1d2-4e3a-beda-2849c486a680}</UniqueIdentifier>
     </Filter>
     <Filter Include="Modules\Graphics">
-      <UniqueIdentifier>{1015af88-8c8e-49a5-a2a6-519f28b522e7}</UniqueIdentifier>
+      <UniqueIdentifier>{bac25b5e-087b-4c54-baec-adb999cc7bb2}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
 </Project>

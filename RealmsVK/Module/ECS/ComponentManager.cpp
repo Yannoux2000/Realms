@@ -9,9 +9,9 @@ std::shared_ptr<LoggerHandler> ComponentManager::GetLogger () {
 	return instance->getLogger();
 }
 
-bool ComponentManager::Initialize (Allocator* const& alloc, size_t entity_pool_size, std::shared_ptr<Logger> funnel) {
+void ComponentManager::Initialize (Allocator* const& alloc, size_t comp_pool_size, std::shared_ptr<Logger> funnel) {
 	instance = std::make_unique<ComponentManagerImpl> ();
-	return instance->start (alloc, entity_pool_size, funnel);
+	instance->start (alloc, comp_pool_size, funnel);
 }
 
 void ComponentManager::Terminate () {
@@ -45,16 +45,15 @@ ComponentManagerImpl::ComponentManagerImpl () : _id_iter (1), _lookup_table() {}
 
 ComponentManagerImpl::~ComponentManagerImpl () {}
 
-bool ComponentManagerImpl::start (Allocator* const& alloc, size_t component_pool_size, std::shared_ptr<Logger> funnel) {
+void ComponentManagerImpl::start (Allocator* const& alloc, size_t comp_pool_size, std::shared_ptr<Logger> funnel) {
 	startLogger (funnel);
 	logger->tag (LogTags::None) << "Initializing !" << '\n';
 
-	m_object_Allocator = std::unique_ptr<FreeListAllocator> (new FreeListAllocator (alloc->allocate (component_pool_size), component_pool_size));
+	m_comp_Allocator = std::unique_ptr<FreeListAllocator> (new FreeListAllocator (alloc->allocate (comp_pool_size), comp_pool_size));
 
 	_id_iter = 1;
 	ComponentManager::n_errors = 0;
 	logger->tag (LogTags::None) << "Initialized correctly !" << '\n';
-	return true;
 }
 
 void ComponentManagerImpl::stop () {
@@ -62,7 +61,7 @@ void ComponentManagerImpl::stop () {
 
 	for (auto it = _lookup_table.begin (); it != _lookup_table.end (); it++) {
 		it->second->~IComponent ();
-		m_object_Allocator->deallocate (it->second);
+		allocator::deallocateDelete (*m_comp_Allocator.get(), it->second);
 	}
 
 	logger->tag (LogTags::None) << "Stopped correctly !" << '\n';
@@ -148,11 +147,10 @@ void ComponentManagerImpl::destroyComponent (COMPONENT_ID c_id) {
 
 
 	it->second->~IComponent ();
-	m_object_Allocator->deallocate (it->second);
-	
-	if (EntityManager::HasEntity (it->second->entity_id ())) {
-		EntityManager::GetEntity (it->second->entity_id ())->remComponent (it->second);
+
+	allocator::deallocateDelete (*m_comp_Allocator.get (), it->second);
+	if (EntityManager::Has (it->second->entity_id ())) {
+		EntityManager::Destroy (it->second->entity_id ());
 	}
-	
 	_lookup_table.erase (c_id);
 }

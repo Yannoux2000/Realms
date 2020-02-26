@@ -5,7 +5,7 @@
 
 #include "../../Base/Logging/LoggerHandler.h"
 #include "../../Base/Math/Vec2.h"
-#include "../../Base/RlmsException.h"
+#include "../../Base/Exception.h"
 
 #include "GLFW/glfw3.h"
 #include "Input.h"
@@ -42,9 +42,9 @@ the idea :
 
 */
 namespace rlms {
-	class InvalidInput : public RlmsException {
+	class InvalidInput : public Exception {
 	public:
-		InvalidInput (std::string t_type, std::string t_description) noexcept : RlmsException (t_type, t_description) {};
+		InvalidInput (std::string t_type, std::string t_description) noexcept : Exception (t_type, t_description) {};
 	};
 
 	struct InvalidMapName : public InvalidInput {

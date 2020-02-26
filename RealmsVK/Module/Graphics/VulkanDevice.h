@@ -17,13 +17,13 @@ namespace rlms {
 	class VulkanDevice {
 	private:
 		VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
-		VkDevice device;
+		VkDevice device = VK_NULL_HANDLE;
 
-		VkQueue graphicsQueue;
-		VkQueue presentQueue;
+		VkQueue graphicsQueue = VK_NULL_HANDLE;
+		VkQueue presentQueue = VK_NULL_HANDLE;
 
-		VkSurfaceKHR* r_surface;
-		VkInstance* r_instance;
+		VkSurfaceKHR* r_surface = nullptr;
+		VkInstance* r_instance = nullptr;
 
 		void pickPhysicalDevice ();
 		int ratePhysicalDevice (VkPhysicalDevice device);

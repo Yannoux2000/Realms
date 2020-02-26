@@ -1,5 +1,6 @@
 #pragma once
 #include "Allocator.h"
+
 class FreeListAllocator : public Allocator {
 public:
 
@@ -9,15 +10,14 @@ public:
 	void* allocate (size_t size, uint8_t alignment) override;
 	void deallocate (void*&& p) override;
 
-private:
-
+public:
 	struct AllocationHeader {
 		size_t size;
 		uint8_t adjustment;
 	};
 
 	struct FreeBlock {
-		size_t size; 
+		size_t size;
 		FreeBlock* next;
 	};
 
@@ -26,3 +26,4 @@ private:
 	FreeListAllocator& operator=(const FreeListAllocator&) = delete;
 	FreeBlock* _free_blocks;
 };
+

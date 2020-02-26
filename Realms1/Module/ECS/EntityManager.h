@@ -27,11 +27,11 @@ namespace rlms {
 			return id != Entity::NULL_ID;
 		}
 
-		static const ENTITY_ID CreateEntity ();
-		static const ENTITY_ID CreateEntity (ENTITY_ID id);
-		static Entity* GetEntity (ENTITY_ID id);
-		static bool HasEntity (ENTITY_ID id);
-		static void DestroyEntity (ENTITY_ID id);
+		static const ENTITY_ID Create ();
+		static const ENTITY_ID Create (ENTITY_ID id);
+		static Entity* Get (ENTITY_ID id);
+		static bool Has (ENTITY_ID id);
+		static void Destroy (ENTITY_ID id);
 	};
 }
 */

@@ -1,11 +1,8 @@
 #pragma once
 
-#include "../../Base/Allocators/PoolAllocator.h"
-#include "../../Base/Allocators/FreeListAllocator.h"
+#include "../../Base/Allocators/Allocator.h"
 #include "../../Base/Logging/ILogged.h"
 
-#include "BlockPrototype.h"
-#include <map>
 
 namespace rlms{
 	class WorldManagerImpl;

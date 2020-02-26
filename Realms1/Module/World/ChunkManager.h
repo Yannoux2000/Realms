@@ -42,7 +42,7 @@ namespace rlms {
 
 		std::vector<Chunk*> m_activeChunks;
 
-		std::unique_ptr<FreeListAllocator> m_chunk_allocator;
+		std::unique_ptr<FreeListAllocator_old> m_chunk_allocator;
 	public:
 
 		std::string getLogName () override {
@@ -55,7 +55,7 @@ namespace rlms {
 			startLogger (funnel);
 			logger->tag (LogTags::None) << "Initializing !" << '\n';
 
-			m_chunk_allocator = std::unique_ptr<FreeListAllocator> (new FreeListAllocator (alloc->allocate (chunk_pool_size), chunk_pool_size));
+			m_chunk_allocator = std::unique_ptr<FreeListAllocator_old> (new FreeListAllocator_old (alloc->allocate (chunk_pool_size), chunk_pool_size));
 
 			logger->tag (LogTags::None) << "Initialized correctly !" << '\n';
 		};

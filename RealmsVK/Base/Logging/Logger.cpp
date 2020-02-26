@@ -29,3 +29,19 @@ void Logger::reset () {
 	_tag = LogTags::None;
 	_disp_name = "";
 }
+
+bool LogTags::_noneDisp = true;
+bool LogTags::_infoDisp = true;
+bool LogTags::_debugDisp = true;
+bool LogTags::_devDisp = true;
+bool LogTags::_errorDisp = true;
+bool LogTags::_warnDisp = true;
+
+void LogTags::setTagsDisplay (bool t_none_disp, bool t_info_disp, bool t_debug_disp, bool t_dev_disp, bool t_error_disp, bool t_warn_disp) {
+	_noneDisp = t_none_disp || t_info_disp;
+	_infoDisp = t_info_disp;
+	_debugDisp = t_debug_disp;
+	_devDisp = t_dev_disp || RLMS_DEBUG_BOOL;
+	_errorDisp = t_error_disp || t_warn_disp || t_info_disp;
+	_warnDisp = t_warn_disp;
+}

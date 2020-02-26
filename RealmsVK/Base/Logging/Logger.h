@@ -3,14 +3,32 @@
 #include <sstream>
 
 namespace rlms {
-	namespace LogTags {
-		constexpr char None = ' ';
-		constexpr char Info = '?';
-		constexpr char Debug = '=';
-		constexpr char Dev = 'O';
-		constexpr char Error = 'X';
-		constexpr char Warning = '!';
-	}
+	class LogTags {
+	private:
+		//flags for displaying or not info types
+		static bool _noneDisp;
+		static bool _infoDisp;
+		static bool _debugDisp;
+		static bool _devDisp;
+		static bool _errorDisp;
+		static bool _warnDisp;
+
+	public:
+		static constexpr char None = ' ';
+		static constexpr char Info = '?';
+		static constexpr char Debug = '=';
+		static constexpr char Dev = 'O';
+		static constexpr char Error = 'X';
+		static constexpr char Warn = '!';
+
+		static void setTagsDisplay (
+			bool t_none_disp = true,
+			bool t_info_disp = true,
+			bool t_debug_disp = true,
+			bool t_dev_disp = true,
+			bool t_error_disp = true,
+			bool t_warn_disp = true);
+	};
 
 	class Logger {
 	private:

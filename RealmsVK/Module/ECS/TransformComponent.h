@@ -1,10 +1,12 @@
 #pragma once
-#include "ECS/IComponent.h"
-#include "Vec3.h"
+#include "IComponent.h"
+
+#include <string>
 
 namespace rlms {
-	struct TransformComponent : public IComponent {
-		Vec3f pos;
-		Vec3f rotation;
+	class TransformComponent : public IComponent {
+	public:
+		std::string phrase = "wow";
+		TransformComponent (ENTITY_ID entity_id, COMPONENT_ID const& component_id) : IComponent (entity_id, component_id) {}
 	};
 }

@@ -9,9 +9,9 @@ namespace rlms {
 
 	class VulkanEnvironment {
 	private:
-		VkInstance instance;
+		VkInstance instance = VK_NULL_HANDLE;
 		VkDebugUtilsMessengerEXT debugMessenger;
-		VkSurfaceKHR surface;
+		VkSurfaceKHR surface = VK_NULL_HANDLE;
 
 		static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback (VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData) {
 			GraphicsManager::GetLogger ()->tag (LogTags::Error) << "validation layer: " << pCallbackData->pMessage << "\n";

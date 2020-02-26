@@ -12,7 +12,7 @@ std::vector<IComponent*> Entity::getComponents () {
 	return vec;
 }
 
-void Entity::remComponent (IComponent*& comp_ptr) {
+void Entity::rem (IComponent*& comp_ptr) {
 	for (auto it = _components.begin (); it != _components.end (); it++) {
 		if (it->second == comp_ptr) {
 			_components.erase (it);

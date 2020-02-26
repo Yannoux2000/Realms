@@ -41,9 +41,6 @@
     <ClCompile Include="Base\Allocators\Allocator.cpp">
       <Filter>Base\Allocators</Filter>
     </ClCompile>
-    <ClCompile Include="Base\Allocators\FreeListAllocator.cpp">
-      <Filter>Base\Allocators</Filter>
-    </ClCompile>
     <ClCompile Include="Base\Allocators\LinearAllocator.cpp">
       <Filter>Base\Allocators</Filter>
     </ClCompile>
@@ -73,9 +70,6 @@
     </ClCompile>
     <ClCompile Include="Base\Logging\LogTime.cpp">
       <Filter>Base\Logging</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\Math\Vec2.cpp">
-      <Filter>Base\Math</Filter>
     </ClCompile>
     <ClCompile Include="Base\Math\VoxelMath.cpp">
       <Filter>Base\Math</Filter>
@@ -164,6 +158,27 @@
     <ClCompile Include="Module\Graphics\VulkanSwapChain.cpp">
       <Filter>Module\Graphics\Fondamentals</Filter>
     </ClCompile>
+    <ClCompile Include="Module\ECS\Entity.cpp">
+      <Filter>Module\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\ECS\EntityManager.cpp">
+      <Filter>Module\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\ECS\ComponentManager.cpp">
+      <Filter>Module\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\ECS\GameCore.cpp">
+      <Filter>Module\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\VulkanBackend.cpp">
+      <Filter>Module\Graphics\Fondamentals</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Allocators\FreeListAllocator.cpp">
+      <Filter>Base\Allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Allocators\InvalidMemory.cpp">
+      <Filter>Base\Allocators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -241,11 +256,11 @@
     <Filter Include="Module\Graphics\Fondamentals">
       <UniqueIdentifier>{85cdc5b4-fdc2-4859-a903-be875fb9407a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Base\old_Allocators">
+      <UniqueIdentifier>{ff5c8bdc-9f4b-4129-aafe-25f8c3e8e4b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Base\RlmsException.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="_MemLeakMonitor.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="CoreTypes.h" />
@@ -294,9 +309,6 @@
     </ClInclude>
     <ClInclude Include="_Preprocess.h" />
     <ClInclude Include="Base\Allocators\Allocator.h">
-      <Filter>Base\Allocators</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\Allocators\FreeListAllocator.h">
       <Filter>Base\Allocators</Filter>
     </ClInclude>
     <ClInclude Include="Base\Allocators\LinearAllocator.h">
@@ -464,6 +476,36 @@
     <ClInclude Include="Module\Graphics\VulkanDevice.h">
       <Filter>Module\Graphics\Fondamentals</Filter>
     </ClInclude>
+    <ClInclude Include="Module\ECS\Entity.h">
+      <Filter>Module\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\ECS\IComponent.h">
+      <Filter>Module\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\ECS\EntityManager.h">
+      <Filter>Module\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\ECS\ComponentManager.h">
+      <Filter>Module\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\ECS\GameCore.h">
+      <Filter>Module\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\ECS\TransformComponent.h">
+      <Filter>Module\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\VulkanBackend.h">
+      <Filter>Module\Graphics\Fondamentals</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Allocators\FreeListAllocator.h">
+      <Filter>Base\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Allocators\InvalidMemory.h">
+      <Filter>Base\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Exception.h">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Base\Allocators\Allocator.inl">
@@ -480,6 +522,12 @@
     </None>
     <None Include="Base\Math\Vec3.inl">
       <Filter>Base\Math</Filter>
+    </None>
+    <None Include="Module\ECS\Entity.inl">
+      <Filter>Module\ECS</Filter>
+    </None>
+    <None Include="Module\ECS\ComponentManager.inl">
+      <Filter>Module\ECS</Filter>
     </None>
   </ItemGroup>
 </Project>
