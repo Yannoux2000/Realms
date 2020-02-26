@@ -10,3 +10,7 @@ L'aspect minimaliste du jeux, (voxel) permettra non seulement de faciliter l'aff
 
 ## Communauté
 Le jeux devra etre moddable, pour permettre au joueurs adepte de challenges plus difficile de les créer, ainsi que multi-joueur, car l'interaction avec d'autres est au centre du jeux.
+
+## Developpement
+
+Actuellement le projet est uniquement développé sur VS 2019. La transition sur CMake est prévue.
