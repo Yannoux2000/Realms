@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Entity.h"
-#include "../../Base/Allocators/Allocator.h"
+#include "../../Base/Allocators/IAllocator.h"
 #include "../../Base/Logging/ILogged.h"
 
 #include <map>
@@ -19,7 +19,7 @@ namespace rlms {
 
 		static std::shared_ptr<LoggerHandler> GetLogger ();
 
-		static void Initialize (Allocator* const& alloc, size_t entity_pool_size, std::shared_ptr<Logger> funnel = nullptr);
+		static void Initialize (IAllocator* const& alloc, size_t entity_pool_size, std::shared_ptr<Logger> funnel = nullptr);
 		static void Terminate ();
 
 		static inline bool isValid (ENTITY_ID id) {

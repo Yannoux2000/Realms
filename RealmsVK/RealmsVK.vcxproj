@@ -136,13 +136,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Base\Allocators\Allocator.cpp" />
-    <ClCompile Include="Base\Allocators\FreeListAllocator.cpp" />
+    <ClCompile Include="Base\Allocators\IAllocator.cpp" />
     <ClCompile Include="Base\Allocators\InvalidMemory.cpp" />
-    <ClCompile Include="Base\Allocators\LinearAllocator.cpp" />
-    <ClCompile Include="Base\Allocators\PoolAllocator.cpp" />
+    <ClCompile Include="Base\Allocators\MasqueradeAllocator.cpp" />
     <ClCompile Include="Base\Allocators\ProxyAllocator.cpp" />
-    <ClCompile Include="Base\Allocators\StackAllocator.cpp" />
     <ClCompile Include="Base\Logging\DebugConsoleLogger.cpp" />
     <ClCompile Include="Base\Logging\FileLogger.cpp" />
     <ClCompile Include="Base\Logging\ILogged.cpp" />
@@ -198,13 +195,10 @@
     <ClCompile Include="Utility\ModManagement\ModLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Base\Allocators\Allocator.h" />
-    <ClInclude Include="Base\Allocators\FreeListAllocator.h" />
+    <ClInclude Include="Base\Allocators\IAllocator.h" />
     <ClInclude Include="Base\Allocators\InvalidMemory.h" />
-    <ClInclude Include="Base\Allocators\LinearAllocator.h" />
-    <ClInclude Include="Base\Allocators\PoolAllocator.h" />
+    <ClInclude Include="Base\Allocators\MasqueradeAllocator.h" />
     <ClInclude Include="Base\Allocators\ProxyAllocator.h" />
-    <ClInclude Include="Base\Allocators\StackAllocator.h" />
     <ClInclude Include="Base\Logging\DebugConsoleLogger.h" />
     <ClInclude Include="Base\Logging\FileLogger.h" />
     <ClInclude Include="Base\Logging\ILogged.h" />
@@ -285,7 +279,7 @@
     <ClInclude Include="_Preprocess.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Base\Allocators\Allocator.inl" />
+    <None Include="Base\Allocators\IAllocator.inl" />
     <None Include="Base\Allocators\PointerMath.inl" />
     <None Include="Base\Math\Rect.inl" />
     <None Include="Base\Math\Vec.inl" />

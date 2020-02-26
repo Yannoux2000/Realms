@@ -1,4 +1,6 @@
 #include "GameCore.h"
+//#include "../../Base/Allocators/FreeListAllocator.h"
+#include "../../Base/Allocators/MasqueradeAllocator.h"
 
 using namespace rlms;
 
@@ -10,11 +12,13 @@ private:
 		return "GameCore";
 	}
 
+	using alloc_type = MasqueradeAllocator;
+
 	double m_dt_offset;
 
-	std::unique_ptr<FreeListAllocator> m_global_allocator;
+	std::unique_ptr<alloc_type> m_global_allocator;
 
-	void start (Allocator* const& alloc, size_t comp_pool_size, std::shared_ptr<Logger> funnel);
+	void start (IAllocator* const& alloc, size_t comp_pool_size, std::shared_ptr<Logger> funnel);
 
 	void update (double dt);
 
@@ -36,7 +40,7 @@ std::shared_ptr<LoggerHandler> GameCore::GetLogger () {
 	return instance->getLogger();
 }
 
-void GameCore::Initialize (Allocator* const& alloc, size_t ecs_pool_size, std::shared_ptr<Logger> funnel) {
+void GameCore::Initialize (IAllocator* const& alloc, size_t ecs_pool_size, std::shared_ptr<Logger> funnel) {
 	instance = std::make_unique<GameCoreImpl> ();
 	instance->start (alloc, ecs_pool_size, funnel);
 }
@@ -49,12 +53,12 @@ void GameCore::Terminate () {
 	instance->stop ();
 }
 
-void GameCoreImpl::start (Allocator* const& alloc, size_t ecs_pool_size, std::shared_ptr<Logger> funnel) {
+void GameCoreImpl::start (IAllocator* const& alloc, size_t ecs_pool_size, std::shared_ptr<Logger> funnel) {
 	startLogger (funnel);
 	logger->tag (LogTags::None) << "Initializing !" << '\n';
 
 	//Valid
-	m_global_allocator = std::unique_ptr<FreeListAllocator> (new FreeListAllocator (alloc->allocate (ecs_pool_size), ecs_pool_size));
+	m_global_allocator = std::unique_ptr<alloc_type> (new alloc_type (alloc->allocate (ecs_pool_size), ecs_pool_size));
 
 	EntityManager::Initialize (m_global_allocator.get (), ecs_pool_size / 4, logger);
 	ComponentManager::Initialize (m_global_allocator.get (), ecs_pool_size / 4, logger);

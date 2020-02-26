@@ -1,7 +1,7 @@
 #include "GraphicsManager.h"
 
 #include "../../Base/Logging/ILogged.h"
-#include "../../Base/Allocators/Allocator.h"
+#include "../../Base/Allocators/IAllocator.h"
 
 #include "../../Utility/FileIO/VoxFileParser.h"
 
@@ -46,7 +46,7 @@ private:
 		return "GraphicsManager";
 	};
 
-	void start (Allocator* const& alloc, size_t mesh_pool_size, GLFWwindow*& window, std::shared_ptr<Logger> funnel = nullptr);
+	void start (IAllocator* const& alloc, size_t mesh_pool_size, GLFWwindow*& window, std::shared_ptr<Logger> funnel = nullptr);
 	void stop ();
 
 	MeshRegister* getRegister ();
@@ -189,7 +189,7 @@ private:
 	}
 };
 
-void rlms::GraphicsManagerImpl::start (Allocator* const& alloc, size_t mesh_pool_size, GLFWwindow*& window, std::shared_ptr<Logger> funnel) {
+void rlms::GraphicsManagerImpl::start (IAllocator* const& alloc, size_t mesh_pool_size, GLFWwindow*& window, std::shared_ptr<Logger> funnel) {
 	startLogger (funnel);
 	logger->tag (LogTags::None) << "Initializing !" << '\n';
 
@@ -241,7 +241,7 @@ std::shared_ptr<LoggerHandler> rlms::GraphicsManager::GetLogger () {
 	return instance->getLogger ();
 }
 
-void rlms::GraphicsManager::Initialize (Allocator* const& alloc, size_t mesh_pool_size, GLFWwindow*& window, std::shared_ptr<Logger> funnel) {
+void rlms::GraphicsManager::Initialize (IAllocator* const& alloc, size_t mesh_pool_size, GLFWwindow*& window, std::shared_ptr<Logger> funnel) {
 	instance = std::make_unique<GraphicsManagerImpl> ();
 	instance->start (alloc, mesh_pool_size, window, funnel);
 }

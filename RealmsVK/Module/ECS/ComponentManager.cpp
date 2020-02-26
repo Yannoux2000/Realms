@@ -9,7 +9,7 @@ std::shared_ptr<LoggerHandler> ComponentManager::GetLogger () {
 	return instance->getLogger();
 }
 
-void ComponentManager::Initialize (Allocator* const& alloc, size_t comp_pool_size, std::shared_ptr<Logger> funnel) {
+void ComponentManager::Initialize (IAllocator* const& alloc, size_t comp_pool_size, std::shared_ptr<Logger> funnel) {
 	instance = std::make_unique<ComponentManagerImpl> ();
 	instance->start (alloc, comp_pool_size, funnel);
 }
@@ -45,11 +45,11 @@ ComponentManagerImpl::ComponentManagerImpl () : _id_iter (1), _lookup_table() {}
 
 ComponentManagerImpl::~ComponentManagerImpl () {}
 
-void ComponentManagerImpl::start (Allocator* const& alloc, size_t comp_pool_size, std::shared_ptr<Logger> funnel) {
+void ComponentManagerImpl::start (IAllocator* const& alloc, size_t comp_pool_size, std::shared_ptr<Logger> funnel) {
 	startLogger (funnel);
 	logger->tag (LogTags::None) << "Initializing !" << '\n';
 
-	m_comp_Allocator = std::unique_ptr<FreeListAllocator> (new FreeListAllocator (alloc->allocate (comp_pool_size), comp_pool_size));
+	m_comp_Allocator = std::unique_ptr<alloc_type> (new alloc_type (alloc->allocate (comp_pool_size), comp_pool_size));
 
 	_id_iter = 1;
 	ComponentManager::n_errors = 0;

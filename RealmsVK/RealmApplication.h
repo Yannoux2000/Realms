@@ -4,8 +4,9 @@
 #include "Base/Logging/DebugConsoleLogger.h"
 #include "Base/Logging/FileLogger.h"
 
-#include "Base/Allocators/ProxyAllocator.h"
-#include "Base/Allocators/StackAllocator.h"
+//#include "Base/Allocators/ProxyAllocator.h"
+//#include "Base/Allocators/StackAllocator.h"
+#include "Base/Allocators/MasqueradeAllocator.h"
 
 #include "Utility/FileIO/VoxFileParser.h"
 
@@ -32,8 +33,7 @@
 namespace rlms {
 	class RealmApplication : public ILogged {
 	private:
-		using _allocType = StackAllocator;
-
+		using alloc_type = MasqueradeAllocator;
 
 	public:
 		struct MemorySettings {
@@ -115,7 +115,7 @@ namespace rlms {
 		GLFWwindow* window;
 
 		bool running = false;
-		std::unique_ptr<_allocType> app_alloc;
+		std::unique_ptr<alloc_type> app_alloc;
 
 		std::string getLogName () override {
 			return "Realms";
@@ -123,7 +123,7 @@ namespace rlms {
 
 		void initMemory (ApplicationSettings& stgs) {
 			void* mem = malloc (stgs.memory.total_size);
-			app_alloc = std::make_unique<_allocType> (mem, stgs.memory.total_size);
+			app_alloc = std::make_unique<alloc_type> (mem, stgs.memory.total_size);
 		}
 		void initWindow (ApplicationSettings& stgs) {
 			logger->tag (LogTags::Debug) << "Initializing Window.";

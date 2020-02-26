@@ -1,5 +1,6 @@
 #include "WorldManager.h"
-#include "../../Base/Allocators/FreeListAllocator.h"
+//#include "../../Base/Allocators/FreeListAllocator.h"
+#include "../../Base/Allocators/MasqueradeAllocator.h"
 
 #include "BlockPrototype.h"
 #include <map>
@@ -14,19 +15,21 @@ private:
 		return "WorldManager";
 	};
 
-	std::map<BLOCK_TYPE_ID, BlockPrototype> m_register;
-	std::unique_ptr<FreeListAllocator> m_chunk_allocator;
+	using alloc_type = MasqueradeAllocator;
 
-	bool start (Allocator* const& alloc, size_t chunk_pool_size, std::shared_ptr<Logger> funnel = nullptr);
+	std::map<BLOCK_TYPE_ID, BlockPrototype> m_register;
+	std::unique_ptr<alloc_type> m_chunk_allocator;
+
+	bool start (IAllocator* const& alloc, size_t chunk_pool_size, std::shared_ptr<Logger> funnel = nullptr);
 	void stop ();
 
 };
 
-bool rlms::WorldManagerImpl::start (Allocator* const& alloc, size_t chunk_pool_size, std::shared_ptr<Logger> funnel) {
+bool rlms::WorldManagerImpl::start (IAllocator* const& alloc, size_t chunk_pool_size, std::shared_ptr<Logger> funnel) {
 	startLogger (funnel);
 	logger->tag (LogTags::None) << "Initializing !" << '\n';
 
-	m_chunk_allocator = std::unique_ptr<FreeListAllocator> (new FreeListAllocator (alloc->allocate (chunk_pool_size), chunk_pool_size));
+	m_chunk_allocator = std::unique_ptr<alloc_type> (new alloc_type (alloc->allocate (chunk_pool_size), chunk_pool_size));
 
 	WorldManager::n_errors = 0;
 	logger->tag (LogTags::None) << "Initialized correctly !" << '\n';
@@ -46,7 +49,7 @@ std::shared_ptr<rlms::LoggerHandler> rlms::WorldManager::GetLogger () {
 	return instance->getLogger ();
 }
 
-bool rlms::WorldManager::Initialize (Allocator* const& alloc, size_t chunk_pool_size, std::shared_ptr<Logger> funnel) {
+bool rlms::WorldManager::Initialize (IAllocator* const& alloc, size_t chunk_pool_size, std::shared_ptr<Logger> funnel) {
 	instance = std::make_unique<WorldManagerImpl> ();
 	return instance->start (alloc, chunk_pool_size, funnel);
 }

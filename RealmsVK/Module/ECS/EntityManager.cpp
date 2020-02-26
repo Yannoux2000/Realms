@@ -1,7 +1,8 @@
 #include "EntityManager.h"
 
 //#include "../../Base/Allocators/PoolAllocator.h"
-#include "../../Base/Allocators/FreeListAllocator.h"
+//#include "../../Base/Allocators/FreeListAllocator.h"
+#include "../../Base/Allocators/MasqueradeAllocator.h"
 
 using namespace rlms;
 
@@ -13,10 +14,12 @@ private:
 		return "EntityManager";
 	};
 
-	std::map<ENTITY_ID, Entity*> m_lookup_table;
-	std::unique_ptr<FreeListAllocator> m_entity_Allocator;
+	using alloc_type = MasqueradeAllocator;
 
-	void start (Allocator* const& alloc, size_t entity_pool_size, std::shared_ptr<Logger> funnel);
+	std::map<ENTITY_ID, Entity*> m_lookup_table;
+	std::unique_ptr<alloc_type> m_entity_Allocator;
+
+	void start (IAllocator* const& alloc, size_t entity_pool_size, std::shared_ptr<Logger> funnel);
 	void stop ();
 
 	const ENTITY_ID createEntity ();
@@ -42,7 +45,7 @@ std::shared_ptr<LoggerHandler> EntityManager::GetLogger () {
 	return instance->getLogger ();
 }
 
-void EntityManager::Initialize (Allocator* const& alloc, size_t entity_pool_size, std::shared_ptr<Logger> funnel) {
+void EntityManager::Initialize (IAllocator* const& alloc, size_t entity_pool_size, std::shared_ptr<Logger> funnel) {
 	instance = std::make_unique<EntityManagerImpl> ();
 	instance->start(alloc, entity_pool_size, funnel);
 }
@@ -75,12 +78,12 @@ void EntityManager::Destroy (ENTITY_ID id) {
 EntityManagerImpl::EntityManagerImpl () : _id_iter(1), m_lookup_table () {}
 EntityManagerImpl::~EntityManagerImpl () {}
 
-void EntityManagerImpl::start (Allocator* const& alloc, size_t entity_pool_size, std::shared_ptr<Logger> funnel) {
+void EntityManagerImpl::start (IAllocator* const& alloc, size_t entity_pool_size, std::shared_ptr<Logger> funnel) {
 		
 	startLogger (funnel);
 	logger->tag (LogTags::None) << "Initializing !" << '\n';
 
-	m_entity_Allocator = std::unique_ptr<FreeListAllocator>(new FreeListAllocator (alloc->allocate (entity_pool_size), entity_pool_size));
+	m_entity_Allocator = std::unique_ptr<alloc_type>(new alloc_type (alloc->allocate (entity_pool_size), entity_pool_size));
 
 	_id_iter = 1;
 	EntityManager::n_errors = 0;

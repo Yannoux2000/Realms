@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Base/Allocators/FreeListAllocator.h"
+#include "../../Base/Allocators/IAllocator.h"
 #include "../../Base/Logging/ILogged.h"
 
 #include "EntityManager.h"
@@ -21,7 +21,7 @@ namespace rlms{
 		static std::shared_ptr<LoggerHandler> GetLogger ();
 		static int n_error;
 
-		static void Initialize (Allocator* const& alloc, size_t ecs_pool_size, std::shared_ptr<Logger> funnel = nullptr);
+		static void Initialize (IAllocator* const& alloc, size_t ecs_pool_size, std::shared_ptr<Logger> funnel = nullptr);
 
 		static void Update (double dt);
 

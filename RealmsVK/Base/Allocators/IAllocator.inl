@@ -1,18 +1,17 @@
-
 namespace allocator {
 	template <class T, class... Args>
-	T* allocateNew (Allocator& allocator, Args&& ... args) {
+	T* allocateNew (rlms::IAllocator& allocator, Args&& ... args) {
 		return new (allocator.allocate (sizeof (T), __alignof(T))) T (std::forward<Args> (args)...);
 	}
 
 	template <class T>
-	void deallocateDelete (Allocator& allocator, T* object) {
+	void deallocateDelete (rlms::IAllocator& allocator, T* object) {
 		object->~T ();
-		allocator.deallocate (object);
+		allocator.deallocate (dynamic_cast<void*>(object));
 	}
 
 	template <class T>
-	T* allocateArray (Allocator& allocator, size_t length) {
+	T* allocateArray (rlms::IAllocator& allocator, size_t length) {
 		//assert (length != 0);
 
 		uint8_t header_size = sizeof (size_t) / sizeof (T);
@@ -31,8 +30,7 @@ namespace allocator {
 		return p;
 	}
 
-	template <class T>
-	T* allocateArrayNoConstruct (Allocator& allocator, size_t length) {
+	template <class T> T* allocateArrayNoConstruct (rlms::IAllocator& allocator, size_t length) {
 		//assert (length != 0);
 
 		uint8_t header_size = sizeof (size_t) / sizeof (T);
@@ -49,7 +47,7 @@ namespace allocator {
 	}
 
 	template <class T>
-	void deallocateArray (Allocator& allocator, T* array) {
+	void deallocateArray (rlms::IAllocator& allocator, T* array) {
 		ASSERT (array != nullptr);
 
 		size_t length = *(((size_t*)array) - 1);
@@ -68,7 +66,7 @@ namespace allocator {
 	}
 
 	template <class T>
-	void deallocateArrayNoDestruct (Allocator& allocator, T* array) {
+	void deallocateArrayNoDestruct (rlms::IAllocator& allocator, T* array) {
 		ASSERT (array != nullptr);
 
 		//Calculate how much extra memory was allocated to store the length before the array

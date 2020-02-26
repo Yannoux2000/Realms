@@ -38,21 +38,6 @@
     <ClCompile Include="Module\World\WorldManager.cpp">
       <Filter>Module\World</Filter>
     </ClCompile>
-    <ClCompile Include="Base\Allocators\Allocator.cpp">
-      <Filter>Base\Allocators</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\Allocators\LinearAllocator.cpp">
-      <Filter>Base\Allocators</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\Allocators\PoolAllocator.cpp">
-      <Filter>Base\Allocators</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\Allocators\ProxyAllocator.cpp">
-      <Filter>Base\Allocators</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\Allocators\StackAllocator.cpp">
-      <Filter>Base\Allocators</Filter>
-    </ClCompile>
     <ClCompile Include="Base\Logging\DebugConsoleLogger.cpp">
       <Filter>Base\Logging</Filter>
     </ClCompile>
@@ -173,10 +158,16 @@
     <ClCompile Include="Module\Graphics\VulkanBackend.cpp">
       <Filter>Module\Graphics\Fondamentals</Filter>
     </ClCompile>
-    <ClCompile Include="Base\Allocators\FreeListAllocator.cpp">
+    <ClCompile Include="Base\Allocators\InvalidMemory.cpp">
       <Filter>Base\Allocators</Filter>
     </ClCompile>
-    <ClCompile Include="Base\Allocators\InvalidMemory.cpp">
+    <ClCompile Include="Base\Allocators\IAllocator.cpp">
+      <Filter>Base\Allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Allocators\ProxyAllocator.cpp">
+      <Filter>Base\Allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Allocators\MasqueradeAllocator.cpp">
       <Filter>Base\Allocators</Filter>
     </ClCompile>
   </ItemGroup>
@@ -308,21 +299,6 @@
       <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="_Preprocess.h" />
-    <ClInclude Include="Base\Allocators\Allocator.h">
-      <Filter>Base\Allocators</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\Allocators\LinearAllocator.h">
-      <Filter>Base\Allocators</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\Allocators\PoolAllocator.h">
-      <Filter>Base\Allocators</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\Allocators\ProxyAllocator.h">
-      <Filter>Base\Allocators</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\Allocators\StackAllocator.h">
-      <Filter>Base\Allocators</Filter>
-    </ClInclude>
     <ClInclude Include="Base\Logging\DebugConsoleLogger.h">
       <Filter>Base\Logging</Filter>
     </ClInclude>
@@ -497,20 +473,23 @@
     <ClInclude Include="Module\Graphics\VulkanBackend.h">
       <Filter>Module\Graphics\Fondamentals</Filter>
     </ClInclude>
-    <ClInclude Include="Base\Allocators\FreeListAllocator.h">
-      <Filter>Base\Allocators</Filter>
-    </ClInclude>
     <ClInclude Include="Base\Allocators\InvalidMemory.h">
       <Filter>Base\Allocators</Filter>
     </ClInclude>
     <ClInclude Include="Base\Exception.h">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="Base\Allocators\ProxyAllocator.h">
+      <Filter>Base\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Allocators\IAllocator.h">
+      <Filter>Base\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Allocators\MasqueradeAllocator.h">
+      <Filter>Base\Allocators</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Base\Allocators\Allocator.inl">
-      <Filter>Base\Allocators</Filter>
-    </None>
     <None Include="Base\Allocators\PointerMath.inl">
       <Filter>Base\Allocators</Filter>
     </None>
@@ -528,6 +507,9 @@
     </None>
     <None Include="Module\ECS\ComponentManager.inl">
       <Filter>Module\ECS</Filter>
+    </None>
+    <None Include="Base\Allocators\IAllocator.inl">
+      <Filter>Base\Allocators</Filter>
     </None>
   </ItemGroup>
 </Project>

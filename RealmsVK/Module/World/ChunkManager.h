@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../../Base/Allocators/FreeListAllocator.h"
+//#include "../../Base/Allocators/FreeListAllocator.h"
+#include "../../Base/Allocators/MasqueradeAllocator.h"
 #include "../../Base/Logging/ILogged.h"
 
 #include "Chunk.h"
@@ -10,6 +11,13 @@
 namespace rlms {
 	class ChunkManager : public ILogged {
 	private:
+
+		std::string getLogName () override {
+			return "ChunkManager";
+		};
+
+		using alloc_type = MasqueradeAllocator;
+
 	////////////////////////////////////////////////////////////
 	///
 	/// \brief Chunks will have multiple status:
@@ -28,33 +36,20 @@ namespace rlms {
 	///        - unloaded : the chunk has been deleted from the heap and must be saved
 	///        
 	///
-	///
-	///
-	///
-	///
-	///
-	///
-	///
-	///
-	///
 	////////////////////////////////////////////////////////////
 
 		std::vector<Chunk*> m_activeChunks;
 
-		std::unique_ptr<FreeListAllocator> m_chunk_allocator;
+		std::unique_ptr<alloc_type> m_chunk_allocator;
 	public:
 
-		std::string getLogName () override {
-			return "ChunkManager";
-		};
-
 		ChunkManager () : m_activeChunks(), m_chunk_allocator() {};
-		ChunkManager (Allocator* const& alloc, size_t chunk_pool_size, std::shared_ptr<Logger> funnel = nullptr) {
+		ChunkManager (IAllocator* const& alloc, size_t chunk_pool_size, std::shared_ptr<Logger> funnel = nullptr) {
 
 			startLogger (funnel);
 			logger->tag (LogTags::None) << "Initializing !" << '\n';
 
-			m_chunk_allocator = std::unique_ptr<FreeListAllocator> (new FreeListAllocator (alloc->allocate (chunk_pool_size), chunk_pool_size));
+			m_chunk_allocator = std::unique_ptr<alloc_type> (new alloc_type (alloc->allocate (chunk_pool_size), chunk_pool_size));
 
 			logger->tag (LogTags::None) << "Initialized correctly !" << '\n';
 		};

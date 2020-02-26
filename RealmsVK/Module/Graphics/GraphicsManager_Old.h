@@ -1,6 +1,6 @@
 #pragma once
 #include "../../Base/Logging/ILogged.h"
-#include "../../Base/Allocators/Allocator.h"
+#include "../../Base/Allocators/IAllocator.h"
 
 #include <memory>
 
@@ -14,7 +14,7 @@ namespace rlms {
 	public:
 		static std::shared_ptr<LoggerHandler> GetLogger ();
 
-		static void Initialize (Allocator* const& alloc, size_t mesh_pool_size, std::shared_ptr<Logger> funnel = nullptr);
+		static void Initialize (IAllocator* const& alloc, size_t mesh_pool_size, std::shared_ptr<Logger> funnel = nullptr);
 		static void Terminate ();
 
 		static MeshRegister* GetRegister ();

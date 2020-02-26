@@ -4,7 +4,8 @@
 // Headers
 ////////////////////////////////////////////////////////////
 
-#include "../../Base/Allocators/FreeListAllocator.h"
+//#include "../../Base/Allocators/FreeListAllocator.h"
+#include "../../Base/Allocators/MasqueradeAllocator.h"
 #include "../../Base/Logging/ILogged.h"
 #include "EntityManager.h"
 #include "IComponent.h"
@@ -51,7 +52,7 @@ namespace rlms {
 		/// \return bool saying rather or not the start was 
 		///
 		////////////////////////////////////////////////////////////
-		static void Initialize (Allocator* const& alloc, size_t comp_pool_size, std::shared_ptr<Logger> funnel = nullptr);
+		static void Initialize (IAllocator* const& alloc, size_t comp_pool_size, std::shared_ptr<Logger> funnel = nullptr);
 
 		////////////////////////////////////////////////////////////
 		/// \brief End the ComponentManager in the expected manner.
@@ -91,10 +92,12 @@ namespace rlms {
 			return "ComponentManager";
 		};
 
-		std::map<ENTITY_ID, IComponent*> _lookup_table;
-		std::unique_ptr<FreeListAllocator> m_comp_Allocator;
+		using alloc_type = MasqueradeAllocator;
 
-		void start (Allocator* const& alloc, size_t entity_pool_size, std::shared_ptr<Logger> funnel);
+		std::map<ENTITY_ID, IComponent*> _lookup_table;
+		std::unique_ptr<alloc_type> m_comp_Allocator;
+
+		void start (IAllocator* const& alloc, size_t entity_pool_size, std::shared_ptr<Logger> funnel);
 		void stop ();
 
 		template<class C> const COMPONENT_ID createComponent ();

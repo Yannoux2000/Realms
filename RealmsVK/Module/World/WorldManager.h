@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Base/Allocators/Allocator.h"
+#include "../../Base/Allocators/IAllocator.h"
 #include "../../Base/Logging/ILogged.h"
 
 
@@ -14,7 +14,7 @@ namespace rlms{
 		static int n_errors;
 
 		static std::shared_ptr<rlms::LoggerHandler> GetLogger ();
-		static bool Initialize (Allocator* const& alloc, size_t chunk_pool_size, std::shared_ptr<Logger> funnel = nullptr);
+		static bool Initialize (IAllocator* const& alloc, size_t chunk_pool_size, std::shared_ptr<Logger> funnel = nullptr);
 		static void Terminate ();
 
 	};
