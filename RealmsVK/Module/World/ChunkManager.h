@@ -54,7 +54,7 @@ namespace rlms {
 			startLogger (funnel);
 			logger->tag (LogTags::None) << "Initializing !" << '\n';
 
-			m_chunk_allocator = std::unique_ptr<FreeListAllocator> (new FreeListAllocator (alloc->allocate (chunk_pool_size), chunk_pool_size));
+			m_chunk_allocator = std::unique_ptr<FreeListAllocator> (new FreeListAllocator (chunk_pool_size, alloc->allocate (chunk_pool_size)));
 
 			logger->tag (LogTags::None) << "Initialized correctly !" << '\n';
 		};

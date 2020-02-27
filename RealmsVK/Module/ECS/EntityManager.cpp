@@ -82,7 +82,7 @@ void EntityManagerImpl::start (Allocator* const& alloc, size_t entity_pool_size,
 	startLogger (funnel);
 	logger->tag (LogTags::None) << "Initializing !" << '\n';
 
-	m_entity_Allocator = std::unique_ptr<alloc_type>(new alloc_type (alloc->allocate (entity_pool_size), entity_pool_size));
+	m_entity_Allocator = std::unique_ptr<alloc_type>(new alloc_type (entity_pool_size, alloc->allocate (entity_pool_size)));
 
 	_id_iter = 1;
 	EntityManager::n_errors = 0;

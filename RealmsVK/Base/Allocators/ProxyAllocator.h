@@ -1,12 +1,26 @@
 #pragma once
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+///////////////// Tiago Costa, 2014
+/////////////////////////////////////////////////////////////////////////////////////////////
+
 #include "Allocator.h"
 
-class ProxyAllocator : public Allocator {
-public:
-	ProxyAllocator (void*& start, const size_t& size);
-	virtual ~ProxyAllocator ();
+namespace rlms {
+	class ProxyAllocator : public Allocator
+	{
+	public:
+		ProxyAllocator(Allocator& allocator);
+		~ProxyAllocator();
 
-	void* allocate (size_t size, uint8_t alignment) override;
-	void deallocate (void*&& p) override;
+		void* allocate(size_t size, uint8_t alignment) override;
+
+		void deallocate(void* p) override;
+
+	private:
+		ProxyAllocator(const ProxyAllocator&);
+		ProxyAllocator& operator=(const ProxyAllocator&);
+
+		Allocator& _allocator;
+	};
 };
-

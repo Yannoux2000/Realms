@@ -1,15 +1,15 @@
 #pragma once
 #include "Allocator.h"
 #include <vector>
+namespace rlms {
+	class MasqueradeAllocator : public Allocator {
+	public:
+		MasqueradeAllocator (const size_t size, void* start);
+		virtual ~MasqueradeAllocator ();
 
-class MasqueradeAllocator : public Allocator {
-public:
-	MasqueradeAllocator (void* start, const size_t size);
-	virtual ~MasqueradeAllocator ();
-
-	void* allocate (size_t size, uint8_t alignment) override;
-	void deallocate (void*&& p) override;
-private:
-	std::vector<void*> _alloc;
-};
-
+		void* allocate (size_t size, uint8_t alignment) override;
+		void deallocate (void* p) override;
+	private:
+		std::vector<void*> _alloc;
+	};
+}

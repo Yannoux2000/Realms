@@ -1,36 +1,28 @@
-#include "LinearAllocator.h" 
+#include "LinearAllocator.h"
+
 #include <cassert>
 
-LinearAllocator::LinearAllocator (void* start, const size_t size) : Allocator (start, size), _current_pos (start) {
-	assert (size > 0);
+using namespace rlms;
+
+LinearAllocator::LinearAllocator(size_t size, void* start)
+	: Allocator(size), _start(start), _current_pos(start)
+{
+
 }
 
-LinearAllocator::~LinearAllocator () {
-	_current_pos = nullptr;
+rlms::LinearAllocator::~LinearAllocator () {}
+
+void LinearAllocator::deallocate(void* p)
+{
+	assert("Cannot call deallocate on Linear Allocators" && false);
 }
 
-void* LinearAllocator::allocate (size_t size, uint8_t alignment) {
-	assert (size != 0);
-	uint8_t adjustment = pointerMath::alignForwardAdjustment (_current_pos, alignment);
-
-	if (_used_memory + adjustment + size > _size) return nullptr;
-
-	uintptr_t  aligned_address = (uintptr_t)_current_pos + adjustment;
-	_current_pos = (void*)(aligned_address + size);
-	_used_memory += size + adjustment;
-	_num_allocations++;
-
-	return (void*)aligned_address;
+void* LinearAllocator::getStart() const
+{
+	return _start;
 }
 
-void LinearAllocator::deallocate (void*&& p) {
-	clear ();
-	p = nullptr;
-	assert (false && "Use clear() instead");
-}
-
-void LinearAllocator::clear () {
-	_num_allocations = 0;
-	_used_memory = 0;
-	_current_pos = _start;
+void* LinearAllocator::getMark() const
+{
+	return _current_pos;
 }

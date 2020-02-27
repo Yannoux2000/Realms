@@ -30,6 +30,9 @@
     <ClCompile Include="pch_allocators.cpp">
       <Filter>Base\Allocators</Filter>
     </ClCompile>
+    <ClCompile Include="test_MasqueradeAllocator.cpp">
+      <Filter>Base\Allocators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -56,5 +59,8 @@
     <Filter Include="Modules\Graphics">
       <UniqueIdentifier>{bac25b5e-087b-4c54-baec-adb999cc7bb2}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

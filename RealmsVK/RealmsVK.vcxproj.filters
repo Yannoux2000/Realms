@@ -2,23 +2,11 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Utility\FileIO\SettingsFile.cpp">
-      <Filter>Utility\FileIO</Filter>
-    </ClCompile>
-    <ClCompile Include="Utility\FileIO\SettingValue.cpp">
-      <Filter>Utility\FileIO</Filter>
-    </ClCompile>
     <ClCompile Include="Utility\FileIO\Voxelite.cpp">
       <Filter>Utility\FileIO</Filter>
     </ClCompile>
     <ClCompile Include="Utility\FileIO\VoxFileParser.cpp">
       <Filter>Utility\FileIO</Filter>
-    </ClCompile>
-    <ClCompile Include="Utility\ModManagement\IModContainer.cpp">
-      <Filter>Utility\ModManagement</Filter>
-    </ClCompile>
-    <ClCompile Include="Utility\ModManagement\ModLoader.cpp">
-      <Filter>Utility\ModManagement</Filter>
     </ClCompile>
     <ClCompile Include="Module\World\BlockPrototype.cpp">
       <Filter>Module\World</Filter>
@@ -37,21 +25,6 @@
     </ClCompile>
     <ClCompile Include="Module\World\WorldManager.cpp">
       <Filter>Module\World</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\Allocators\Allocator.cpp">
-      <Filter>Base\Allocators</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\Allocators\LinearAllocator.cpp">
-      <Filter>Base\Allocators</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\Allocators\PoolAllocator.cpp">
-      <Filter>Base\Allocators</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\Allocators\ProxyAllocator.cpp">
-      <Filter>Base\Allocators</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\Allocators\StackAllocator.cpp">
-      <Filter>Base\Allocators</Filter>
     </ClCompile>
     <ClCompile Include="Base\Logging\DebugConsoleLogger.cpp">
       <Filter>Base\Logging</Filter>
@@ -140,9 +113,6 @@
     <ClCompile Include="Module\Graphics\GraphicsManager.cpp">
       <Filter>Module\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Module\Graphics\IRenderPipeline.cpp">
-      <Filter>Module\Graphics\Fondamentals</Filter>
-    </ClCompile>
     <ClCompile Include="Module\Graphics\VulkanEnvironment.cpp">
       <Filter>Module\Graphics\Fondamentals</Filter>
     </ClCompile>
@@ -173,9 +143,6 @@
     <ClCompile Include="Module\Graphics\VulkanBackend.cpp">
       <Filter>Module\Graphics\Fondamentals</Filter>
     </ClCompile>
-    <ClCompile Include="Base\Allocators\FreeListAllocator.cpp">
-      <Filter>Base\Allocators</Filter>
-    </ClCompile>
     <ClCompile Include="Base\Allocators\InvalidMemory.cpp">
       <Filter>Base\Allocators</Filter>
     </ClCompile>
@@ -184,6 +151,46 @@
     </ClCompile>
     <ClCompile Include="Module\ECS\MeshComponent.cpp">
       <Filter>Module\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\LuaBindings\lua.cpp" />
+    <ClCompile Include="Base\Allocators\Allocator.cpp">
+      <Filter>Base\Allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Allocators\BlockAllocator.cpp">
+      <Filter>Base\Allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Allocators\BlockAllocatorProxy.cpp">
+      <Filter>Base\Allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Allocators\DynamicLinearAllocator.cpp">
+      <Filter>Base\Allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Allocators\EndAllocator.cpp">
+      <Filter>Base\Allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Allocators\FixedLinearAllocator.cpp">
+      <Filter>Base\Allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Allocators\FreeListAllocator.cpp">
+      <Filter>Base\Allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Allocators\LinearAllocator.cpp">
+      <Filter>Base\Allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Allocators\ProxyAllocator.cpp">
+      <Filter>Base\Allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Allocators\SmallBlockAllocator.cpp">
+      <Filter>Base\Allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\ModManagement\ModContainer.cpp">
+      <Filter>Utility\ModManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Version.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\VulkanException.cpp">
+      <Filter>Module\Graphics\Fondamentals</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -270,23 +277,11 @@
     <ClInclude Include="_MemLeakMonitor.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="CoreTypes.h" />
-    <ClInclude Include="Utility\FileIO\SettingsFile.h">
-      <Filter>Utility\FileIO</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility\FileIO\SettingValue.h">
-      <Filter>Utility\FileIO</Filter>
-    </ClInclude>
     <ClInclude Include="Utility\FileIO\Voxelite.h">
       <Filter>Utility\FileIO</Filter>
     </ClInclude>
     <ClInclude Include="Utility\FileIO\VoxFileParser.h">
       <Filter>Utility\FileIO</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility\ModManagement\IModContainer.h">
-      <Filter>Utility\ModManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility\ModManagement\ModLoader.h">
-      <Filter>Utility\ModManagement</Filter>
     </ClInclude>
     <ClInclude Include="Module\World\Block.h">
       <Filter>Module\World</Filter>
@@ -314,21 +309,6 @@
       <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="_Preprocess.h" />
-    <ClInclude Include="Base\Allocators\Allocator.h">
-      <Filter>Base\Allocators</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\Allocators\LinearAllocator.h">
-      <Filter>Base\Allocators</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\Allocators\PoolAllocator.h">
-      <Filter>Base\Allocators</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\Allocators\ProxyAllocator.h">
-      <Filter>Base\Allocators</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\Allocators\StackAllocator.h">
-      <Filter>Base\Allocators</Filter>
-    </ClInclude>
     <ClInclude Include="Base\Logging\DebugConsoleLogger.h">
       <Filter>Base\Logging</Filter>
     </ClInclude>
@@ -464,9 +444,6 @@
     <ClInclude Include="Module\Graphics\GraphicsManager.h">
       <Filter>Module\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Module\Graphics\IRenderPipeline.h">
-      <Filter>Module\Graphics\Fondamentals</Filter>
-    </ClInclude>
     <ClInclude Include="Module\Graphics\Vulkan.h">
       <Filter>Module\Graphics\Fondamentals</Filter>
     </ClInclude>
@@ -503,9 +480,6 @@
     <ClInclude Include="Module\Graphics\VulkanBackend.h">
       <Filter>Module\Graphics\Fondamentals</Filter>
     </ClInclude>
-    <ClInclude Include="Base\Allocators\FreeListAllocator.h">
-      <Filter>Base\Allocators</Filter>
-    </ClInclude>
     <ClInclude Include="Base\Allocators\InvalidMemory.h">
       <Filter>Base\Allocators</Filter>
     </ClInclude>
@@ -521,14 +495,56 @@
     <ClInclude Include="Module\ECS\MeshComponent.h">
       <Filter>Module\ECS</Filter>
     </ClInclude>
+    <ClInclude Include="Base\Allocators\Allocator.h">
+      <Filter>Base\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Allocators\AllocatorProxy.h">
+      <Filter>Base\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Allocators\BlockAllocator.h">
+      <Filter>Base\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Allocators\BlockAllocatorProxy.h">
+      <Filter>Base\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Allocators\DynamicLinearAllocator.h">
+      <Filter>Base\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Allocators\EndAllocator.h">
+      <Filter>Base\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Allocators\FixedLinearAllocator.h">
+      <Filter>Base\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Allocators\FreeListAllocator.h">
+      <Filter>Base\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Allocators\LinearAllocator.h">
+      <Filter>Base\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Allocators\ProxyAllocator.h">
+      <Filter>Base\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Allocators\ScopeStack.h">
+      <Filter>Base\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Allocators\SmallBlockAllocator.h">
+      <Filter>Base\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Allocators\PointerMath.h">
+      <Filter>Base\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\ModManagement\ModContainer.h">
+      <Filter>Utility\ModManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Version.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\VulkanException.h">
+      <Filter>Module\Graphics\Fondamentals</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Base\Allocators\Allocator.inl">
-      <Filter>Base\Allocators</Filter>
-    </None>
-    <None Include="Base\Allocators\PointerMath.inl">
-      <Filter>Base\Allocators</Filter>
-    </None>
     <None Include="Base\Math\Rect.inl">
       <Filter>Base\Math</Filter>
     </None>
@@ -544,8 +560,8 @@
     <None Include="Module\ECS\ComponentManager.inl">
       <Filter>Module\ECS</Filter>
     </None>
-    <None Include="Gameplay\ghost.lua">
-      <Filter>Gameplay</Filter>
+    <None Include="Base\Allocators\Allocator.inl">
+      <Filter>Base\Allocators</Filter>
     </None>
   </ItemGroup>
 </Project>

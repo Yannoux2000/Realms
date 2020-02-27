@@ -137,13 +137,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Base\Allocators\Allocator.cpp" />
+    <ClCompile Include="Base\Allocators\BlockAllocator.cpp" />
+    <ClCompile Include="Base\Allocators\BlockAllocatorProxy.cpp" />
+    <ClCompile Include="Base\Allocators\DynamicLinearAllocator.cpp" />
+    <ClCompile Include="Base\Allocators\EndAllocator.cpp" />
+    <ClCompile Include="Base\Allocators\FixedLinearAllocator.cpp" />
     <ClCompile Include="Base\Allocators\FreeListAllocator.cpp" />
     <ClCompile Include="Base\Allocators\InvalidMemory.cpp" />
     <ClCompile Include="Base\Allocators\LinearAllocator.cpp" />
     <ClCompile Include="Base\Allocators\MasqueradeAllocator.cpp" />
-    <ClCompile Include="Base\Allocators\PoolAllocator.cpp" />
     <ClCompile Include="Base\Allocators\ProxyAllocator.cpp" />
-    <ClCompile Include="Base\Allocators\StackAllocator.cpp" />
+    <ClCompile Include="Base\Allocators\SmallBlockAllocator.cpp" />
     <ClCompile Include="Base\Logging\DebugConsoleLogger.cpp" />
     <ClCompile Include="Base\Logging\FileLogger.cpp" />
     <ClCompile Include="Base\Logging\ILogged.cpp" />
@@ -167,7 +171,6 @@
     <ClCompile Include="Module\Graphics\GraphicsManager_Old.cpp" />
     <ClCompile Include="Module\Graphics\IDrawable.cpp" />
     <ClCompile Include="Module\Graphics\IRenderer.cpp" />
-    <ClCompile Include="Module\Graphics\IRenderPipeline.cpp" />
     <ClCompile Include="Module\Graphics\IShaderProgram.cpp" />
     <ClCompile Include="Module\Graphics\MeshNameSanitizer.cpp" />
     <ClCompile Include="Module\Graphics\MeshRegister.cpp" />
@@ -180,6 +183,7 @@
     <ClCompile Include="Module\Graphics\VulkanBackend.cpp" />
     <ClCompile Include="Module\Graphics\VulkanDevice.cpp" />
     <ClCompile Include="Module\Graphics\VulkanEnvironment.cpp" />
+    <ClCompile Include="Module\Graphics\VulkanException.cpp" />
     <ClCompile Include="Module\Graphics\VulkanRenderPipeline.cpp" />
     <ClCompile Include="Module\Graphics\VulkanSwapChain.cpp" />
     <ClCompile Include="Module\Input\AssignSanitizer.cpp" />
@@ -200,13 +204,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base\Allocators\Allocator.h" />
+    <ClInclude Include="Base\Allocators\AllocatorProxy.h" />
+    <ClInclude Include="Base\Allocators\BlockAllocator.h" />
+    <ClInclude Include="Base\Allocators\BlockAllocatorProxy.h" />
+    <ClInclude Include="Base\Allocators\DynamicLinearAllocator.h" />
+    <ClInclude Include="Base\Allocators\EndAllocator.h" />
+    <ClInclude Include="Base\Allocators\FixedLinearAllocator.h" />
     <ClInclude Include="Base\Allocators\FreeListAllocator.h" />
     <ClInclude Include="Base\Allocators\InvalidMemory.h" />
     <ClInclude Include="Base\Allocators\LinearAllocator.h" />
     <ClInclude Include="Base\Allocators\MasqueradeAllocator.h" />
-    <ClInclude Include="Base\Allocators\PoolAllocator.h" />
+    <ClInclude Include="Base\Allocators\PointerMath.h" />
     <ClInclude Include="Base\Allocators\ProxyAllocator.h" />
-    <ClInclude Include="Base\Allocators\StackAllocator.h" />
+    <ClInclude Include="Base\Allocators\ScopeStack.h" />
+    <ClInclude Include="Base\Allocators\SmallBlockAllocator.h" />
     <ClInclude Include="Base\Logging\DebugConsoleLogger.h" />
     <ClInclude Include="Base\Logging\FileLogger.h" />
     <ClInclude Include="Base\Logging\ILogged.h" />
@@ -241,7 +252,6 @@
     <ClInclude Include="Module\Graphics\IDrawable.h" />
     <ClInclude Include="Module\Graphics\IMesh.h" />
     <ClInclude Include="Module\Graphics\IRenderer.h" />
-    <ClInclude Include="Module\Graphics\IRenderPipeline.h" />
     <ClInclude Include="Module\Graphics\IShaderProgram.h" />
     <ClInclude Include="Module\Graphics\MeshNameSanitizer.h" />
     <ClInclude Include="Module\Graphics\MeshRegister.h" />
@@ -261,6 +271,7 @@
     <ClInclude Include="Module\Graphics\VulkanBackend.h" />
     <ClInclude Include="Module\Graphics\VulkanDevice.h" />
     <ClInclude Include="Module\Graphics\VulkanEnvironment.h" />
+    <ClInclude Include="Module\Graphics\VulkanException.h" />
     <ClInclude Include="Module\Graphics\VulkanRenderPipeline.h" />
     <ClInclude Include="Module\Graphics\VulkanSwapChain.h" />
     <ClInclude Include="Module\Input\AssignSanitizer.h" />
@@ -288,7 +299,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Base\Allocators\Allocator.inl" />
-    <None Include="Base\Allocators\PointerMath.inl" />
     <None Include="Base\Math\Rect.inl" />
     <None Include="Base\Math\Vec.inl" />
     <None Include="Base\Math\Vec3.inl" />

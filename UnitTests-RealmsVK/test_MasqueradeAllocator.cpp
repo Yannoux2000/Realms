@@ -1,10 +1,10 @@
 #include "pch.h"
 #include "pch_allocators.h"
 
-#include "Base/Allocators/FreeListAllocator.h"
-#include "Base/Allocators/FreeListAllocator.cpp"
+#include "Base/Allocators/MasqueradeAllocator.h"
+#include "Base/Allocators/MasqueradeAllocator.cpp"
 
-class TestFreeListAllocator : public ::testing::Test {
+class TestMasqueradeAllocator : public ::testing::Test {
 protected:
 
 	class data_obj {
@@ -31,79 +31,49 @@ protected:
 	}
 };
 
-void* TestFreeListAllocator::large_mem;
-void* TestFreeListAllocator::small_mem;
+void* TestMasqueradeAllocator::large_mem;
+void* TestMasqueradeAllocator::small_mem;
 
-TEST_F (TestFreeListAllocator, proxy_test) {
+TEST_F (TestMasqueradeAllocator, proxy_test) {
 	ASSERT_TRUE (true);
 }
 
-TEST_F (TestFreeListAllocator, Proxy_init) {
-	FreeListAllocator alloc (small_size, small_mem);
+TEST_F (TestMasqueradeAllocator, Proxy_init) {
+	MasqueradeAllocator alloc (small_size, small_mem);
 	ASSERT_TRUE (true);
 }
 
-//TEST_F (TestFreeListAllocator, Proxy_alloc_desalloc) {
-//	data_obj* a = nullptr;
-//	ASSERT_NE (nullptr, large_mem);
-//	FreeListAllocator alloc (large_size, large_mem);
-//	{
-//		SCOPED_TRACE ("Before");
-//		ASSERT_EQ (alloc.getStart (), (void*)(alloc._free_blocks));
-//		ASSERT_EQ (alloc.getSize (), alloc._free_blocks->size);
-//	}
-//
-//	a = allocator::allocateNew<data_obj> (alloc);
-//	allocator::deallocateDelete<data_obj> (alloc, a);
-//
-//	{
-//		SCOPED_TRACE ("After");
-//		ASSERT_EQ (alloc.getStart (), (void*)(alloc._free_blocks));
-//		ASSERT_EQ (alloc.getSize (), alloc._free_blocks->size);
-//	}
-//}
-//TEST_F (TestFreeListAllocator, Proxy_getStart) {
-//	data_obj* a = nullptr;
-//	ASSERT_NE (nullptr, large_mem);
-//
-//	FreeListAllocator alloc (large_size, large_mem);
-//	{
-//		SCOPED_TRACE ("Init");
-//		ASSERT_EQ (large_mem, alloc.getStart ());
-//	}
-//
-//	a = allocator::allocateNew<data_obj> (alloc);
-//	{
-//		SCOPED_TRACE ("Alloc");
-//		ASSERT_EQ (large_mem, alloc.getStart ());
-//	}
-//
-//	allocator::deallocateDelete<data_obj> (alloc, a);
-//	{
-//		SCOPED_TRACE ("Dealloc");
-//		ASSERT_EQ (large_mem, alloc.getStart ());
-//	}
-//}
-
-TEST_F (TestFreeListAllocator, Proxy_data_obj_too_big) {
+TEST_F (TestMasqueradeAllocator, Proxy_alloc_desalloc) {
 	data_obj* a = nullptr;
-	ASSERT_NE (nullptr, small_mem);
-
-	FreeListAllocator alloc (small_size, small_mem);
+	ASSERT_NE (nullptr, large_mem);
+	MasqueradeAllocator alloc (large_size, large_mem);
 	{
 		SCOPED_TRACE ("Init");
-		ASSERT_EQ (small_size, alloc.getSize ());
+		ASSERT_EQ (large_size, alloc.getSize ());
+		ASSERT_EQ (0, alloc.getNumAllocations ());
 	}
-	ASSERT_ANY_THROW (
-		a = allocator::allocateNew<data_obj> (alloc);
-	);
+
+	a = allocator::allocateNew<data_obj> (alloc);
+	{
+		SCOPED_TRACE ("Alloc");
+		ASSERT_EQ (large_size, alloc.getSize ());
+		ASSERT_NE (0, alloc.getNumAllocations ());
+	}
+
+	allocator::deallocateDelete<data_obj> (alloc, a);
+
+	{
+		SCOPED_TRACE ("Dealloc");
+		ASSERT_EQ (large_size, alloc.getSize ());
+		ASSERT_EQ (0, alloc.getNumAllocations());
+	}
 }
 
-TEST_F (TestFreeListAllocator, Proxy_getSize) {
+TEST_F (TestMasqueradeAllocator, Proxy_getSize) {
 	data_obj* a = nullptr;
 	ASSERT_NE (nullptr, large_mem);
 
-	FreeListAllocator alloc (large_size, large_mem);
+	MasqueradeAllocator alloc (large_size, large_mem);
 	{
 		SCOPED_TRACE ("Init");
 		ASSERT_EQ (large_size, alloc.getSize ());
@@ -122,11 +92,11 @@ TEST_F (TestFreeListAllocator, Proxy_getSize) {
 	}
 }
 
-TEST_F (TestFreeListAllocator, Proxy_getNumAllocations) {
+TEST_F (TestMasqueradeAllocator, Proxy_getNumAllocations) {
 	data_obj* a = nullptr;
 	ASSERT_NE (nullptr, large_mem);
 
-	FreeListAllocator alloc (large_size, large_mem);
+	MasqueradeAllocator alloc (large_size, large_mem);
 	{
 		SCOPED_TRACE ("Init");
 		ASSERT_EQ (0, alloc.getNumAllocations ());
@@ -145,36 +115,13 @@ TEST_F (TestFreeListAllocator, Proxy_getNumAllocations) {
 	}
 }
 
-TEST_F (TestFreeListAllocator, Proxy_getUsedMemory) {
-	data_obj* a = nullptr;
-	ASSERT_NE (nullptr, large_mem);
-
-	FreeListAllocator alloc (large_size, large_mem);
-	{
-		SCOPED_TRACE ("Init");
-		ASSERT_EQ (0, alloc.getUsedMemory ());
-	}
-
-	a = allocator::allocateNew<data_obj> (alloc);
-	{
-		SCOPED_TRACE ("Alloc");
-		ASSERT_LT (data_obj_size, alloc.getUsedMemory ());
-	}
-
-	allocator::deallocateDelete<data_obj> (alloc, a);
-	{
-		SCOPED_TRACE ("Dealloc");
-		ASSERT_EQ (0, alloc.getUsedMemory ());
-	}
-}
-
-TEST_F (TestFreeListAllocator, Proxy_data_obj) {
+TEST_F (TestMasqueradeAllocator, Proxy_data_obj) {
 	data_obj* a = nullptr;
 
 	ASSERT_NE (nullptr, large_mem);
 	ASSERT_EQ (nullptr, a);
 
-	FreeListAllocator alloc (large_size, large_mem);
+	MasqueradeAllocator alloc (large_size, large_mem);
 	a = allocator::allocateNew<data_obj> (alloc);
 	{
 		SCOPED_TRACE ("Alloc");
@@ -184,11 +131,10 @@ TEST_F (TestFreeListAllocator, Proxy_data_obj) {
 	allocator::deallocateDelete<data_obj> (alloc, a);
 	{
 		SCOPED_TRACE ("Dealloc");
-		ASSERT_EQ (nullptr, a);
 	}
 }
 
-TEST_F (TestFreeListAllocator, Proxy_data_objs) {
+TEST_F (TestMasqueradeAllocator, Proxy_data_objs) {
 	data_obj* a, * b, * c, * d;
 	a = b = c = d = nullptr;
 
@@ -198,7 +144,7 @@ TEST_F (TestFreeListAllocator, Proxy_data_objs) {
 	ASSERT_EQ (nullptr, c);
 	ASSERT_EQ (nullptr, d);
 
-	FreeListAllocator alloc (large_size, large_mem);
+	MasqueradeAllocator alloc (large_size, large_mem);
 
 	c = allocator::allocateNew<data_obj> (alloc);
 	{
@@ -222,7 +168,6 @@ TEST_F (TestFreeListAllocator, Proxy_data_objs) {
 		allocator::deallocateDelete<data_obj> (alloc, c);
 		{
 			SCOPED_TRACE ("Dealloc");
-			ASSERT_EQ (nullptr, c);
 		}
 
 		b = allocator::allocateNew<data_obj> (alloc);
@@ -234,13 +179,11 @@ TEST_F (TestFreeListAllocator, Proxy_data_objs) {
 		allocator::deallocateDelete<data_obj> (alloc, b);
 		{
 			SCOPED_TRACE ("Dealloc");
-			ASSERT_EQ (nullptr, b);
 		}
 
 		allocator::deallocateDelete<data_obj> (alloc, d);
 		{
 			SCOPED_TRACE ("Dealloc");
-			ASSERT_EQ (nullptr, d);
 		}
 
 		c = allocator::allocateNew<data_obj> (alloc);
@@ -258,7 +201,6 @@ TEST_F (TestFreeListAllocator, Proxy_data_objs) {
 		allocator::deallocateDelete<data_obj> (alloc, a);
 		{
 			SCOPED_TRACE ("Dealloc");
-			ASSERT_EQ (nullptr, a);
 		}
 	}
 }

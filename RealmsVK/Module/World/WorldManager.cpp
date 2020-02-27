@@ -26,7 +26,7 @@ bool rlms::WorldManagerImpl::start (Allocator* const& alloc, size_t chunk_pool_s
 	startLogger (funnel);
 	logger->tag (LogTags::None) << "Initializing !" << '\n';
 
-	m_chunk_allocator = std::unique_ptr<FreeListAllocator> (new FreeListAllocator (alloc->allocate (chunk_pool_size), chunk_pool_size));
+	m_chunk_allocator = std::unique_ptr<FreeListAllocator> (new FreeListAllocator (chunk_pool_size, alloc->allocate (chunk_pool_size)));
 
 	WorldManager::n_errors = 0;
 	logger->tag (LogTags::None) << "Initialized correctly !" << '\n';

@@ -1,18 +1,31 @@
 #pragma once
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+///////////////// Tiago Costa, 2014
+/////////////////////////////////////////////////////////////////////////////////////////////
+
 #include "Allocator.h"
-class LinearAllocator : public Allocator {
-public:
-	LinearAllocator (void* start,const size_t size);
-	~LinearAllocator ();
 
-	void* allocate (size_t size, uint8_t alignment) override;
-	void deallocate (void*&& p) override;
-	void clear ();
+namespace rlms {
+	class LinearAllocator : public Allocator
+	{
+	public:
 
-private:
-	//Prevent copies because it might cause errors 
-	LinearAllocator (const LinearAllocator&);
-	LinearAllocator& operator=(const LinearAllocator&) = delete;
-	void* _current_pos;
+		LinearAllocator(size_t size, void* start);
+		virtual ~LinearAllocator();
+
+		//NoOp - Use rewind() or clear()
+		void  deallocate(void* p) override final;
+
+		void* getStart() const;
+		void* getMark() const;
+
+		virtual void rewind(void* mark) = 0;
+		virtual void clear() = 0;
+
+	protected:
+
+		void* _start;
+		void* _current_pos;
+	};
 };
-

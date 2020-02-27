@@ -49,7 +49,7 @@ void ComponentManagerImpl::start (Allocator* const& alloc, size_t comp_pool_size
 	startLogger (funnel);
 	logger->tag (LogTags::None) << "Initializing !" << '\n';
 
-	m_comp_Allocator = std::unique_ptr<alloc_type> (new alloc_type (alloc->allocate (comp_pool_size), comp_pool_size));
+	m_comp_Allocator = std::unique_ptr<alloc_type> (new alloc_type (comp_pool_size, alloc->allocate (comp_pool_size)));
 
 	_id_iter = 1;
 	ComponentManager::n_errors = 0;

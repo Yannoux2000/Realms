@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "pch_allocators.h"
-
+/*
 #include "Base/Allocators/LinearAllocator.h"
 #include "Base/Allocators/LinearAllocator.cpp"
 
@@ -40,7 +40,7 @@ TEST_F (TestLinearAllocator, Proxy_getStart) {
 	data_obj* a = nullptr;
 	ASSERT_NE (nullptr, small_mem);
 
-	LinearAllocator alloc (small_mem, small_size);
+	LinearAllocator alloc (small_size, small_mem);
 	{
 		SCOPED_TRACE ("Init");
 		ASSERT_EQ (small_mem, alloc.getStart ());
@@ -187,3 +187,4 @@ TEST_F (TestLinearAllocator, Proxy_data_objs) {
 
 	alloc.clear ();
 }
+*/

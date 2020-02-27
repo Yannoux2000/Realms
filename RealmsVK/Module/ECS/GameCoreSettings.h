@@ -1,8 +1,5 @@
 #pragma once
 
-#include "../../Utility/FileIO/SettingsFile.h"
-
-
 namespace rlms {
 
 	struct GameCoreSettings {

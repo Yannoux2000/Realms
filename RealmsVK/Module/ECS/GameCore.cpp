@@ -57,7 +57,7 @@ void GameCoreImpl::start (Allocator* const& alloc, size_t ecs_pool_size, std::sh
 	logger->tag (LogTags::None) << "Initializing !" << '\n';
 
 	//Valid
-	m_global_allocator = std::unique_ptr<alloc_type> (new alloc_type (alloc->allocate (ecs_pool_size), ecs_pool_size));
+	m_global_allocator = std::unique_ptr<alloc_type> (new alloc_type (ecs_pool_size, alloc->allocate (ecs_pool_size)));
 
 	EntityManager::Initialize (m_global_allocator.get (), ecs_pool_size / 4, logger);
 	ComponentManager::Initialize (m_global_allocator.get (), ecs_pool_size / 4, logger);

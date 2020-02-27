@@ -50,6 +50,7 @@
     <ClCompile Include="test_AssignSanitizer.cpp" />
     <ClCompile Include="test_FreeListAllocator.cpp" />
     <ClCompile Include="test_LinearAllocator.cpp" />
+    <ClCompile Include="test_MasqueradeAllocator.cpp" />
     <ClCompile Include="test_MeshSanitizer.cpp" />
     <ClCompile Include="test_PoolAllocator.cpp" />
     <ClCompile Include="test_ProxyAllocator.cpp" />

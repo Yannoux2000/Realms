@@ -1,25 +1,41 @@
 #include "ProxyAllocator.h"
 #include <cassert>
 
-ProxyAllocator::ProxyAllocator (void*& start, const size_t& size) : Allocator(start, size) {
+using namespace rlms;
+
+ProxyAllocator::ProxyAllocator(Allocator& allocator)
+	: Allocator(allocator.getSize()), _allocator(allocator)
+{
+
 }
 
-ProxyAllocator::~ProxyAllocator () {}
+ProxyAllocator::~ProxyAllocator()
+{
 
-void* ProxyAllocator::allocate (size_t size, uint8_t alignment) {
-	uint8_t adjustment = pointerMath::alignForwardAdjustment (_start, alignment);
+}
 
-	if (_used_memory + adjustment + size > _size) return nullptr;
+void* ProxyAllocator::allocate(size_t size, uint8_t alignment)
+{
+	assert(size != 0);
 
-	uintptr_t  aligned_address = (uintptr_t)_start + adjustment;
-	_used_memory += size + adjustment;
 	_num_allocations++;
 
-	return (void*)aligned_address;
+	size_t mem = _allocator.getUsedMemory();
+
+	void* p = _allocator.allocate(size, alignment);
+
+	_used_memory += _allocator.getUsedMemory() - mem;
+
+	return p;
 }
 
-void ProxyAllocator::deallocate (void*&& p) {
-	_used_memory = 0;
-	_num_allocations = 0;
-	p = nullptr;
+void ProxyAllocator::deallocate(void* p)
+{
+	_num_allocations--;
+
+	size_t mem = _allocator.getUsedMemory();
+
+	_allocator.deallocate(p);
+
+	_used_memory -= mem - _allocator.getUsedMemory();
 }

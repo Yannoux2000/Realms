@@ -1,5 +1,6 @@
 #include "VulkanSwapChain.h"
 #include "AspectRatio.h"
+#include "VulkanException.h"
 #include <algorithm>
 
 using namespace rlms;
@@ -104,7 +105,7 @@ void VulkanSwapChain::createSwapChain (VulkanDevice& device, VkSurfaceKHR& surfa
 	createInfo.oldSwapchain = VK_NULL_HANDLE;
 
 	if (vkCreateSwapchainKHR (device.getDevice (), &createInfo, nullptr, &(_swapChain)) != VK_SUCCESS) {
-		throw std::runtime_error ("failed to create swap chain!");
+		throw FailedSwapChain ();
 	}
 
 	vkGetSwapchainImagesKHR (device.getDevice (), _swapChain, &imageCount, nullptr);
@@ -135,7 +136,7 @@ void VulkanSwapChain::createImageViews (VulkanDevice& device) {
 		createInfo.subresourceRange.layerCount = 1;
 
 		if (vkCreateImageView (device.getDevice (), &createInfo, nullptr, &(_imageViews[i])) != VK_SUCCESS) {
-			throw std::runtime_error ("failed to create image views!");
+			throw FailedImageViews ();
 		}
 	}
 }
@@ -158,7 +159,7 @@ void VulkanSwapChain::createFramebuffers (VulkanDevice& device, VkRenderPass& re
 		framebufferInfo.layers = 1;
 
 		if (vkCreateFramebuffer (device.getDevice (), &framebufferInfo, nullptr, &(_framebuffers[i])) != VK_SUCCESS) {
-			throw std::runtime_error ("failed to create framebuffer!");
+			throw FailedFramebuffer ();
 		}
 	}
 }

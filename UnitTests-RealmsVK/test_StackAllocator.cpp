@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "pch_allocators.h"
-
+/*
 #include "Base/Allocators/StackAllocator.cpp"
 
 class TestStackAllocator : public ::testing::Test {
@@ -145,3 +145,4 @@ TEST_F (TestStackAllocator, data_obj) {
 		ASSERT_EQ (nullptr, a);
 	}
 }
+*/
