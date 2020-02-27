@@ -151,6 +151,7 @@
     <ClCompile Include="Base\Logging\LoggerHandler.cpp" />
     <ClCompile Include="Base\Logging\LogTime.cpp" />
     <ClCompile Include="Base\Math\VoxelMath.cpp" />
+    <ClCompile Include="Base\Version.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Module\ECS\ComponentManager.cpp" />
     <ClCompile Include="Module\ECS\Entity.cpp" />
@@ -186,18 +187,16 @@
     <ClCompile Include="Module\Input\InputAssignement.cpp" />
     <ClCompile Include="Module\Input\InputManager.cpp" />
     <ClCompile Include="Module\Input\InputMap.cpp" />
+    <ClCompile Include="Module\LuaBindings\lua.cpp" />
     <ClCompile Include="Module\World\BlockPrototype.cpp" />
     <ClCompile Include="Module\World\BlockRegister.cpp" />
     <ClCompile Include="Module\World\Chunk.cpp" />
     <ClCompile Include="Module\World\ChunkManager.cpp" />
     <ClCompile Include="Module\World\World.cpp" />
     <ClCompile Include="Module\World\WorldManager.cpp" />
-    <ClCompile Include="Utility\FileIO\SettingsFile.cpp" />
-    <ClCompile Include="Utility\FileIO\SettingValue.cpp" />
     <ClCompile Include="Utility\FileIO\Voxelite.cpp" />
     <ClCompile Include="Utility\FileIO\VoxFileParser.cpp" />
-    <ClCompile Include="Utility\ModManagement\IModContainer.cpp" />
-    <ClCompile Include="Utility\ModManagement\ModLoader.cpp" />
+    <ClCompile Include="Utility\ModManagement\ModContainer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base\Allocators\Allocator.h" />
@@ -221,6 +220,7 @@
     <ClInclude Include="Base\Math\Vec3.h" />
     <ClInclude Include="Base\Math\VoxelMath.h" />
     <ClInclude Include="Base\Exception.h" />
+    <ClInclude Include="Base\Version.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="CoreTypes.h" />
     <ClInclude Include="Initializer.h" />
@@ -279,12 +279,9 @@
     <ClInclude Include="RealmApplication.h" />
     <ClInclude Include="RealmApplication_old.h" />
     <ClInclude Include="RealmsVK.h" />
-    <ClInclude Include="Utility\FileIO\SettingsFile.h" />
-    <ClInclude Include="Utility\FileIO\SettingValue.h" />
     <ClInclude Include="Utility\FileIO\Voxelite.h" />
     <ClInclude Include="Utility\FileIO\VoxFileParser.h" />
-    <ClInclude Include="Utility\ModManagement\IModContainer.h" />
-    <ClInclude Include="Utility\ModManagement\ModLoader.h" />
+    <ClInclude Include="Utility\ModManagement\ModContainer.h" />
     <ClInclude Include="VKExemple.h" />
     <ClInclude Include="_MemLeakMonitor.h" />
     <ClInclude Include="_Preprocess.h" />
@@ -295,7 +292,6 @@
     <None Include="Base\Math\Rect.inl" />
     <None Include="Base\Math\Vec.inl" />
     <None Include="Base\Math\Vec3.inl" />
-    <None Include="Gameplay\ghost.lua" />
     <None Include="Module\ECS\ComponentManager.inl" />
     <None Include="Module\ECS\Entity.inl" />
   </ItemGroup>

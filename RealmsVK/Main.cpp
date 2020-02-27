@@ -46,15 +46,20 @@ int main () {
 	if (lua_istable (L, -1)) {
 		std::cout << "ghost is table" << std::endl;
 	}
+	
 	lua_getfield (L, -1, "TransformComponent");
 	if (lua_istable (L, -1)) {
 		std::cout << "TransformComponent is table" << std::endl;
 	}
+
 	lua_getfield (L, -1, "phrase");
 	if (lua_isstring (L, -1)) {
 		std::string phrase (lua_tostring (L, -1));
 		std::cout << "phrase is "<< phrase << std::endl;
 	}
+
+	luaL_dostring (L, "ghost[\"TransformComponent\"][\"phrase\"]");
+
 	lua_close (L);
 
 	return EXIT_SUCCESS;

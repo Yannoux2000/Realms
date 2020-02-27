@@ -2,7 +2,8 @@
 
 #include "../../CoreTypes.h"
 #include "../../Base/Exception.h"
-#include "../../Base/Allocators/FreeListAllocator.h"
+//#include "../../Base/Allocators/FreeListAllocator.h"
+#include "../../Base/Allocators/MasqueradeAllocator.h"
 #include "../../Base/Logging/ILogged.h"
 #include "IMesh.h"
 
@@ -18,12 +19,14 @@ namespace rlms {
 		std::map<IMESH_TYPE_ID, IMesh*> m_register;
 		//links an id to one or multiples names
 		std::map<std::string, IMESH_TYPE_ID> m_dict;
-
-		std::unique_ptr<FreeListAllocator> m_model_Allocator;
 		
 		std::string getLogName () override {
 			return "MeshRegister";
 		};
+
+		using alloc_type = MasqueradeAllocator;
+
+		std::unique_ptr<alloc_type> m_model_Allocator;
 
 		void start (Allocator* const& alloc, size_t mesh_pool_size, std::shared_ptr<Logger> funnel = nullptr);
 		void stop ();

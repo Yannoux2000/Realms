@@ -8,7 +8,7 @@ public:
 	virtual ~Allocator ();
 
 	virtual void* allocate (size_t size, uint8_t alignment = DEFAULT_ALIGNMENT) = 0;
-	virtual void deallocate (void*&& p) = 0;
+	virtual void deallocate (void* p) = 0;
 
 	void* getStart () const;
 	size_t getSize () const;
