@@ -29,7 +29,7 @@ template<class C> inline C* ComponentManager::GetComponent (ENTITY_ID e_id) {
 }
 
 template<class C> std::vector<C*> ComponentManager::GetComponents () {
-	return;
+	return instance->getComponents<C>();
 }
 
 template<class C> void ComponentManager::DestroyComponent (Entity* entity) {

@@ -1,6 +1,5 @@
 #pragma once
-
-#include "CoreTypes.h"
+#include "../../CoreTypes.h"
 
 namespace rlms {
 	class ISystem {
@@ -10,9 +9,7 @@ namespace rlms {
 
 		virtual void start () = 0;
 
-		virtual void  preUpdate (GAME_TICK_TYPE dt) = 0;
-		virtual void  update (GAME_TICK_TYPE dt) = 0;
-		virtual void  postUpdate (GAME_TICK_TYPE dt) = 0;
+		virtual void update () = 0;
 
 		virtual void stop () = 0;
 	};

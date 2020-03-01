@@ -5,7 +5,8 @@
 #include "Base/Logging/FileLogger.h"
 
 #include "Base/Allocators/ProxyAllocator.h"
-#include "Base/Allocators/StackAllocator.h"
+//#include "Base/Allocators/StackAllocator.h"
+#include "Base/Allocators/MasqueradeAllocator.h"
 
 #include "Utility/FileIO/VoxFileParser.h"
 
@@ -33,7 +34,7 @@
 namespace rlms {
 	class RealmApplication : public ILogged {
 	private:
-		using _allocType = StackAllocator;
+		using _allocType = MasqueradeAllocator;
 
 
 	public:
@@ -180,7 +181,7 @@ namespace rlms {
 			rlms::GameCore::Initialize (app_alloc.get (), stgs.memory.ecs_size, logger);
 
 			logger->tag (LogTags::Dev) << "Testing GameCore's Entity system.\n";
-
+/*
 			ENTITY_ID e = Entity::NULL_ID;
 			Entity* p_e;
 			//e = rlms::EntityManager::Create ();
@@ -214,7 +215,7 @@ namespace rlms {
 
 				logger->tag (LogTags::Dev) << p_e->getType () << " says :" << comp->phrase << "\n";
 			}
-			logger->tag (LogTags::Dev) << "Tests done!\n";
+			logger->tag (LogTags::Dev) << "Tests done!\n";*/
 		}
 
 		void InputLoop () {

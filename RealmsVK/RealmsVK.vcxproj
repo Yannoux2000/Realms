@@ -161,7 +161,9 @@
     <ClCompile Include="Module\ECS\Entity.cpp" />
     <ClCompile Include="Module\ECS\EntityManager.cpp" />
     <ClCompile Include="Module\ECS\GameCore.cpp" />
+    <ClCompile Include="Module\ECS\ISystem.cpp" />
     <ClCompile Include="Module\ECS\MeshComponent.cpp" />
+    <ClCompile Include="Module\ECS\SystemManager.cpp" />
     <ClCompile Include="Module\Graphics\AspectRatio.cpp" />
     <ClCompile Include="Module\Graphics\Camera.cpp" />
     <ClCompile Include="Module\Graphics\GameRenderer.cpp" />
@@ -191,7 +193,13 @@
     <ClCompile Include="Module\Input\InputAssignement.cpp" />
     <ClCompile Include="Module\Input\InputManager.cpp" />
     <ClCompile Include="Module\Input\InputMap.cpp" />
+    <ClCompile Include="Module\LuaBindings\Bindings_Component.cpp" />
+    <ClCompile Include="Module\LuaBindings\Bindings_ComponentManager.cpp" />
+    <ClCompile Include="Module\LuaBindings\Bindings_Entity.cpp" />
     <ClCompile Include="Module\LuaBindings\lua.cpp" />
+    <ClCompile Include="Module\LuaBindings\Bindings_EntityManager.cpp" />
+    <ClCompile Include="Module\LuaBindings\LuaComponent.cpp" />
+    <ClCompile Include="Module\LuaBindings\LuaComponentPrototype.cpp" />
     <ClCompile Include="Module\World\BlockPrototype.cpp" />
     <ClCompile Include="Module\World\BlockRegister.cpp" />
     <ClCompile Include="Module\World\Chunk.cpp" />
@@ -218,6 +226,7 @@
     <ClInclude Include="Base\Allocators\ProxyAllocator.h" />
     <ClInclude Include="Base\Allocators\ScopeStack.h" />
     <ClInclude Include="Base\Allocators\SmallBlockAllocator.h" />
+    <ClInclude Include="Base\IBase.h" />
     <ClInclude Include="Base\Logging\DebugConsoleLogger.h" />
     <ClInclude Include="Base\Logging\FileLogger.h" />
     <ClInclude Include="Base\Logging\ILogged.h" />
@@ -234,13 +243,14 @@
     <ClInclude Include="Base\Version.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="CoreTypes.h" />
-    <ClInclude Include="Initializer.h" />
     <ClInclude Include="Module\ECS\ComponentManager.h" />
     <ClInclude Include="Module\ECS\Entity.h" />
     <ClInclude Include="Module\ECS\EntityManager.h" />
     <ClInclude Include="Module\ECS\GameCore.h" />
     <ClInclude Include="Module\ECS\IComponent.h" />
+    <ClInclude Include="Module\ECS\ISystem.h" />
     <ClInclude Include="Module\ECS\MeshComponent.h" />
+    <ClInclude Include="Module\ECS\SystemManager.h" />
     <ClInclude Include="Module\ECS\TransformComponent.h" />
     <ClInclude Include="Module\Graphics\AspectRatio.h" />
     <ClInclude Include="Module\Graphics\Camera.h" />
@@ -279,7 +289,13 @@
     <ClInclude Include="Module\Input\InputAssignement.h" />
     <ClInclude Include="Module\Input\InputManager.h" />
     <ClInclude Include="Module\Input\InputMap.h" />
+    <ClInclude Include="Module\LuaBindings\Bindings_Component.h" />
+    <ClInclude Include="Module\LuaBindings\Bindings_ComponentManager.h" />
+    <ClInclude Include="Module\LuaBindings\Bindings_Entity.h" />
     <ClInclude Include="Module\LuaBindings\lua.h" />
+    <ClInclude Include="Module\LuaBindings\Bindings_EntityManager.h" />
+    <ClInclude Include="Module\LuaBindings\LuaComponent.h" />
+    <ClInclude Include="Module\LuaBindings\LuaComponentPrototype.h" />
     <ClInclude Include="Module\World\Block.h" />
     <ClInclude Include="Module\World\BlockPrototype.h" />
     <ClInclude Include="Module\World\BlockRegister.h" />
@@ -304,6 +320,7 @@
     <None Include="Base\Math\Vec3.inl" />
     <None Include="Module\ECS\ComponentManager.inl" />
     <None Include="Module\ECS\Entity.inl" />
+    <None Include="Module\ECS\SystemManager.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

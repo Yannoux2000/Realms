@@ -83,8 +83,9 @@ IMESH_TYPE_ID rlms::MeshRegister::getId (std::string const& alias) {
 	auto it = m_dict.find (alias);
 	if (it == m_dict.end ()) {
 		throw Exception ("Mesh not found");
+
 	}
-	IMESH_TYPE_ID const type_id = it->second;
+	return it->second;
 }
 
 std::string rlms::MeshRegister::getAlias (IMESH_TYPE_ID const& type_id) {

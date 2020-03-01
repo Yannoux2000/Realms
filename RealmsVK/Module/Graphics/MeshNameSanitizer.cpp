@@ -34,7 +34,7 @@ std::string rlms::MeshNameSanitizer::IncrementAlias (std::string name) {
 	if (m.size () >= 1) {
 		//there is an increment already
 		num = std::stoi (m[1].str ()) + 1;
-		num_size = m[1].str ().length ();
+		num_size = static_cast<int>(m[1].str ().length ());
 
 	} else {
 		if (name.size () < 30) {
@@ -45,9 +45,9 @@ std::string rlms::MeshNameSanitizer::IncrementAlias (std::string name) {
 		}
 	}
 
-	it_first = newname.end () - (num_size + 1L);
-	it_last = newname.end ();
-	newname = newname.replace (newname.end () - (num_size + 1L), newname.end (), "_" + std::to_string (num));//replace last increment with new one
+	it_first = newname.end () - (num_size + 1);
+	//it_last = newname.end ();
+	newname = newname.replace (it_first, newname.end (), "_" + std::to_string (num));//replace last increment with new one
 
 	return newname;
 }

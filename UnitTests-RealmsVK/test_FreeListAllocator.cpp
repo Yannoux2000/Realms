@@ -42,7 +42,7 @@ TEST_F (TestFreeListAllocator, Proxy_init) {
 	FreeListAllocator alloc (small_size, small_mem);
 	ASSERT_TRUE (true);
 }
-
+/*
 //TEST_F (TestFreeListAllocator, Proxy_alloc_desalloc) {
 //	data_obj* a = nullptr;
 //	ASSERT_NE (nullptr, large_mem);
@@ -262,3 +262,4 @@ TEST_F (TestFreeListAllocator, Proxy_data_objs) {
 		}
 	}
 }
+*/

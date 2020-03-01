@@ -1,4 +1,5 @@
 #include "AspectRatio.h"
+#include <cmath>
 
 using namespace rlms;
 
@@ -32,10 +33,10 @@ const float rlms::AspectRatioImpl::ratio () {
 }
 
 const unsigned int rlms::AspectRatioImpl::relativeWidth (float const& ratio) {
-	return (std::round (ratio * m_width));
+	return static_cast<unsigned int>(std::round (ratio * static_cast<float>(m_width)));
 }
 const unsigned int rlms::AspectRatioImpl::relativeHeight (float const& ratio) {
-	return (std::round (ratio * m_height));
+	return static_cast<unsigned int>(std::round (ratio * static_cast<float>(m_height)));
 }
 
 std::unique_ptr<rlms::AspectRatioImpl> rlms::AspectRatio::instance;

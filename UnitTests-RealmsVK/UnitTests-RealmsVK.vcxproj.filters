@@ -33,12 +33,44 @@
     <ClCompile Include="test_MasqueradeAllocator.cpp">
       <Filter>Base\Allocators</Filter>
     </ClCompile>
+    <ClCompile Include="test_Entity.cpp">
+      <Filter>Modules\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="test_EntityManager.cpp">
+      <Filter>Modules\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="pch_loggers.cpp" />
+    <ClCompile Include="test_Bindings_EntityManager.cpp">
+      <Filter>Modules\LuaBindings</Filter>
+    </ClCompile>
+    <ClCompile Include="test_Bindings_Entity.cpp">
+      <Filter>Modules\LuaBindings</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Vec3.cpp">
+      <Filter>Base\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="test_IComponent.cpp">
+      <Filter>Modules\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="test_ComponentManager.cpp">
+      <Filter>Modules\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="test_ECS.cpp">
+      <Filter>Modules\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="test_Bindings_Component.cpp">
+      <Filter>Modules\LuaBindings</Filter>
+    </ClCompile>
+    <ClCompile Include="test_Bindings_ComponentManager.cpp">
+      <Filter>Modules\LuaBindings</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="pch_allocators.h">
       <Filter>Base\Allocators</Filter>
     </ClInclude>
+    <ClInclude Include="pch_loggers.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -58,6 +90,12 @@
     </Filter>
     <Filter Include="Modules\Graphics">
       <UniqueIdentifier>{bac25b5e-087b-4c54-baec-adb999cc7bb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\LuaBindings">
+      <UniqueIdentifier>{9f51e2b9-506e-4108-b38d-cf31739431e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\ECS">
+      <UniqueIdentifier>{ecece84e-65b5-49c7-89f6-2a93b930399d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

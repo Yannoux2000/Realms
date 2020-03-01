@@ -39,7 +39,7 @@ void rlms::IRenderer::bind (IDrawable* drawable) {
 }
 
 void rlms::IRenderer::draw (bool const single) {
-	m_shader->draw (vertex_count);
+	m_shader->draw (static_cast<unsigned int>(vertex_count));
 	if (single) vertex_count = 0;
 }
 

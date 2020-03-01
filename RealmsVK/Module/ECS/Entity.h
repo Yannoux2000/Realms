@@ -4,6 +4,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include "../../CoreTypes.h"
+#include "../../Base/IBase.h"
 #include "IComponent.h"
 
 #include <map>
@@ -17,7 +18,7 @@ namespace rlms {
 	///        not grid based.
 	///
 	////////////////////////////////////////////////////////////
-	class Entity {
+	class Entity : public IBase {
 	private:
 
 		////////////////////////////////////////////////////////////
@@ -26,7 +27,6 @@ namespace rlms {
 		std::string type; ///< name for this type of entity
 		std::map<std::type_index, IComponent*> _components; ///< internal references to components, the map forces all components to be unique
 		ENTITY_ID _id;	///< internal id of this entity
-
 	public:
 
 		////////////////////////////////////////////////////////////
@@ -105,7 +105,6 @@ namespace rlms {
 		////////////////////////////////////////////////////////////
 		void rem (IComponent*& comp_ptr);
 
-
 		////////////////////////////////////////////////////////////
 		/// \brief getter & setter for this entity's type
 		///
@@ -113,12 +112,13 @@ namespace rlms {
 		///
 		////////////////////////////////////////////////////////////
 		void setType (const std::string& type) {
-			this->type = type;
+			this->type = type.substr(0,32);
 		}
 
 		std::string getType () const {
 			return type;
 		}
+
 		////////////////////////////////////////////////////////////
 		// Static member data
 		////////////////////////////////////////////////////////////

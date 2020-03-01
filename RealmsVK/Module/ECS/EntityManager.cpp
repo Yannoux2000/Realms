@@ -93,7 +93,6 @@ void EntityManagerImpl::stop () {
 	logger->tag (LogTags::None) << "Stopping !" << '\n';
 
 	for (auto it = m_lookup_table.begin(); it != m_lookup_table.end(); it++) {
-		it->second->~Entity ();
 		allocator::deallocateDelete (*m_entity_Allocator.get (), it->second);
 	}
 
@@ -157,6 +156,13 @@ const ENTITY_ID EntityManagerImpl::createEntity (ENTITY_ID id) {
 }
 
 bool EntityManagerImpl::hasEntity (ENTITY_ID id) {
+	//Id is invalid
+	if (!EntityManager::isValid (id)) {
+		logger->tag (LogTags::Error) << "ID is invalid !" << '\n';
+		EntityManager::n_errors++;
+		return false;
+	}
+
 	return m_lookup_table.find (id) != m_lookup_table.end ();
 }
 
@@ -201,7 +207,6 @@ void EntityManagerImpl::destroyEntity (ENTITY_ID id) {
 		return;
 	}
 
-	it->second->~Entity ();
 	allocator::deallocateDelete (*m_entity_Allocator.get (), it->second);
 	m_lookup_table.erase (id);
 }

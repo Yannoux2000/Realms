@@ -9,7 +9,13 @@ namespace rlms {
 
 		void* allocate (size_t size, uint8_t alignment) override;
 		void deallocate (void* p) override;
+
+		void* getStart () {
+			return _start;
+		}
+
 	private:
 		std::vector<void*> _alloc;
+		void* _start;
 	};
 }

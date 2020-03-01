@@ -66,7 +66,7 @@ private:
 		InputManager::Update (std::move(mbi));
 	}
 	static void CursorPosFunction (GLFWwindow* window, double posx, double posy) {
-		auto m_pos = Vec2i (floor<int> (posx), floor<int> (posy));
+		auto m_pos = Vec2i (static_cast<int>(floor (posx)), static_cast<int>(floor (posy)));
 		InputManager::UpdateCursor (m_pos);
 	}
 	static void KeyboardFunction (GLFWwindow* window, int key, int scancode, int action, int mods) {
@@ -74,7 +74,7 @@ private:
 		InputManager::Update (std::move (ki));
 	}
 	static void MouseScrollFunction (GLFWwindow* window, double xoffset, double yoffset) {
-		auto m_offset = Vec2i (floor<int> (xoffset), floor<int> (yoffset));
+		auto m_offset = Vec2i (static_cast<int>(floor (xoffset)), static_cast<int>(floor (yoffset)));
 		InputManager::UpdateScroll (m_offset);
 	}
 

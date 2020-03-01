@@ -56,9 +56,6 @@
     <ClCompile Include="Module\Graphics\IRenderer.cpp">
       <Filter>Module\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Module\Graphics\StaticMesh.cpp">
-      <Filter>Module\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Module\Graphics\GameShaderProgram.cpp">
       <Filter>Module\Graphics\Game</Filter>
     </ClCompile>
@@ -94,12 +91,6 @@
     </ClCompile>
     <ClCompile Include="Module\Input\InputMap.cpp">
       <Filter>Module\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Module\Graphics\MeshNameSanitizer.cpp">
-      <Filter>Module\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Module\Graphics\MeshRegister.cpp">
-      <Filter>Module\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Module\Graphics\GLError.cpp">
       <Filter>Module\Graphics</Filter>
@@ -152,7 +143,6 @@
     <ClCompile Include="Module\ECS\MeshComponent.cpp">
       <Filter>Module\ECS</Filter>
     </ClCompile>
-    <ClCompile Include="Module\LuaBindings\lua.cpp" />
     <ClCompile Include="Base\Allocators\Allocator.cpp">
       <Filter>Base\Allocators</Filter>
     </ClCompile>
@@ -191,6 +181,42 @@
     </ClCompile>
     <ClCompile Include="Module\Graphics\VulkanException.cpp">
       <Filter>Module\Graphics\Fondamentals</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\MeshNameSanitizer.cpp">
+      <Filter>Module\Graphics\Meshs</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\MeshRegister.cpp">
+      <Filter>Module\Graphics\Meshs</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\StaticMesh.cpp">
+      <Filter>Module\Graphics\Meshs</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\ECS\ISystem.cpp">
+      <Filter>Module\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\ECS\SystemManager.cpp">
+      <Filter>Module\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\LuaBindings\lua.cpp">
+      <Filter>Module\LuaBindings</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\LuaBindings\Bindings_EntityManager.cpp">
+      <Filter>Module\LuaBindings</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\LuaBindings\Bindings_Entity.cpp">
+      <Filter>Module\LuaBindings</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\LuaBindings\Bindings_Component.cpp">
+      <Filter>Module\LuaBindings</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\LuaBindings\Bindings_ComponentManager.cpp">
+      <Filter>Module\LuaBindings</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\LuaBindings\LuaComponent.cpp">
+      <Filter>Module\LuaBindings</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\LuaBindings\LuaComponentPrototype.cpp">
+      <Filter>Module\LuaBindings</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -272,6 +298,9 @@
     <Filter Include="Module\LuaBindings">
       <UniqueIdentifier>{53ef8bee-f1d6-46d0-b0bd-069fbe3fbf73}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Module\Graphics\Meshs">
+      <UniqueIdentifier>{ebae185f-b341-49a7-9c60-f442a2248407}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_MemLeakMonitor.h" />
@@ -304,7 +333,6 @@
     <ClInclude Include="Module\World\WorldManager.h">
       <Filter>Module\World</Filter>
     </ClInclude>
-    <ClInclude Include="Initializer.h" />
     <ClInclude Include="RealmApplication.h">
       <Filter>Application</Filter>
     </ClInclude>
@@ -351,16 +379,10 @@
     <ClInclude Include="Module\Graphics\IDrawable.h">
       <Filter>Module\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Module\Graphics\IMesh.h">
-      <Filter>Module\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Module\Graphics\IRenderer.h">
       <Filter>Module\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Module\Graphics\OpenGL.h">
-      <Filter>Module\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Module\Graphics\StaticMesh.h">
       <Filter>Module\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Module\Graphics\GameShaderProgram.h">
@@ -419,12 +441,6 @@
     </ClInclude>
     <ClInclude Include="RealmApplication_old.h">
       <Filter>Application</Filter>
-    </ClInclude>
-    <ClInclude Include="Module\Graphics\MeshNameSanitizer.h">
-      <Filter>Module\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Module\Graphics\MeshRegister.h">
-      <Filter>Module\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="RealmsVK.h">
       <Filter>Application</Filter>
@@ -543,6 +559,45 @@
     <ClInclude Include="Module\Graphics\VulkanException.h">
       <Filter>Module\Graphics\Fondamentals</Filter>
     </ClInclude>
+    <ClInclude Include="Module\Graphics\MeshNameSanitizer.h">
+      <Filter>Module\Graphics\Meshs</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\MeshRegister.h">
+      <Filter>Module\Graphics\Meshs</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\StaticMesh.h">
+      <Filter>Module\Graphics\Meshs</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\IMesh.h">
+      <Filter>Module\Graphics\Meshs</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\ECS\ISystem.h">
+      <Filter>Module\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\ECS\SystemManager.h">
+      <Filter>Module\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\LuaBindings\Bindings_EntityManager.h">
+      <Filter>Module\LuaBindings</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\LuaBindings\Bindings_Entity.h">
+      <Filter>Module\LuaBindings</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\LuaBindings\Bindings_Component.h">
+      <Filter>Module\LuaBindings</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\IBase.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\LuaBindings\Bindings_ComponentManager.h">
+      <Filter>Module\LuaBindings</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\LuaBindings\LuaComponent.h">
+      <Filter>Module\LuaBindings</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\LuaBindings\LuaComponentPrototype.h">
+      <Filter>Module\LuaBindings</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Base\Math\Rect.inl">
@@ -562,6 +617,9 @@
     </None>
     <None Include="Base\Allocators\Allocator.inl">
       <Filter>Base\Allocators</Filter>
+    </None>
+    <None Include="Module\ECS\SystemManager.inl">
+      <Filter>Module\ECS</Filter>
     </None>
   </ItemGroup>
 </Project>
