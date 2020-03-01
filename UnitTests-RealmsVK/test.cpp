@@ -1,6 +1,7 @@
 #include "pch.h"
 
-TEST(TestCaseName, TestName) {
-  EXPECT_EQ(1, 1);
-  EXPECT_TRUE(true);
+TEST(UnitTest, ToolTest) {
+	//if even this test fails then don't blame me
+	EXPECT_EQ(1, 1);
+	EXPECT_TRUE(true);
 }

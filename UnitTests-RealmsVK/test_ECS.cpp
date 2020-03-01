@@ -3,6 +3,7 @@
 
 #include "Base/Allocators/MasqueradeAllocator.h"
 #include "Module/ECS/GameCore.h"
+#include "Module/ECS/GameCore.cpp"
 
 class TestECSManager : public ::testing::Test {
 protected:
@@ -24,6 +25,6 @@ protected:
 void* TestECSManager::mem_ptr;
 
 
-TEST_F (TestComponentManager, proxy_test) {
+TEST_F (TestECSManager, proxy_test) {
 	ASSERT_TRUE (true);
 }

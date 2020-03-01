@@ -64,6 +64,9 @@
     <ClCompile Include="test_Bindings_ComponentManager.cpp">
       <Filter>Modules\LuaBindings</Filter>
     </ClCompile>
+    <ClCompile Include="test_LuaComponentPrototype.cpp">
+      <Filter>Modules\LuaBindings</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

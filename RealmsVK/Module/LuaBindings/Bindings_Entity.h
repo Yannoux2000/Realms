@@ -3,6 +3,7 @@
 
 #include "../ECS/Entity.h"
 #include "../ECS/EntityManager.h"
+#include "../../Base/IBase.h"
 
 #include <sstream>
 
@@ -23,17 +24,24 @@ namespace rlms {
 		static int Bind_ToString (lua_State* L) {
 			assert (lua_istable (L, -1));
 
-			std::ostringstream ss;
+			std::ostringstream ss("");
+
 			lua_pushstring (L, "_ref");
 			lua_rawget (L, -2);
-			try {
-				Entity* e = static_cast<Entity*>(lua_touserdata (L, -1));
+			IBase* b = static_cast<IBase*>(lua_touserdata (L, -1));
+			if (IBase::is<Entity*> (b)) {
+				Entity* e = IBase::to<Entity*> (b);
 
-			} catch (const std::exception&) {
+				//TO STRING
+				ss << "{";
 
+				ss << "} setmetatable()";
+
+			} else {
+				ss << "nil";
 			}
 
-
+			lua_pushstring (L, ss.str().c_str());
 			return 1;
 		}
 
@@ -154,12 +162,17 @@ namespace rlms {
 			lua_pushcfunction (L, Bind_Delete);
 			lua_setfield (L, -2, "delete");
 
+
+
 			luaL_newmetatable (L, "EntityMetaTable");
 			lua_pushcfunction (L, Bind_Index);
 			lua_setfield (L, -2, "__index");
 
 			lua_pushcfunction (L, Bind_NewIndex);
 			lua_setfield (L, -2, "__newindex");
+
+			lua_pushcfunction (L, Bind_ToString);
+			lua_setfield (L, -2, "__tostring");
 
 		}
 	};

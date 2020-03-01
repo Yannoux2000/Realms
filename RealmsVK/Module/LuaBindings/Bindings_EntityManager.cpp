@@ -1,7 +1,9 @@
 #include "Bindings_EntityManager.h"
+#include "Bindings_Entity.h"
+
+using namespace rlms;
 
 //static int rlms::EntityManager::n_errors ;
-
 int rlms::Bindings_EntityManager::Bind_GetNErrors (lua_State* L) {
 	lua_pushinteger (L, rlms::EntityManager::n_errors);
 	return 1;
@@ -21,7 +23,6 @@ int rlms::Bindings_EntityManager::Bind_NErrors (lua_State* L) {
 }
 
 //static bool isValid (ENTITY_ID id);
-
 int rlms::Bindings_EntityManager::Bind_isValid (lua_State* L) {
 	rlms::ENTITY_ID e_id = Entity::NULL_ID;
 
@@ -37,7 +38,6 @@ int rlms::Bindings_EntityManager::Bind_isValid (lua_State* L) {
 
 //static const ENTITY_ID Create ();
 //static const ENTITY_ID Create (ENTITY_ID id);
-
 int rlms::Bindings_EntityManager::Bind_CreateEntity (lua_State* L) {
 	int e_id = Entity::NULL_ID;
 
@@ -53,7 +53,6 @@ int rlms::Bindings_EntityManager::Bind_CreateEntity (lua_State* L) {
 }
 
 //static Entity* Get (ENTITY_ID id);
-
 int rlms::Bindings_EntityManager::Bind_GetEntity (lua_State* L) {
 	if (lua_isinteger (L, -1)) {
 		int e_id = static_cast<int>(lua_tointeger (L, -1));
@@ -66,7 +65,6 @@ int rlms::Bindings_EntityManager::Bind_GetEntity (lua_State* L) {
 }
 
 //static bool Has (ENTITY_ID id);
-
 int rlms::Bindings_EntityManager::Bind_HasEntity (lua_State* L) {
 	if (lua_isinteger (L, -1)) {
 		int e_id = static_cast<int>(lua_tointeger (L, -1));

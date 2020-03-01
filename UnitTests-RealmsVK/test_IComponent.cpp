@@ -1,6 +1,13 @@
-#include "gtest/gtest.h"
+#include "pch.h"
 
-TEST(TestCaseName, TestName) {
-  EXPECT_EQ(1, 1);
-  EXPECT_TRUE(true);
+#include "Module/ECS/IComponent.h"
+
+#include "Module/ECS/TransformComponent.h"
+
+using namespace rlms;
+
+TEST (TestComponent, Contructor) {
+	ASSERT_NO_THROW (
+		IComponent c (1, 1);
+	);
 }
