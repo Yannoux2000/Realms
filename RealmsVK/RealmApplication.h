@@ -178,9 +178,9 @@ namespace rlms {
 			rlms::GraphicsManager::Load ();
 		}
 		void initGameCore (ApplicationSettings& stgs) {
-			rlms::GameCore::Initialize (app_alloc.get (), stgs.memory.ecs_size, logger);
+			rlms::ECS_Core::Initialize (app_alloc.get (), stgs.memory.ecs_size, logger);
 
-			logger->tag (LogTags::Dev) << "Testing GameCore's Entity system.\n";
+			logger->tag (LogTags::Dev) << "Testing ECS_Core's Entity system.\n";
 /*
 			ENTITY_ID e = Entity::NULL_ID;
 			Entity* p_e;
@@ -286,7 +286,7 @@ namespace rlms {
 			rlms::GraphicsManager::Terminate ();
 		}
 		void termGameCore () {
-			rlms::GameCore::Terminate ();
+			rlms::ECS_Core::Terminate ();
 		}
 	};
 }

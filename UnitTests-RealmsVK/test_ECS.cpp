@@ -13,11 +13,11 @@ protected:
 	virtual void SetUp () {
 		mem_ptr = malloc (size_mem);
 		rlms::MasqueradeAllocator alloc (size_mem, mem_ptr);
-		rlms::GameCore::Initialize (&alloc, size_mem);
+		rlms::ECS_Core::Initialize (&alloc, size_mem);
 	}
 
 	virtual void TearDown () {
-		rlms::GameCore::Terminate ();
+		rlms::ECS_Core::Terminate ();
 		free (mem_ptr);
 	}
 };

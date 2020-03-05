@@ -128,9 +128,6 @@
     <ClCompile Include="Module\ECS\ComponentManager.cpp">
       <Filter>Module\ECS</Filter>
     </ClCompile>
-    <ClCompile Include="Module\ECS\GameCore.cpp">
-      <Filter>Module\ECS</Filter>
-    </ClCompile>
     <ClCompile Include="Module\Graphics\VulkanBackend.cpp">
       <Filter>Module\Graphics\Fondamentals</Filter>
     </ClCompile>
@@ -221,6 +218,16 @@
     <ClCompile Include="Module\LuaBindings\Bindings_LuaComponent.cpp">
       <Filter>Module\LuaBindings</Filter>
     </ClCompile>
+    <ClCompile Include="Module\ECS\IComponent.cpp" />
+    <ClCompile Include="Module\ECS\ECSException.cpp">
+      <Filter>Module\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\ECS\ECS_Core.cpp">
+      <Filter>Module\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\MultiThreading\JobSystem.cpp">
+      <Filter>Utility\MultiThreading</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -237,9 +244,6 @@
     </Filter>
     <Filter Include="Utility">
       <UniqueIdentifier>{f8cd3325-dd63-40f9-9b47-c0c390ba3741}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Console">
-      <UniqueIdentifier>{9594b478-847c-4c50-b2cd-8571fe5d84b3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Utility\FileIO">
       <UniqueIdentifier>{511b69b1-24b8-42ac-8d4c-15f9496c401d}</UniqueIdentifier>
@@ -490,9 +494,6 @@
     <ClInclude Include="Module\ECS\ComponentManager.h">
       <Filter>Module\ECS</Filter>
     </ClInclude>
-    <ClInclude Include="Module\ECS\GameCore.h">
-      <Filter>Module\ECS</Filter>
-    </ClInclude>
     <ClInclude Include="Module\ECS\TransformComponent.h">
       <Filter>Module\ECS</Filter>
     </ClInclude>
@@ -603,6 +604,18 @@
     </ClInclude>
     <ClInclude Include="Module\LuaBindings\Bindings_LuaComponent.h">
       <Filter>Module\LuaBindings</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\ECS\ECSException.h">
+      <Filter>Module\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\ECS\ECS_Core.h">
+      <Filter>Module\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\MultiThreading\JobSystem.h">
+      <Filter>Utility\MultiThreading</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\MultiThreading\JobSequencer.h">
+      <Filter>Utility\MultiThreading</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

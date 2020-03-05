@@ -158,9 +158,11 @@
     <ClCompile Include="Base\Version.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Module\ECS\ComponentManager.cpp" />
+    <ClCompile Include="Module\ECS\ECSException.cpp" />
     <ClCompile Include="Module\ECS\Entity.cpp" />
     <ClCompile Include="Module\ECS\EntityManager.cpp" />
-    <ClCompile Include="Module\ECS\GameCore.cpp" />
+    <ClCompile Include="Module\ECS\ECS_Core.cpp" />
+    <ClCompile Include="Module\ECS\IComponent.cpp" />
     <ClCompile Include="Module\ECS\ISystem.cpp" />
     <ClCompile Include="Module\ECS\MeshComponent.cpp" />
     <ClCompile Include="Module\ECS\SystemManager.cpp" />
@@ -210,6 +212,7 @@
     <ClCompile Include="Utility\FileIO\Voxelite.cpp" />
     <ClCompile Include="Utility\FileIO\VoxFileParser.cpp" />
     <ClCompile Include="Utility\ModManagement\ModContainer.cpp" />
+    <ClCompile Include="Utility\MultiThreading\JobSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base\Allocators\Allocator.h" />
@@ -245,9 +248,10 @@
     <ClInclude Include="Constants.h" />
     <ClInclude Include="CoreTypes.h" />
     <ClInclude Include="Module\ECS\ComponentManager.h" />
+    <ClInclude Include="Module\ECS\ECSException.h" />
     <ClInclude Include="Module\ECS\Entity.h" />
     <ClInclude Include="Module\ECS\EntityManager.h" />
-    <ClInclude Include="Module\ECS\GameCore.h" />
+    <ClInclude Include="Module\ECS\ECS_Core.h" />
     <ClInclude Include="Module\ECS\IComponent.h" />
     <ClInclude Include="Module\ECS\ISystem.h" />
     <ClInclude Include="Module\ECS\MeshComponent.h" />
@@ -311,6 +315,8 @@
     <ClInclude Include="Utility\FileIO\Voxelite.h" />
     <ClInclude Include="Utility\FileIO\VoxFileParser.h" />
     <ClInclude Include="Utility\ModManagement\ModContainer.h" />
+    <ClInclude Include="Utility\MultiThreading\JobSequencer.h" />
+    <ClInclude Include="Utility\MultiThreading\JobSystem.h" />
     <ClInclude Include="VKExemple.h" />
     <ClInclude Include="_MemLeakMonitor.h" />
     <ClInclude Include="_Preprocess.h" />

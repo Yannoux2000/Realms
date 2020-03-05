@@ -118,13 +118,17 @@ namespace rlms {
 
 			lua_pushstring (L, "_ref");
 			lua_rawget (L, -4);
-			Entity* e = static_cast<Entity*>(lua_touserdata (L, -1));
-			if (strcmp (index, "type") == 0) {
-				e->setType(lua_tostring (L, -3));
-				return 0;
-			}
+			IBase* b = static_cast<IBase*>(lua_touserdata (L, -1));
+			if(IBase::is<Entity*>(b)){
+				Entity* e = IBase::to<Entity*> (b);
 
+				if (strncmp (index, "type", 4) == 0) {
+					e->setType(lua_tostring (L, -3));
+					return 0;
+				}
 			/* ADD COMPONENT ASSIGNATION HERE */
+
+			}
 
 			return 0;
 		}
@@ -135,13 +139,6 @@ namespace rlms {
 			lua_newtable (L);
 			lua_pushlightuserdata (L, e);
 			lua_setfield (L, -2, "_ref");
-
-			if (e != nullptr) {
-				lua_pushinteger (L, e->id ());
-				lua_setfield (L, -2, "id");
-				lua_pushstring (L, e->getType ().c_str());
-				lua_setfield (L, -2, "type");
-			}
 
 			luaL_getmetatable (L, "EntityMetaTable");
 			lua_setmetatable (L, -2);

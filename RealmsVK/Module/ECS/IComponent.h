@@ -8,15 +8,19 @@
 #include "../../Base/IBase.h"
 #include "../../Base/Allocators/Allocator.h"
 
+#include <string>
+
 namespace rlms {
 	////////////////////////////////////////////////////////////
 	/// \brief Interface for attatching data onto entities
 	///        according to the ECS Pattern
 	///
 	////////////////////////////////////////////////////////////
+	class IComponentPrototype;
+
 	struct IComponent : public IBase {
 	private:
-
+		friend rlms::IComponentPrototype;
 		////////////////////////////////////////////////////////////
 		// Member data
 		////////////////////////////////////////////////////////////
@@ -57,7 +61,7 @@ namespace rlms {
 		/// \return Component's id
 		///
 		////////////////////////////////////////////////////////////
-		COMPONENT_ID id () const {
+		COMPONENT_ID const& id () const {
 			return c_id;
 		}
 
@@ -86,14 +90,11 @@ namespace rlms {
 		IComponentPrototype() : _size(sizeof (IComponent)), _align(alignof (IComponent)) {}
 		IComponentPrototype (size_t const size, size_t const align) : _size(size), _align(align) {}
 
-		IComponent* Create (Allocator* const& alloc, ENTITY_ID const& entity_id, COMPONENT_ID const& component_id) {
-			return new (alloc->allocate (_size, _align)) IComponent (entity_id, component_id);
-		}
+		IComponent* Create (Allocator* const& alloc, ENTITY_ID const& entity_id, COMPONENT_ID const& component_id);
 
-		void Destroy (Allocator* const& alloc, IComponent* const& c) {
-			c->~IComponent ();
-			alloc->deallocate (c);
-		}
+		void* Get (IComponent* const c, std::string&& member);
+
+		void Destroy (Allocator* const& alloc, IComponent* const& c);
 	};
 } //namespace rlms
 
@@ -116,6 +117,6 @@ namespace rlms {
 /// }
 /// \endcode
 ///
-/// \see rlms::Entity, rlms::ISystem, rlms::GameCore
+/// \see rlms::Entity, rlms::ISystem, rlms::ECS_Core
 ///
 ////////////////////////////////////////////////////////////

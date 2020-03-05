@@ -1,15 +1,15 @@
-#include "GameCore.h"
+#include "ECS_Core.h"
 
 #include "../../Base/Allocators/MasqueradeAllocator.h"
 
 using namespace rlms;
 
-class rlms::GameCoreImpl : public ILogged {
+class rlms::ECS_CoreImpl : public ILogged {
 private:
-	friend class GameCore;
+	friend class ECS_Core;
 
 	std::string getLogName () {
-		return "GameCore";
+		return "ECS_Core";
 	}
 	using alloc_type = MasqueradeAllocator;
 
@@ -28,31 +28,31 @@ private:
 	void stop ();
 
 public:
-	GameCoreImpl ();
-	~GameCoreImpl ();
+	ECS_CoreImpl ();
+	~ECS_CoreImpl ();
 };
 
-std::unique_ptr<GameCoreImpl> GameCore::instance;
+std::unique_ptr<ECS_CoreImpl> ECS_Core::instance;
 
 
-std::shared_ptr<LoggerHandler> GameCore::GetLogger () {
+std::shared_ptr<LoggerHandler> ECS_Core::GetLogger () {
 	return instance->getLogger();
 }
 
-void GameCore::Initialize (Allocator* const& alloc, size_t ecs_pool_size, std::shared_ptr<Logger> funnel) {
-	instance = std::make_unique<GameCoreImpl> ();
+void ECS_Core::Initialize (Allocator* const& alloc, size_t ecs_pool_size, std::shared_ptr<Logger> funnel) {
+	instance = std::make_unique<ECS_CoreImpl> ();
 	instance->start (alloc, ecs_pool_size, funnel);
 }
 
-void GameCore::Update (double dt) {
+void ECS_Core::Update (double dt) {
 	instance->update (dt);
 }
 
-void GameCore::Terminate () {
+void ECS_Core::Terminate () {
 	instance->stop ();
 }
 
-void GameCoreImpl::start (Allocator* const& alloc, size_t ecs_pool_size, std::shared_ptr<Logger> funnel) {
+void ECS_CoreImpl::start (Allocator* const& alloc, size_t ecs_pool_size, std::shared_ptr<Logger> funnel) {
 	startLogger (funnel);
 	logger->tag (LogTags::None) << "Initializing !" << '\n';
 
@@ -65,11 +65,11 @@ void GameCoreImpl::start (Allocator* const& alloc, size_t ecs_pool_size, std::sh
 	logger->tag (LogTags::None) << "Initialized correctly !" << '\n';
 }
 
-void rlms::GameCoreImpl::update (double dt) {
+void rlms::ECS_CoreImpl::update (double dt) {
 
 }
 
-void rlms::GameCoreImpl::stop () {
+void rlms::ECS_CoreImpl::stop () {
 	logger->tag (LogTags::None) << "Stopping" << '\n';
 
 	m_global_allocator.reset ();
@@ -77,6 +77,6 @@ void rlms::GameCoreImpl::stop () {
 	logger->tag (LogTags::None) << "Stopped correctly !" << '\n';
 }
 
-GameCoreImpl::GameCoreImpl () : m_dt_offset(0) {}
+ECS_CoreImpl::ECS_CoreImpl () : m_dt_offset(0) {}
 
-GameCoreImpl::~GameCoreImpl () {}
+ECS_CoreImpl::~ECS_CoreImpl () {}

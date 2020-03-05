@@ -149,6 +149,6 @@ namespace rlms {
 /// \endcode
 /// ! This code would only be present in a related ISystem inherited class.
 ///
-/// \see rlms::IComponent, rlms::ISystem, rlms::GameCore
+/// \see rlms::IComponent, rlms::ISystem, rlms::ECS_Core
 ///
 ////////////////////////////////////////////////////////////

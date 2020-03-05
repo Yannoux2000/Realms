@@ -13,9 +13,9 @@
 #include "../../CoreTypes.h"
 
 namespace rlms{
-	class GameCoreImpl;
+	class ECS_CoreImpl;
 
-	class GameCore {
+	class ECS_Core {
 	public:
 
 		static std::shared_ptr<LoggerHandler> GetLogger ();
@@ -27,6 +27,6 @@ namespace rlms{
 
 		static void Terminate ();
 	private:
-		static std::unique_ptr<GameCoreImpl> instance;
+		static std::unique_ptr<ECS_CoreImpl> instance;
 	};
 }
