@@ -218,6 +218,9 @@
     <ClCompile Include="Module\LuaBindings\LuaComponentPrototype.cpp">
       <Filter>Module\LuaBindings</Filter>
     </ClCompile>
+    <ClCompile Include="Module\LuaBindings\Bindings_LuaComponent.cpp">
+      <Filter>Module\LuaBindings</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -596,6 +599,9 @@
       <Filter>Module\LuaBindings</Filter>
     </ClInclude>
     <ClInclude Include="Module\LuaBindings\LuaComponentPrototype.h">
+      <Filter>Module\LuaBindings</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\LuaBindings\Bindings_LuaComponent.h">
       <Filter>Module\LuaBindings</Filter>
     </ClInclude>
   </ItemGroup>

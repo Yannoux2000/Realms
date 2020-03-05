@@ -8,4 +8,8 @@ namespace rlms {
 	struct TransformComponent : public IComponent {
 		Vec3<double> position;
 	};
+
+	class TransformComponentPrototype : public IComponentPrototype {
+
+	};
 }

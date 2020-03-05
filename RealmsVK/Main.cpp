@@ -111,10 +111,72 @@ int lua_statistics () {
 	return 0;
 }
 
+#include "Module/LuaBindings/LuaComponentPrototype.h"
+
+int testingLuaComponentPrototype () {
+
+	lua_State* L = luaL_newstate ();
+
+	int i = luaL_dostring (L, R"(
+Prototypes = {
+	StatsComponent = {
+		health = 100,
+		health_max = 100,
+		health_regen = 1,
+		
+		mana = 100.0,
+		mana_max = 100.0,
+		mana_regen = 1.0,
+
+		attack = true,
+		defence = 0,
+		says = "si tu chie plus fort que tu parle, va au wc pour me parler",
+		name = "Jean Naymaloquoxis"
+	},
+
+	GaletteSaucice = {
+		unChamp = "je sais pas mdr"
+	}
+}
+)");
+
+	if (i != LUA_OK) {
+		std::string b = lua_tostring (L, -1);
+		std::cout << b;
+	}
+
+	lua_getglobal (L, "a");
+	if (lua_isinteger (L, -1)) {
+	
+		std::cout << "importation worked\n";
+	}
+
+	lua_getglobal (L, "Prototypes");
+	lua_pushnil (L);
+	while (lua_next (L, -2) != 0) {
+
+		std::string name = lua_tostring (L, -2);
+		if (lua_istable (L, -1)) {
+			rlms::LuaComponentPrototype proto (L, name);
+			std::cout << proto.debug ();
+		} else {
+			std::cout << "nope c'est pas bon ça\n";
+		}
+
+		lua_pop (L, 1);
+	}
+
+	
+
+	lua_close (L);
+
+	return 0;
+}
+
 int main () {
 	MemCheck ();
 
-	return lua_statistics ();
+	return testingLuaComponentPrototype ();
 
 }
 

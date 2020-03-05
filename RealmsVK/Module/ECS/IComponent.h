@@ -6,6 +6,7 @@
 ////////////////////////////////////////////////////////////
 #include "../../CoreTypes.h"
 #include "../../Base/IBase.h"
+#include "../../Base/Allocators/Allocator.h"
 
 namespace rlms {
 	////////////////////////////////////////////////////////////
@@ -74,6 +75,25 @@ namespace rlms {
 		// Static member data
 		////////////////////////////////////////////////////////////
 		static constexpr COMPONENT_ID NULL_ID = 0; ///< Define an null id to manage invalid components
+	};
+
+	class IComponentPrototype {
+	protected:
+		size_t _size = sizeof (IComponent);
+		size_t _align = alignof (IComponent);
+
+	public:
+		IComponentPrototype() : _size(sizeof (IComponent)), _align(alignof (IComponent)) {}
+		IComponentPrototype (size_t const size, size_t const align) : _size(size), _align(align) {}
+
+		IComponent* Create (Allocator* const& alloc, ENTITY_ID const& entity_id, COMPONENT_ID const& component_id) {
+			return new (alloc->allocate (_size, _align)) IComponent (entity_id, component_id);
+		}
+
+		void Destroy (Allocator* const& alloc, IComponent* const& c) {
+			c->~IComponent ();
+			alloc->deallocate (c);
+		}
 	};
 } //namespace rlms
 

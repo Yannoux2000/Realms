@@ -196,6 +196,7 @@
     <ClCompile Include="Module\LuaBindings\Bindings_Component.cpp" />
     <ClCompile Include="Module\LuaBindings\Bindings_ComponentManager.cpp" />
     <ClCompile Include="Module\LuaBindings\Bindings_Entity.cpp" />
+    <ClCompile Include="Module\LuaBindings\Bindings_LuaComponent.cpp" />
     <ClCompile Include="Module\LuaBindings\lua.cpp" />
     <ClCompile Include="Module\LuaBindings\Bindings_EntityManager.cpp" />
     <ClCompile Include="Module\LuaBindings\LuaComponent.cpp" />
@@ -292,6 +293,7 @@
     <ClInclude Include="Module\LuaBindings\Bindings_Component.h" />
     <ClInclude Include="Module\LuaBindings\Bindings_ComponentManager.h" />
     <ClInclude Include="Module\LuaBindings\Bindings_Entity.h" />
+    <ClInclude Include="Module\LuaBindings\Bindings_LuaComponent.h" />
     <ClInclude Include="Module\LuaBindings\lua.h" />
     <ClInclude Include="Module\LuaBindings\Bindings_EntityManager.h" />
     <ClInclude Include="Module\LuaBindings\LuaComponent.h" />

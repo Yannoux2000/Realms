@@ -173,7 +173,6 @@ namespace rlms {
 
 			lua_pushcfunction (L, Bind_ToString);
 			lua_setfield (L, -2, "__tostring");
-
 		}
 	};
 }

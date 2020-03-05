@@ -1,15 +1,15 @@
-{
+Prototypes = {
 	StatsComponent = {
-		health = "integer",
-		health_max = "integer",
-		health_regen = "integer",
+		health = 100,
+		health_max = 100,
+		health_regen = 1,
 		
-		mana = "integer",
-		mana_max = "integer",
-		mana_regen = "integer"
+		mana = 100,
+		mana_max = 100,
+		mana_regen = 1,
 
-		attack = "integer",
-		defence = "integer"
+		attack = 10,
+		defence = 0
 	}
 }
 
@@ -24,3 +24,4 @@ CombatSystem = {
 	end
 }
 
+a = 1
