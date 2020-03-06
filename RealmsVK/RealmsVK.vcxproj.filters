@@ -224,9 +224,6 @@
     <ClCompile Include="Utility\MultiThreading\JobSystem.cpp">
       <Filter>Utility\MultiThreading</Filter>
     </ClCompile>
-    <ClCompile Include="Module\ECS\TransformComponent.cpp">
-      <Filter>Module\ECS</Filter>
-    </ClCompile>
     <ClCompile Include="Module\ECS\IComponent.cpp">
       <Filter>Module\ECS</Filter>
     </ClCompile>

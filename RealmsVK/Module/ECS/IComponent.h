@@ -83,7 +83,7 @@ namespace rlms {
 		IComponentPrototype() : _size(sizeof (IComponent)), _align(alignof (IComponent)) {}
 		IComponentPrototype (size_t const size, size_t const align) : _size(size), _align(align) {}
 
-		IComponent* Create (Allocator* const& alloc, ENTITY_ID const& entity_id, COMPONENT_ID const& component_id);
+		virtual IComponent* Create (Allocator* const& alloc, ENTITY_ID const& entity_id, COMPONENT_ID const& component_id);
 
 		virtual void* Get (IComponent* const c, std::string&& member) {
 			return _Get (c, member);

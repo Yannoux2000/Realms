@@ -166,7 +166,6 @@
     <ClCompile Include="Module\ECS\ISystem.cpp" />
     <ClCompile Include="Module\ECS\MeshComponent.cpp" />
     <ClCompile Include="Module\ECS\SystemManager.cpp" />
-    <ClCompile Include="Module\ECS\TransformComponent.cpp" />
     <ClCompile Include="Module\Graphics\AspectRatio.cpp" />
     <ClCompile Include="Module\Graphics\Camera.cpp" />
     <ClCompile Include="Module\Graphics\GameRenderer.cpp" />
