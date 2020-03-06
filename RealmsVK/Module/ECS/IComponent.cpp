@@ -5,11 +5,13 @@
 
 using namespace rlms;
 
+IComponentPrototype* IComponent::c_proto;
+
 IComponent* IComponentPrototype::Create (Allocator* const& alloc, ENTITY_ID const& entity_id, COMPONENT_ID const& component_id) {
 	return new (alloc->allocate (_size, _align)) IComponent (entity_id, component_id);
 }
 
-void* IComponentPrototype::Get (IComponent* const c, std::string&& member) {
+void* IComponentPrototype::_Get (IComponent* const c, std::string& member) {
 	if (std::regex_match (member, std::regex("[(c_id)(component_id)(id)]"))) {
 		return &c->c_id;
 	}

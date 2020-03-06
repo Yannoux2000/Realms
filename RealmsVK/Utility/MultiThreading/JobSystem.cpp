@@ -17,7 +17,7 @@ private:
 	}
 
 	uint32_t numThreads = 0;							// number of worker threads, it will be initialized in the Initialize() function
-	JobSequencer<std::function<void ()>, 256> jobSequencer;	// a thread safe queue to put pending jobs onto the end. A worker thread can grab a job from the beginning
+	JobSequencer<256> jobSequencer;						// a thread safe queue to put pending jobs onto the end. A worker thread can grab a job from the beginning
 	std::condition_variable wakeCondition;				// used in conjunction with the wakeMutex below. Worker threads just sleep when there is no job, and the main thread can wake them up
 	std::mutex wakeMutex;								// used in conjunction with the wakeCondition above
 	uint64_t currentLabel = 0;							// tracks the state of execution of the main thread
@@ -27,8 +27,8 @@ private:
 	void start (std::shared_ptr<Logger> funnel);
 	void stop ();
 
-		// Add a job to execute asynchronously. Any idle thread will execute this job.
-	void execute (const std::function<void ()>& job);
+	// Add a job to execute asynchronously. Any idle thread will execute this job.
+	void execute (JobDescription const& job);
 
 	// Divide a job onto multiple jobs and execute in parallel.
 	//	jobCount	: how many jobs to generate for this task.
@@ -56,7 +56,7 @@ void rlms::JobSystem::Initialize (std::shared_ptr<Logger> funnel) {
 	instance->start (funnel);
 }
 
-void rlms::JobSystem::Execute (const std::function<void ()>& job) {
+void rlms::JobSystem::Execute (JobDescription const& job) {
 	instance->execute (job);
 }
 
@@ -87,13 +87,13 @@ void rlms::JobSystemImpl::start (std::shared_ptr<Logger> funnel) {
 	//starting workers
 	for (uint32_t threadID = 0; threadID < numThreads; ++threadID) {
 		std::thread worker ([this] {
-			std::function<void ()> job; // the current job for the thread, it's empty at start.
+			JobDescription* job = nullptr; // the current job for the thread, it's empty at start.
 
 			while (true) {
 				if (jobSequencer.elect_job (job)) // try to grab a job from the jobSequencer queue
 				{
 					// It found a job, execute it:
-					job ();
+					job->operator()();
 					finishedLabel.fetch_add (1); // update worker label state
 				} else {
 					// no job, put thread to sleep
@@ -117,9 +117,13 @@ void rlms::JobSystemImpl::stop () {
 	logger->tag (LogTags::None) << "Stopped correctly !" << '\n';
 }
 
-void rlms::JobSystemImpl::execute (const std::function<void ()>& job) {}
+void rlms::JobSystemImpl::execute (JobDescription const& job) {
 
-void rlms::JobSystemImpl::dispatch (uint32_t jobCount, uint32_t groupSize, const std::function<void (JobDispatchArgs)>& job) {}
+}
+
+void rlms::JobSystemImpl::dispatch (uint32_t jobCount, uint32_t groupSize, const std::function<void (JobDispatchArgs)>& job) {
+
+}
 
 bool rlms::JobSystemImpl::isBusy () {
 	return false;

@@ -212,13 +212,9 @@
     <ClCompile Include="Module\LuaBindings\LuaComponent.cpp">
       <Filter>Module\LuaBindings</Filter>
     </ClCompile>
-    <ClCompile Include="Module\LuaBindings\LuaComponentPrototype.cpp">
-      <Filter>Module\LuaBindings</Filter>
-    </ClCompile>
     <ClCompile Include="Module\LuaBindings\Bindings_LuaComponent.cpp">
       <Filter>Module\LuaBindings</Filter>
     </ClCompile>
-    <ClCompile Include="Module\ECS\IComponent.cpp" />
     <ClCompile Include="Module\ECS\ECSException.cpp">
       <Filter>Module\ECS</Filter>
     </ClCompile>
@@ -227,6 +223,12 @@
     </ClCompile>
     <ClCompile Include="Utility\MultiThreading\JobSystem.cpp">
       <Filter>Utility\MultiThreading</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\ECS\TransformComponent.cpp">
+      <Filter>Module\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\ECS\IComponent.cpp">
+      <Filter>Module\ECS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -597,9 +599,6 @@
       <Filter>Module\LuaBindings</Filter>
     </ClInclude>
     <ClInclude Include="Module\LuaBindings\LuaComponent.h">
-      <Filter>Module\LuaBindings</Filter>
-    </ClInclude>
-    <ClInclude Include="Module\LuaBindings\LuaComponentPrototype.h">
       <Filter>Module\LuaBindings</Filter>
     </ClInclude>
     <ClInclude Include="Module\LuaBindings\Bindings_LuaComponent.h">

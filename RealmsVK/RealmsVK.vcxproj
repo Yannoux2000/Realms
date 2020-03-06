@@ -166,6 +166,7 @@
     <ClCompile Include="Module\ECS\ISystem.cpp" />
     <ClCompile Include="Module\ECS\MeshComponent.cpp" />
     <ClCompile Include="Module\ECS\SystemManager.cpp" />
+    <ClCompile Include="Module\ECS\TransformComponent.cpp" />
     <ClCompile Include="Module\Graphics\AspectRatio.cpp" />
     <ClCompile Include="Module\Graphics\Camera.cpp" />
     <ClCompile Include="Module\Graphics\GameRenderer.cpp" />
@@ -202,7 +203,6 @@
     <ClCompile Include="Module\LuaBindings\lua.cpp" />
     <ClCompile Include="Module\LuaBindings\Bindings_EntityManager.cpp" />
     <ClCompile Include="Module\LuaBindings\LuaComponent.cpp" />
-    <ClCompile Include="Module\LuaBindings\LuaComponentPrototype.cpp" />
     <ClCompile Include="Module\World\BlockPrototype.cpp" />
     <ClCompile Include="Module\World\BlockRegister.cpp" />
     <ClCompile Include="Module\World\Chunk.cpp" />
@@ -301,7 +301,6 @@
     <ClInclude Include="Module\LuaBindings\lua.h" />
     <ClInclude Include="Module\LuaBindings\Bindings_EntityManager.h" />
     <ClInclude Include="Module\LuaBindings\LuaComponent.h" />
-    <ClInclude Include="Module\LuaBindings\LuaComponentPrototype.h" />
     <ClInclude Include="Module\World\Block.h" />
     <ClInclude Include="Module\World\BlockPrototype.h" />
     <ClInclude Include="Module\World\BlockRegister.h" />

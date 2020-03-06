@@ -10,9 +10,6 @@
 namespace rlms {
 	class Bindings_Entity {
 	public:
-		static int jsp (lua_State* L) {
-			return 0;
-		}
 
 		static int Bind_New (lua_State* L) {
 			ENTITY_ID e_id = EntityManager::Create ();
@@ -29,13 +26,13 @@ namespace rlms {
 			lua_pushstring (L, "_ref");
 			lua_rawget (L, -2);
 			IBase* b = static_cast<IBase*>(lua_touserdata (L, -1));
-			if (IBase::is<Entity*> (b)) {
-				Entity* e = IBase::to<Entity*> (b);
+			if (IBase::is<Entity> (b)) {
+				Entity* e = IBase::to<Entity> (b);
 
 				//TO STRING
 				ss << "{";
 
-				ss << "} setmetatable()";
+				ss << "}";
 
 			} else {
 				ss << "nil";
@@ -50,10 +47,10 @@ namespace rlms {
 
 			lua_pushstring (L, "_ref");
 			lua_rawget (L, -2);
-			Entity* e = static_cast<Entity*>(lua_touserdata (L, -1));
-
-
-
+			IBase* b = static_cast<IBase*>(lua_touserdata (L, -1));
+			if (IBase::is<Entity> (b)) {
+				Entity* e = IBase::to<Entity> (b);
+			}
 			return 0;
 		}
 
@@ -92,17 +89,21 @@ namespace rlms {
 
 			lua_pushstring (L, "_ref");
 			lua_rawget (L, -3);
-			Entity* e = static_cast<Entity*>(lua_touserdata (L, -1));
-			if (strcmp (index, "id") == 0) {
-				lua_pushnumber (L, e->id());
-				return 1;
-			}
-			if (strcmp (index, "type") == 0) {
-				lua_pushstring (L, e->getType ().c_str ());
-				return 1;
-			}
+			IBase* b = static_cast<IBase*>(lua_touserdata (L, -1));
+			if (IBase::is<Entity> (b)) {
+				Entity* e = IBase::to<Entity> (b);
 
-			/* ADD COMPONENT NAME RECOGNISION HERE */
+				if (strcmp (index, "id") == 0) {
+					lua_pushnumber (L, e->id ());
+					return 1;
+				}
+				if (strcmp (index, "type") == 0) {
+					lua_pushstring (L, e->getType ().c_str ());
+					return 1;
+				}
+				/* ADD COMPONENT NAME RECOGNISION HERE */
+
+			}
 
 			lua_getglobal (L, "Entity");
 			lua_pushstring (L, index);
@@ -119,8 +120,8 @@ namespace rlms {
 			lua_pushstring (L, "_ref");
 			lua_rawget (L, -4);
 			IBase* b = static_cast<IBase*>(lua_touserdata (L, -1));
-			if(IBase::is<Entity*>(b)){
-				Entity* e = IBase::to<Entity*> (b);
+			if(IBase::is<Entity>(b)){
+				Entity* e = IBase::to<Entity> (b);
 
 				if (strncmp (index, "type", 4) == 0) {
 					e->setType(lua_tostring (L, -3));

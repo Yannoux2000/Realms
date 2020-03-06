@@ -85,15 +85,14 @@ int lua_statistics () {
 	lua_State* L = luaL_newstate ();
 
 	rlms::Entity* e = new rlms::Entity (5);
-	rlms::IComponent* c;
-	if (rlms::IBase::is <rlms::IComponent*> ((rlms::IBase*)e)) {
-		c = rlms::IBase::to <rlms::IComponent*>((rlms::IBase*)e);
+	rlms::IComponent* c = nullptr;
+	if (rlms::IBase::is <rlms::IComponent> ((rlms::IBase*)e)) {
+		c = rlms::IBase::to <rlms::IComponent>((rlms::IBase*)e);
 	} else {
-		c = new rlms::IComponent (5, 2);
 		std::cout << "pute";
 	}
 
-	c->id ();
+	//c->id ();
 	if (c != nullptr) delete c;
 	delete e;
 
@@ -111,7 +110,7 @@ int lua_statistics () {
 	return 0;
 }
 
-#include "Module/LuaBindings/LuaComponentPrototype.h"
+#include "Module/LuaBindings/LuaComponent.h"
 
 int testingLuaComponentPrototype () {
 
