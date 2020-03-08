@@ -6,16 +6,20 @@
 #include <functional>
 
 namespace rlms {
-	struct JobDescription {
+	struct Job {
 		uint16_t priority;
-		std::function<void (void*)> job;
+		std::function<void ()> job;
 		void* args;
 
-		JobDescription () : args (nullptr), priority (std::numeric_limits<uint16_t>::max ()) {}
-		JobDescription (std::function<void (void*)> const& item, void* const& data = nullptr) : job (item), args(data), priority(std::numeric_limits<uint16_t>::max ()) {}
+		Job () : args (nullptr), priority (std::numeric_limits<uint16_t>::max ()) {}
+		Job (std::function<void ()> const& item, void* const& data = nullptr) : job (item), args(data), priority(std::numeric_limits<uint16_t>::max ()) {}
 
 		inline void operator()() {
-			job (args);
+			if(job) job ();
+		}
+
+		inline bool operator<(Job const& other) {
+			return priority < other.priority;
 		}
 	};
 
@@ -35,7 +39,10 @@ namespace rlms {
 		static void Initialize (std::shared_ptr<Logger> funnel = nullptr);
 
 		// Add a job to execute asynchronously. Any idle thread will execute this job.
-		void Execute (JobDescription const& job);
+		void Execute (Job const& job);
+
+		// Add a job to execute asynchronously. Any idle thread will execute this job.
+		void Register (Job const& job);
 
 		// Divide a job onto multiple jobs and execute in parallel.
 		//	jobCount	: how many jobs to generate for this task.

@@ -2,20 +2,22 @@
 
 #include <mutex>
 #include <array>
+#include <algorithm>
 
 #include "JobSystem.h"
 
 namespace rlms {
-	template <size_t size> class JobSequencer {
+	template <size_t size>
+	class JobSequencer {
 	private:
-		std::array<JobDescription, size> joblist;
+		std::array<Job, size> joblist;
 		std::mutex lock;
 
 		size_t head = 0;
 		size_t tail = 0;
 
 	public:
-		inline bool add_job (JobDescription const& item) {
+		inline bool add_job (Job const& item) {
 			bool ret = false;
 			lock.lock ();
 			size_t next = (head + 1) % size;
@@ -31,10 +33,11 @@ namespace rlms {
 		}
 
 		inline void sequence () {
-
+			std::sort (joblist.being (), joblist.end ());
+			head = tail = 0;
 		}
 
-		inline bool elect_job (JobDescription* item) {
+		inline bool elect_job (Job* item) {
 			bool ret = false;
 			lock.lock ();
 
@@ -47,5 +50,8 @@ namespace rlms {
 			lock.unlock ();
 			return ret;
 		}
+
+		JobSequencer () : head (0), tail (0), joblist ({}) { }
+
 	};
 }

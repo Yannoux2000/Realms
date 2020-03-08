@@ -77,7 +77,7 @@ const bool ComponentManagerImpl::hasEntity (COMPONENT_ID c_id) {
 		return IComponent::NULL_ID;
 	}
 
-	return it->second->entity_id();
+	return it->second->e_id;
 }
 
 const bool ComponentManagerImpl::hasComponent (COMPONENT_ID c_id) {
@@ -103,7 +103,7 @@ const ENTITY_ID& ComponentManagerImpl::getEntity (COMPONENT_ID const& c_id) {
 		return Entity::NULL_ID;
 	}
 
-	return it->second->entity_id ();
+	return it->second->e_id;
 }
 
 IComponent* ComponentManagerImpl::getComponent (COMPONENT_ID const& c_id) {
@@ -151,8 +151,8 @@ void ComponentManagerImpl::destroyComponent (COMPONENT_ID c_id) {
 	it->second->~IComponent ();
 
 	allocator::deallocateDelete (*m_comp_Allocator.get (), it->second);
-	if (EntityManager::Has (it->second->entity_id ())) {
-		EntityManager::Destroy (it->second->entity_id ());
+	if (EntityManager::Has (it->second->e_id)) {
+		EntityManager::Destroy (it->second->e_id );
 	}
 	_lookup_table.erase (c_id);
 }
