@@ -1,10 +1,12 @@
 #include "JobSystem.h"
-#include "JobSequencer.h"
+#include "PriorityFIFOJobScheduler.h"
 
 #include <algorithm>			// std::max
 #include <atomic>				// to use std::atomic<uint64_t>
 #include <thread>				// to use std::thread
 #include <condition_variable>	// to use std::condition_variable
+
+#include <vector>
 
 using namespace rlms;
 
@@ -16,24 +18,29 @@ private:
 		return "JobSystem";
 	}
 
-	uint32_t numThreads = 0;							// number of worker threads, it will be initialized in the Initialize() function
-	JobSequencer<256> jobSequencer;						// a thread safe queue to put pending jobs onto the end. A worker thread can grab a job from the beginning
+	std::vector<std::thread*> threads;
+
+	PriorityFIFOJobScheduler jobSched;							// a thread safe queue to put pending jobs onto the end. A worker thread can grab a job from the beginning
 	std::condition_variable wakeCondition;				// used in conjunction with the wakeMutex below. Worker threads just sleep when there is no job, and the main thread can wake them up
 	std::mutex wakeMutex;								// used in conjunction with the wakeCondition above
+
+	std::atomic_bool endSignal;
+
 	uint64_t currentLabel = 0;							// tracks the state of execution of the main thread
 	std::atomic_uint16_t finishedLabel;					// track the state of execution across background worker threads
 
+	uint32_t numThreads;								// number of worker threads, it will be initialized in the Initialize() function
+	std::atomic_uint16_t idleWorkers;					// track the state of execution across background worker threads
 
 	void start (std::shared_ptr<Logger> funnel);
 	void stop ();
-
 	void poll ();
 
 	// Add a job to execute asynchronously. Any idle thread will execute this job.
-	void execute (Job const& job);
-
-	void register_job (Job const& job);
-
+	void execute_job (Job const job);
+	void reset ();
+	void pass (uint8_t n);
+	void register_job (Job const job);
 	// Divide a job onto multiple jobs and execute in parallel.
 	//	jobCount	: how many jobs to generate for this task.
 	//	groupSize	: how many jobs to execute per thread. Jobs inside a group execute serially. It might be worth to increase for small jobs
@@ -42,7 +49,6 @@ private:
 
 	// Check if any threads are working currently or not
 	bool isBusy ();
-
 
 public:
 	JobSystemImpl ();
@@ -60,12 +66,20 @@ void rlms::JobSystem::Initialize (std::shared_ptr<Logger> funnel) {
 	instance->start (funnel);
 }
 
-void rlms::JobSystem::Execute (Job const& job) {
-	instance->execute (job);
+void rlms::JobSystem::Execute (Job const job) {
+	instance->execute_job (job);
 }
 
-void rlms::JobSystem::Register (Job const& job) {
-	instance->register_job(job);
+void rlms::JobSystem::Reset () {
+	instance->reset ();
+}
+
+void rlms::JobSystem::Pass (uint8_t n) {
+	instance->pass (n);
+}
+
+void rlms::JobSystem::Register (Job const job) {
+	instance->register_job (job);
 }
 
 void rlms::JobSystem::Dispatch (uint32_t jobCount, uint32_t groupSize, const std::function<void (JobDispatchArgs)>& job) {
@@ -82,71 +96,106 @@ void rlms::JobSystem::Terminate () {
 }
 
 void rlms::JobSystemImpl::start (std::shared_ptr<Logger> funnel) {
-	startLogger (funnel);
+	startLogger (funnel, true);
 	logger->tag (LogTags::None) << "Initializing !" << '\n';
 
 	// Initialize the worker execution state to 0:
 	finishedLabel.store (0);
+	endSignal.store (false);
 
 	auto numCores = std::thread::hardware_concurrency ();
 	numThreads = std::max (1u, numCores);
-	logger->tag (LogTags::Info) << numThreads << " Threads counted for " << numCores << "Processing units.\n";
+	logger->tag (LogTags::Info) << numThreads << " Threads counted for " << numCores << " Processing units.\n";
 
 	//starting workers
 	for (uint32_t threadID = 0; threadID < numThreads; ++threadID) {
-		std::thread worker ([this] {
+		logger->tag (LogTags::Info) <<"Creating thread with id : " << threadID << "\n";
+		std::thread* worker = new std::thread ([this] {
 			Job* job = nullptr; // the current job for the thread, it's empty at start.
 
-			while (true) {
-				if (jobSequencer.elect_job (job)) // try to grab a job from the jobSequencer queue
+			while (!endSignal) {
+				if (jobSched.elect_job (job)) // try to grab a job from the jobSequencer queue
 				{
 					// It found a job, execute it:
 					job->operator()();
 					finishedLabel.fetch_add (1); // update worker label state
 				} else {
+					idleWorkers.fetch_add (1);
 					// no job, put thread to sleep
 					std::unique_lock<std::mutex> lock (wakeMutex);
 					wakeCondition.wait (lock);
+
+					idleWorkers.fetch_sub (1);
 				}
 			}
 			});
 		// *****Here we could do platform specific thread setup...
-		worker.detach (); // forget about this thread, let it do it's job in the infinite loop that we created above
+
+		threads.push_back (worker);
+		//worker->detach (); // forget about this thread, let it do it's job in the infinite loop that we created above
 	}
 
 	logger->tag (LogTags::None) << "Initialized correctly !" << '\n';
 }
 
 void rlms::JobSystemImpl::stop () {
+	//wait for all jobs to end
+	while (isBusy ()) { poll (); }
 	logger->tag (LogTags::None) << "Stopping" << '\n';
 
-	while (isBusy ()) { poll (); }
+	//send end signal
+	endSignal.store (true);
+	wakeCondition.notify_all ();
+
+	for (auto it = threads.begin(); it != threads.end(); it++) {
+		(*it)->join ();
+		delete *it;
+	}
 
 	logger->tag (LogTags::None) << "Stopped correctly !" << '\n';
 }
 
-inline void rlms::JobSystemImpl::poll ()
-{
+inline void rlms::JobSystemImpl::poll () {
 	wakeCondition.notify_one (); // wake one worker thread
 	std::this_thread::yield (); // allow this thread to be rescheduled
 }
 
-void rlms::JobSystemImpl::execute (Job const& job) {
+void rlms::JobSystemImpl::execute_job (Job const job) {
 	// The main thread label state is updated:
 	currentLabel += 1;
 
 	// Try to push a new job until it is pushed successfully:
-	while (!jobSequencer.add_job (job)) { poll (); }
+	while (!jobSched.add_job (job)) {
+		poll ();
+	}
 
 	wakeCondition.notify_one (); // wake one thread
 }
 
-void rlms::JobSystemImpl::register_job (Job const& job) {
+void rlms::JobSystemImpl::reset () {
+	jobSched.reset ();
+}
+
+void rlms::JobSystemImpl::pass (uint8_t n) {
+
+	logger->tag (LogTags::None) << "Stopping" << '\n';
+	if (n == 0) {
+		wakeCondition.notify_all ();
+	} else {
+		for (uint8_t i = 0; i < n; i++) {
+			wakeCondition.notify_one ();
+		}
+	}
+}
+
+void rlms::JobSystemImpl::register_job (Job const job) {
 	// The main thread label state is updated:
 	currentLabel += 1;
 
 	// Try to push a new job until it is pushed successfully:
-	while (!jobSequencer.add_job (job)) { poll (); }
+	while (!jobSched.add_job (job)) {
+		poll ();
+	}
 }
 
 void rlms::JobSystemImpl::dispatch (uint32_t jobCount, uint32_t groupSize, const std::function<void (JobDispatchArgs)>& job) {

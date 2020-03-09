@@ -172,10 +172,39 @@ Prototypes = {
 	return 0;
 }
 
+#include "Utility/MultiThreading/JobSystem.h"
+#include <future>
+
+int testingsqueduler () {
+	rlms::JobSystem::Initialize ();
+
+	rlms::Job jba ([]() { std::cout << "s"; }, 101);
+	rlms::Job jbb ([]() { std::cout << "a"; }, 102);
+	rlms::Job jbc ([]() { std::cout << "l"; }, 103);
+	rlms::Job jbd ([]() { std::cout << "u"; }, 104);
+	rlms::Job jbe ([]() { std::cout << "t\n"; }, 105);
+
+	//while (!rlms::JobSystem::IsBusy ());
+
+	rlms::JobSystem::Register (jbe);
+	rlms::JobSystem::Register (jba);
+	rlms::JobSystem::Register (jbb);
+	rlms::JobSystem::Register (jbc);
+	rlms::JobSystem::Register (jbd);
+
+	rlms::JobSystem::Pass (4);
+
+	while (!rlms::JobSystem::IsBusy ()) { };
+	//while (!rlms::JobSystem::IsBusy ());
+	rlms::JobSystem::Terminate ();
+
+	return 0;
+}
+
 int main () {
 	MemCheck ();
 
-	return testingLuaComponentPrototype ();
+	return testingsqueduler ();
 
 }
 

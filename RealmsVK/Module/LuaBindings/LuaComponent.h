@@ -17,7 +17,6 @@ namespace rlms {
 
 	class LuaComponentPrototype : public IComponentPrototype {
 	private:
-		std::string component_type_name;
 		std::map<std::string, size_t> attributes_sub_address;
 
 		size_t size, align;
@@ -74,7 +73,7 @@ namespace rlms {
 		}
 
 	public:
-		LuaComponentPrototype (lua_State* L, std::string& component_type) : size (0), align (0), component_type_name (component_type), attributes_sub_address ({}) {
+		LuaComponentPrototype (lua_State* L, std::string& component_type) : IComponentPrototype (component_type,0 ,0), attributes_sub_address ({}) {
 			if (lua_istable (L, -1)) {
 
 				lua_pushnil (L);  // first key
@@ -107,7 +106,7 @@ namespace rlms {
 
 		std::string debug () {
 			std::stringstream ss ("");
-			ss << "\t" << component_type_name << " :\n";
+			ss << "\t" << _type_name << " :\n";
 			for (auto it = attributes_sub_address.begin (); it != attributes_sub_address.end (); it++) {
 				ss << "" << it->first << " = " << it->second << "\n";
 			}

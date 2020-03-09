@@ -15,7 +15,7 @@
 #include "Module/Graphics/AspectRatio.h"
 #include "Module/Graphics/GraphicsManager.h"
 
-#include "Module/ECS/GameCore.h"
+#include "Module/ECS/ECS_Core.h"
 #include "Module/ECS/TransformComponent.h"
 
 #include "Module/World/BlockRegister.h"

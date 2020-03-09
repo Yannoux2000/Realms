@@ -1,26 +1,27 @@
 #pragma once
-
-#include <mutex>
-#include <array>
-#include <algorithm>
-
+#include "IJobScheduler.h"
 #include "JobSystem.h"
 
+#include <array>
+#include <mutex>
+
 namespace rlms {
-	template <size_t size>
-	class JobSequencer {
+	class FIFOJobScheduler : public IJobScheduler {
 	private:
+		static constexpr size_t size = 256;
+
 		std::array<Job, size> joblist;
+		size_t head;
+		size_t tail;
 		std::mutex lock;
-
-		size_t head = 0;
-		size_t tail = 0;
-
 	public:
-		inline bool add_job (Job const& item) {
+
+		FIFOJobScheduler () : head (0), tail (0) {}
+
+		inline bool add_job (Job const& item) override {
 			bool ret = false;
-			lock.lock ();
 			size_t next = (head + 1) % size;
+			lock.lock ();
 
 			if (next != tail) {
 				joblist[head] = item;
@@ -32,12 +33,9 @@ namespace rlms {
 			return ret;
 		}
 
-		inline void sequence () {
-			std::sort (joblist.being (), joblist.end ());
-			head = tail = 0;
-		}
+		inline void reset () {}
 
-		inline bool elect_job (Job* item) {
+		inline virtual bool elect_job (Job*& item) override {
 			bool ret = false;
 			lock.lock ();
 
@@ -50,8 +48,5 @@ namespace rlms {
 			lock.unlock ();
 			return ret;
 		}
-
-		JobSequencer () : head (0), tail (0), joblist ({}) { }
-
 	};
 }

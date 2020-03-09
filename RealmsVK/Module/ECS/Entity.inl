@@ -2,7 +2,7 @@
 
 namespace rlms {
 	template<class C> inline void Entity::add (C* c) {
-		_components[std::type_index (typeid(C))] = c;
+		_components[std::type_index (typeid(C))] = static_cast<IComponent*>((void*)(c));
 		//_components.insert ({ std::type_index (typeid(C)), c });
 	}
 

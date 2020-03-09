@@ -2,8 +2,8 @@
 #include "pch_loggers.h"
 
 #include "Base/Allocators/MasqueradeAllocator.h"
-#include "Module/ECS/GameCore.h"
-#include "Module/ECS/GameCore.cpp"
+#include "Module/ECS/ECS_Core.h"
+#include "Module/ECS/ECS_Core.cpp"
 
 class TestECSManager : public ::testing::Test {
 protected:

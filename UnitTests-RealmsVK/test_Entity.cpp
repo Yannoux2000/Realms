@@ -4,6 +4,7 @@
 #include "Module/ECS/Entity.cpp"
 
 #include "Module/ECS/TransformComponent.h"
+#include "Base/Allocators/MasqueradeAllocator.h"
 
 using namespace rlms;
 
@@ -23,7 +24,12 @@ TEST (TestEntity, Destructor) {
 TEST (TestEntity, addComponent) {
 	Entity e (1);
 	IComponent c;
-	TransformComponent t;
+
+	size_t size_mem = 1024;
+	void* mem_ptr = malloc (size_mem);
+	rlms::MasqueradeAllocator * alloc = new rlms::MasqueradeAllocator (size_mem, mem_ptr);
+	TransformComponentPrototype transformProto;
+	TransformComponent* t = transformProto.Create (alloc, e.id (), 5);
 
 	{
 		SCOPED_TRACE ("IComponent");
@@ -150,7 +156,13 @@ TEST (TestEntity, id) {
 
 TEST (TestEntity, Destructor2) {
 	Entity* e = new Entity (1);
-	TransformComponent* t = new TransformComponent ();
+
+	size_t size_mem = 1024;
+	void* mem_ptr = malloc (size_mem);
+	rlms::MasqueradeAllocator* alloc = new rlms::MasqueradeAllocator (size_mem, mem_ptr);
+
+	TransformComponentPrototype transformProto;
+	TransformComponent* t = transformProto.Create (alloc, e->id (), 5);
 	t->position = Vec3<double> (5, 3, 1);
 	e->add (t);
 
@@ -175,7 +187,13 @@ TEST (TestEntity, getComponents) {
 	Entity e (id);
 
 	IComponent c;
-	TransformComponent t;
+
+	size_t size_mem = 1024;
+	void* mem_ptr = malloc (size_mem);
+	rlms::MasqueradeAllocator* alloc = new rlms::MasqueradeAllocator (size_mem, mem_ptr);
+
+	TransformComponentPrototype transformProto;
+	TransformComponent* t = transformProto.Create (alloc, e.id (), 5);
 	std::vector<IComponent*> v;
 	bool ret;
 
@@ -194,13 +212,13 @@ TEST (TestEntity, getComponents) {
 	}
 
 	e.add (&c);
-	e.add (&t);
+	e.add (t);
 
 	{
 		SCOPED_TRACE ("Nominal");
 		ASSERT_EQ (e.has<IComponent> (), true);
 		ASSERT_EQ (e.has<TransformComponent> (), true);
-		ASSERT_EQ (e.get<TransformComponent> (), &t);
+		ASSERT_EQ (e.get<TransformComponent> (), t);
 		ASSERT_EQ (e.get<IComponent> (), &c);
 
 		v = e.getComponents ();
@@ -223,7 +241,13 @@ TEST (TestEntity, nominalUseCase) {
 	ASSERT_EQ (e.id (), id);
 
 	IComponent ca, cb;
-	TransformComponent t;
+
+	size_t size_mem = 1024;
+	void* mem_ptr = malloc (size_mem);
+	rlms::MasqueradeAllocator* alloc = new rlms::MasqueradeAllocator (size_mem, mem_ptr);
+
+	TransformComponentPrototype transformProto;
+	TransformComponent* t = transformProto.Create (alloc, e.id (), 5);
 
 	ASSERT_EQ (e.has<IComponent> (), false);
 	ASSERT_EQ (e.has<TransformComponent> (), false);
@@ -246,11 +270,11 @@ TEST (TestEntity, nominalUseCase) {
 	ASSERT_EQ (e.get<IComponent> (), &cb);
 	ASSERT_EQ (e.get<TransformComponent> (), nullptr);
 
-	e.add (&t);
+	e.add (t);
 
 	ASSERT_EQ (e.has<IComponent> (), true);
 	ASSERT_EQ (e.has<TransformComponent> (), true);
 	ASSERT_NE (e.get<TransformComponent> (), nullptr);
-	ASSERT_EQ (e.get<TransformComponent> (), &t);
+	ASSERT_EQ (e.get<TransformComponent> (), t);
 
 }

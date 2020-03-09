@@ -13,11 +13,12 @@ protected:
 	static constexpr size_t size_mem = 4096;
 	static void* mem_ptr;
 	static lua_State* L;
+	static rlms::MasqueradeAllocator* alloc;
 
 	virtual void SetUp () {
 		mem_ptr = malloc (size_mem);
-		rlms::MasqueradeAllocator alloc (size_mem, mem_ptr);
-		rlms::EntityManager::Initialize (&alloc, size_mem);
+		alloc = new rlms::MasqueradeAllocator(size_mem, mem_ptr);
+		rlms::EntityManager::Initialize (alloc, size_mem);
 		L = luaL_newstate ();
 	}
 
@@ -38,6 +39,7 @@ protected:
 
 lua_State* TestBindingsEntity::L;
 void* TestBindingsEntity::mem_ptr;
+rlms::MasqueradeAllocator* TestBindingsEntity::alloc;
 
 using namespace rlms;
 
@@ -173,7 +175,8 @@ TEST_F (TestBindingsEntity, id) {
 
 TEST_F (TestBindingsEntity, Destructor2) {
 	Entity* e = new Entity (1);
-	TransformComponent* t = new TransformComponent ();
+	TransformComponentPrototype transformProto;
+	TransformComponent* t = transformProto.Create(alloc, e->id(), 5);
 	t->position = Vec3<double> (5, 3, 1);
 
 	e->add (t);
@@ -197,7 +200,8 @@ TEST_F (TestBindingsEntity, getComponents) {
 	ASSERT_EQ (e.id (), id);
 
 	IComponent c;
-	TransformComponent t;
+	TransformComponentPrototype transformProto;
+	TransformComponent* t = transformProto.Create (alloc, e.id (), 5);
 	std::vector<IComponent*> v;
 	bool ret;
 
@@ -213,13 +217,13 @@ TEST_F (TestBindingsEntity, getComponents) {
 	ASSERT_FALSE (ret);
 
 	e.add (&c);
-	e.add (&t);
+	e.add (t);
 
 	ASSERT_EQ (e.has<IComponent> (), true);
 	ASSERT_EQ (e.has<TransformComponent> (), true);
 
 	ASSERT_NE (e.get<TransformComponent> (), nullptr);
-	ASSERT_EQ (e.get<TransformComponent> (), &t);
+	ASSERT_EQ (e.get<TransformComponent> (), t);
 
 	ASSERT_NE (e.get<IComponent> (), nullptr);
 	ASSERT_EQ (e.get<IComponent> (), &c);
@@ -243,7 +247,8 @@ TEST_F (TestBindingsEntity, nominalUseCase) {
 	ASSERT_EQ (e.id (), id);
 
 	IComponent ca, cb;
-	TransformComponent t;
+	TransformComponentPrototype transformProto;
+	TransformComponent* t = transformProto.Create (alloc, e.id (), 5);
 
 	ASSERT_EQ (e.has<IComponent> (), false);
 	ASSERT_EQ (e.has<TransformComponent> (), false);
@@ -266,10 +271,10 @@ TEST_F (TestBindingsEntity, nominalUseCase) {
 	ASSERT_EQ (e.get<IComponent> (), &cb);
 	ASSERT_EQ (e.get<TransformComponent> (), nullptr);
 
-	e.add (&t);
+	e.add (t);
 
 	ASSERT_EQ (e.has<IComponent> (), true);
 	ASSERT_EQ (e.has<TransformComponent> (), true);
 	ASSERT_NE (e.get<TransformComponent> (), nullptr);
-	ASSERT_EQ (e.get<TransformComponent> (), &t);
+	ASSERT_EQ (e.get<TransformComponent> (), t);
 }

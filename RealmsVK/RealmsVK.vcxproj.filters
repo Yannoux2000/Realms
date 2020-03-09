@@ -610,7 +610,13 @@
     <ClInclude Include="Utility\MultiThreading\JobSystem.h">
       <Filter>Utility\MultiThreading</Filter>
     </ClInclude>
-    <ClInclude Include="Utility\MultiThreading\JobSequencer.h">
+    <ClInclude Include="Utility\MultiThreading\IJobScheduler.h">
+      <Filter>Utility\MultiThreading</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\MultiThreading\FIFOJobScheduler.h">
+      <Filter>Utility\MultiThreading</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\MultiThreading\PriorityFIFOJobScheduler.h">
       <Filter>Utility\MultiThreading</Filter>
     </ClInclude>
   </ItemGroup>

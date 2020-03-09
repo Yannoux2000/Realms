@@ -7,8 +7,10 @@
 #include "../../CoreTypes.h"
 #include "../../Base/IBase.h"
 #include "../../Base/Allocators/Allocator.h"
+#include "ECSException.h"
 
 #include <string>
+#include <regex>
 
 namespace rlms {
 	////////////////////////////////////////////////////////////
@@ -74,16 +76,30 @@ namespace rlms {
 
 	class IComponentPrototype {
 	protected:
-		size_t _size = sizeof (IComponent);
-		size_t _align = alignof (IComponent);
+		std::string _type_name;
 
-		void* _Get (IComponent* const c, std::string& member);
+		size_t _size = sizeof (IComponent);
+		uint8_t _align = alignof (IComponent);
+
+		void* _Get (IComponent* const c, std::string& member) {
+			if (std::regex_match (member, std::regex ("[(c_id)(component_id)(id)]"))) {
+				return &c->c_id;
+			}
+			if (std::regex_match (member, std::regex ("[(e_id)(entity_id)]"))) {
+				return &c->e_id;
+			}
+
+			throw BadMemberName ();
+			return nullptr;
+		}
 
 	public:
-		IComponentPrototype() : _size(sizeof (IComponent)), _align(alignof (IComponent)) {}
-		IComponentPrototype (size_t const size, size_t const align) : _size(size), _align(align) {}
+		IComponentPrototype() : _type_name ("UNDEFINED"), _size(sizeof (IComponent)), _align(alignof (IComponent)) {}
+		IComponentPrototype (std::string const name, size_t const size, uint8_t const align) : _type_name(name), _size(size), _align(align) {}
 
-		virtual IComponent* Create (Allocator* const& alloc, ENTITY_ID const& entity_id, COMPONENT_ID const& component_id);
+		virtual IComponent* Create (Allocator* const& alloc, ENTITY_ID const& entity_id, COMPONENT_ID const& component_id) {
+			return new (alloc->allocate (_size, _align)) IComponent (entity_id, component_id);
+		}
 
 		virtual void* Get (IComponent* const c, std::string&& member) {
 			return _Get (c, member);
