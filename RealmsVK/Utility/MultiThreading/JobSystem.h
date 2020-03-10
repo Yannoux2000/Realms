@@ -57,6 +57,8 @@ namespace rlms {
 		// Add a job to execute asynchronously. Any idle thread will execute this job.
 		static void Register (Job const job);
 
+		static void Main_Worker ();
+
 		// Divide a job onto multiple jobs and execute in parallel.
 		//	jobCount	: how many jobs to generate for this task.
 		//	groupSize	: how many jobs to execute per thread. Jobs inside a group execute serially. It might be worth to increase for small jobs

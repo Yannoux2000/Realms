@@ -308,6 +308,7 @@
     <ClInclude Include="Module\World\World.h" />
     <ClInclude Include="Module\World\WorldManager.h" />
     <ClInclude Include="RealmApplication.h" />
+    <ClInclude Include="RealmApplicationMT.h" />
     <ClInclude Include="RealmApplication_old.h" />
     <ClInclude Include="RealmsVK.h" />
     <ClInclude Include="Utility\FileIO\Voxelite.h" />

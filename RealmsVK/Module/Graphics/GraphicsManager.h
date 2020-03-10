@@ -17,7 +17,7 @@ namespace rlms {
 	public:
 		static std::shared_ptr<LoggerHandler> GetLogger ();
 
-		static void Initialize (Allocator* const& alloc, size_t mesh_pool_size, GLFWwindow*& window, std::shared_ptr<Logger> funnel);
+		static void Initialize (Allocator* const& alloc, size_t mesh_pool_size, GLFWwindow*& window, std::shared_ptr<Logger> funnel = nullptr);
 		static void Terminate ();
 
 		static void Load ();

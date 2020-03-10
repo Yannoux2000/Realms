@@ -619,6 +619,9 @@
     <ClInclude Include="Utility\MultiThreading\PriorityFIFOJobScheduler.h">
       <Filter>Utility\MultiThreading</Filter>
     </ClInclude>
+    <ClInclude Include="RealmApplicationMT.h">
+      <Filter>Application</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Base\Math\Rect.inl">
