@@ -1,39 +1,8 @@
 #pragma once
 #include "../../Base/Logging/ILogged.h"
-
-#include "../../CoreTypes.h"
-
-#include <functional>
+#include "Job.h"
 
 namespace rlms {
-	struct Job {
-		JOB_PRIORITY_TYPE priority;
-		std::function<void (void*)> job;
-		void* args;
-
-		Job () : args (nullptr), priority (JOB_MIN_PRIORITY) {}
-
-		Job (std::function<void ()> const& item, JOB_PRIORITY_TYPE const n = JOB_MIN_PRIORITY, void* const& data = nullptr) : args (data), priority (n) {
-			job = [item](void* _discated) {item (); };
-		}
-
-		Job (std::function<void (void*)> const& item, JOB_PRIORITY_TYPE const n = JOB_MIN_PRIORITY, void* const& data = nullptr) : job (item), args (data), priority (n) {}
-
-		inline void operator()() {
-			if (job != nullptr) {
-				job (args);
-			} else throw std::exception ("invalid job");
-		}
-
-		inline bool operator<(Job const& other) {
-			return priority < other.priority;
-		}
-
-		inline bool operator>(Job const& other) {
-			return priority > other.priority;
-		}
-	};
-
 	struct JobDispatchArgs {
 		uint32_t jobIndex;
 		uint32_t groupIndex;
@@ -57,7 +26,8 @@ namespace rlms {
 		// Add a job to execute asynchronously. Any idle thread will execute this job.
 		static void Register (Job const job);
 
-		static void Main_Worker ();
+		static void MainWorker ();
+		static void FreeMainThread ();
 
 		// Divide a job onto multiple jobs and execute in parallel.
 		//	jobCount	: how many jobs to generate for this task.

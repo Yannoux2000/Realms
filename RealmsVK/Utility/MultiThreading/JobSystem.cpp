@@ -85,8 +85,12 @@ void rlms::JobSystem::Register (Job const job) {
 	instance->register_job (job);
 }
 
-void rlms::JobSystem::Main_Worker () {
+void rlms::JobSystem::MainWorker () {
 	instance->main_worker_loop ();
+}
+
+void rlms::JobSystem::FreeMainThread () {
+	instance->endMainSignal.store (true);
 }
 
 void rlms::JobSystem::Dispatch (uint32_t jobCount, uint32_t groupSize, const std::function<void (JobDispatchArgs)>& job) {

@@ -316,6 +316,7 @@
     <ClInclude Include="Utility\ModManagement\ModContainer.h" />
     <ClInclude Include="Utility\MultiThreading\FIFOJobScheduler.h" />
     <ClInclude Include="Utility\MultiThreading\IJobScheduler.h" />
+    <ClInclude Include="Utility\MultiThreading\Job.h" />
     <ClInclude Include="Utility\MultiThreading\PriorityFIFOJobScheduler.h" />
     <ClInclude Include="Utility\MultiThreading\JobSystem.h" />
     <ClInclude Include="VKExemple.h" />

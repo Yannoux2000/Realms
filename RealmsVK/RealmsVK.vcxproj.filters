@@ -622,6 +622,9 @@
     <ClInclude Include="RealmApplicationMT.h">
       <Filter>Application</Filter>
     </ClInclude>
+    <ClInclude Include="Utility\MultiThreading\Job.h">
+      <Filter>Utility\MultiThreading</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Base\Math\Rect.inl">

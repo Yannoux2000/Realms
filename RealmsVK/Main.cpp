@@ -202,24 +202,53 @@ Prototypes = {
 #include "Utility/MultiThreading/JobSystem.h"
 #include <future>
 
-int testingsqueduler () {
+int test_scheduler () {
 	rlms::JobSystem::Initialize ();
 
-	rlms::Job jba ([]() { std::cout << "s"; }, 101);
-	rlms::Job jbb ([]() { std::cout << "a"; }, 102);
-	rlms::Job jbc ([]() { std::cout << "l"; }, 103);
-	rlms::Job jbd ([]() { std::cout << "u"; }, 104);
-	rlms::Job jbe ([]() { std::cout << "t\n"; }, 105);
+	rlms::Job jba1 ([]() { std::cout << "(s)"; }, 101);
+	rlms::Job jbb1 ([]() { std::cout << "(a)"; }, 102);
+	rlms::Job jbc1 ([]() { std::cout << "(l)"; }, 103);
+	rlms::Job jbd1 ([]() { std::cout << "(u)"; }, 104);
+	rlms::Job jbe1 ([]() { std::cout << "(t)"; }, 105);
+
+	rlms::Job jba2 ([]() { std::cout << "[s]"; }, 101);
+	rlms::Job jbb2 ([]() { std::cout << "[a]"; }, 102);
+	rlms::Job jbc2 ([]() { std::cout << "[l]"; }, 103);
+	rlms::Job jbd2 ([]() { std::cout << "[u]"; }, 104);
+	rlms::Job jbe2 ([]() { std::cout << "[t]"; }, 105);
+
+	rlms::Job jba3 ([]() { std::cout << "{s}\n"; }, 101);
+	rlms::Job jbb3 ([]() { std::cout << "{a}\n"; }, 102);
+	rlms::Job jbc3 ([]() { std::cout << "{l}\n"; }, 103);
+	rlms::Job jbd3 ([]() { std::cout << "{u}\n"; }, 104);
+	rlms::Job jbe3 ([]() { std::cout << "{t}\n"; }, 105);
+
+
+	rlms::Job finaljob ([]() { rlms::JobSystem::FreeMainThread (); }, 200);
 
 	//while (!rlms::JobSystem::IsBusy ());
 
-	rlms::JobSystem::Register (jbe);
-	rlms::JobSystem::Register (jba);
-	rlms::JobSystem::Register (jbb);
-	rlms::JobSystem::Register (jbc);
-	rlms::JobSystem::Register (jbd);
+	rlms::JobSystem::Register (jba1);
+	rlms::JobSystem::Register (jbb1);
+	rlms::JobSystem::Register (jbc1);
+	rlms::JobSystem::Register (jbd1);
+	rlms::JobSystem::Register (jbe1);
 
-	rlms::JobSystem::Pass (4);
+	rlms::JobSystem::Register (jba2);
+	rlms::JobSystem::Register (jbb2);
+	rlms::JobSystem::Register (jbc2);
+	rlms::JobSystem::Register (jbd2);
+	rlms::JobSystem::Register (jbe2);
+
+	rlms::JobSystem::Register (jba3);
+	rlms::JobSystem::Register (jbb3);
+	rlms::JobSystem::Register (jbc3);
+	rlms::JobSystem::Register (jbd3);
+	rlms::JobSystem::Register (jbe3);
+
+	//rlms::JobSystem::Pass (3);
+
+	rlms::JobSystem::MainWorker ();
 
 	//while (!rlms::JobSystem::IsBusy ());
 	rlms::JobSystem::Terminate ();
@@ -230,7 +259,7 @@ int testingsqueduler () {
 int main () {
 	MemCheck ();
 
-	return application_test ();
+	return test_scheduler ();
 
 }
 

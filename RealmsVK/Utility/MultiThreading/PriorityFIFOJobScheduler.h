@@ -6,6 +6,7 @@
 #include <algorithm>
 
 #include "JobSystem.h"
+#include "Job.h"
 
 namespace rlms {
 	class PriorityFIFOJobScheduler {
@@ -28,7 +29,7 @@ namespace rlms {
 			lock.lock ();
 
 			if (joblist.size() <= size) {
-				it_head = std::lower_bound (joblist.begin (), joblist.end (), item);
+				it_head = std::upper_bound (joblist.begin (), joblist.end (), item, [](Job const& a, Job const& b) { return a.priority < b.priority; });
 				joblist.insert (it_head, item);
 				ret = true;
 			}
@@ -67,7 +68,7 @@ namespace rlms {
 				item = &(*(current_p_joblist.begin () + tail));
 				tail++;
 				ret = true;
-			}else {
+			} else {
 				current_p_joblist.clear ();
 				tail = 0;
 			}
