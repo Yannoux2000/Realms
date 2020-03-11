@@ -217,16 +217,20 @@ int test_scheduler () {
 	rlms::Job jbd2 ([]() { std::cout << "[u]"; }, 104);
 	rlms::Job jbe2 ([]() { std::cout << "[t]"; }, 105);
 
-	rlms::Job jba3 ([]() { std::cout << "{s}\n"; }, 101);
-	rlms::Job jbb3 ([]() { std::cout << "{a}\n"; }, 102);
-	rlms::Job jbc3 ([]() { std::cout << "{l}\n"; }, 103);
-	rlms::Job jbd3 ([]() { std::cout << "{u}\n"; }, 104);
-	rlms::Job jbe3 ([]() { std::cout << "{t}\n"; }, 105);
+	rlms::Job jba3 ([]() { std::cout << "{s}"; }, 101);
+	rlms::Job jbb3 ([]() { std::cout << "{a}"; }, 102);
+	rlms::Job jbc3 ([]() { std::cout << "{l}"; }, 103);
+	rlms::Job jbd3 ([]() { std::cout << "{u}"; }, 104);
+	rlms::Job jbe3 ([]() { std::cout << "{t}"; }, 105);
+
+	rlms::Job jba4 ([]() { std::cout << "\n"; }, 101);
+	rlms::Job jbb4 ([]() { std::cout << "\n"; }, 102);
+	rlms::Job jbc4 ([]() { std::cout << "\n"; }, 103);
+	rlms::Job jbd4 ([]() { std::cout << "\n"; }, 104);
+	rlms::Job jbe4 ([]() { std::cout << "\n"; }, 105);
 
 
 	rlms::Job finaljob ([]() { rlms::JobSystem::FreeMainThread (); }, 200);
-
-	//while (!rlms::JobSystem::IsBusy ());
 
 	rlms::JobSystem::Register (jba1);
 	rlms::JobSystem::Register (jbb1);
@@ -246,7 +250,15 @@ int test_scheduler () {
 	rlms::JobSystem::Register (jbd3);
 	rlms::JobSystem::Register (jbe3);
 
-	//rlms::JobSystem::Pass (3);
+	rlms::JobSystem::Register (jba4);
+	rlms::JobSystem::Register (jbb4);
+	rlms::JobSystem::Register (jbc4);
+	rlms::JobSystem::Register (jbd4);
+	rlms::JobSystem::Register (jbe4);
+
+	rlms::JobSystem::Register (finaljob);
+
+	rlms::JobSystem::WakeUp ();
 
 	rlms::JobSystem::MainWorker ();
 

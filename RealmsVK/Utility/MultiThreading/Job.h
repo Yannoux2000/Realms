@@ -4,51 +4,80 @@
 #include <functional>
 
 namespace rlms {
-	struct Job {
-		JOB_PRIORITY_TYPE priority;
-		std::function<void (void*)> job;
-		void* args;
 
-		Job () : args (nullptr), priority (JOB_MIN_PRIORITY) {}
+	// This works fine as f1 and f2 are std::function<void()>
+	// binding to a ref will make the evolutions be taken into account
+	//
+	//void print (int i) {
+	//	std::cout << i << '\n';
+	//}
+	//
+	//int main () {
+	//	int i = 10;
+	//
+	//	auto f1 = std::bind (print, i);
+	//	auto f2 = std::bind (print, std::ref (i));
+	//
+	//	i = 20;
+	//
+	//	f1 ();
+	//	f2 ();
+	//}
 
-		Job (std::function<void ()> item, JOB_PRIORITY_TYPE const n = JOB_MIN_PRIORITY, void* const& data = nullptr) : args (data), priority (n) {
-			job = [item](void* _discated) {item (); };
+
+	struct IJob {
+		std::function<void ()> job;
+
+		IJob () {}
+
+		IJob (std::function<void ()> item ) : job(item) {
 		}
-
-		Job (std::function<void (void*)> item, JOB_PRIORITY_TYPE const n = JOB_MIN_PRIORITY, void* const& data = nullptr) : job (item), args (data), priority (n) {}
 
 		virtual void operator()() {
 			if (job) {
-				job (args);
-			}
-			else throw std::exception ("invalid job");
+				job ();
+			} else throw std::exception ("invalid job");
 		}
 
 		virtual bool available () {
 			return true;
 		}
 
-		inline bool operator<(Job const& other) {
-			return priority < other.priority;
+		virtual JOB_PRIORITY_TYPE const getPriority () const {
+			return JOB_MIN_PRIORITY;
 		}
 
-		inline bool operator>(Job const& other) {
-			return priority > other.priority;
+		inline bool operator<(IJob const& other) {
+			return getPriority() < other.getPriority ();
+		}
+
+		inline bool operator>(IJob const& other) {
+			return getPriority () > other.getPriority ();
 		}
 	};
 
-	struct PeriodicJob : public Job {
+	class Job : public IJob {
+	private:
+		JOB_PRIORITY_TYPE priority;
 
-		PeriodicJob (
-			std::function<void ()> const& item,
-			JOB_PRIORITY_TYPE const n = JOB_MIN_PRIORITY,
-			void* const& data = nullptr
-		) : Job(item, n, data) { }
+	public:
+		Job () : IJob(), priority (JOB_MIN_PRIORITY) {}
+		Job (std::function<void ()> item, JOB_PRIORITY_TYPE const n = JOB_MIN_PRIORITY) : IJob(item), priority (n) {}
 
+		JOB_PRIORITY_TYPE const getPriority () const override {
+			return priority;
+		}
+	};
+
+	struct PeriodicJob : public IJob {
+		JOB_RATE_TYPE rate;
+
+		PeriodicJob () : IJob (), rate (0) {}
+		PeriodicJob (std::function<void ()> item, JOB_PRIORITY_TYPE const n = JOB_MIN_PRIORITY) : IJob (item), rate (n) {}
 
 		void operator()() override {
 			if (job != nullptr) {
-				job (args);
+				job ();
 			}
 			else throw std::exception ("invalid job");
 		}

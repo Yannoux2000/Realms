@@ -21,7 +21,7 @@ namespace rlms {
 		static void Execute (Job const job);
 
 		static void Reset ();
-		static void Pass (uint8_t n = 0);
+		static void WakeUp (uint8_t n = 0);
 
 		// Add a job to execute asynchronously. Any idle thread will execute this job.
 		static void Register (Job const job);

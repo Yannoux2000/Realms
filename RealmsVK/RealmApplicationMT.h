@@ -103,7 +103,7 @@ namespace rlms {
 
 			logger->tag (LogTags::None) << "Application is Started.\n";
 			logger->tag (LogTags::None) << "Running Application.\n";
-			JobSystem::Pass ();
+			JobSystem::WakeUp ();
 		}
 
 		void run () {

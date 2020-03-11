@@ -77,7 +77,7 @@ void rlms::JobSystem::Reset () {
 	instance->reset ();
 }
 
-void rlms::JobSystem::Pass (uint8_t n) {
+void rlms::JobSystem::WakeUp (uint8_t n) {
 	instance->pass (n);
 }
 
@@ -119,7 +119,7 @@ void rlms::JobSystemImpl::start (std::shared_ptr<Logger> funnel) {
 	logger->tag (LogTags::Info) << numThreads << " Threads counted for " << numCores << " Processing units.\n";
 
 	//starting workers
-	for (uint32_t threadID = 0; threadID < numThreads - 1; ++threadID) {
+	for (uint32_t threadID = 0; threadID < numThreads; ++threadID) {
 		logger->tag (LogTags::Info) <<"Creating thread with id : " << threadID << "\n";
 		std::thread* worker = new std::thread ([this] {
 			Job* job = nullptr; // the current job for the thread, it's empty at start.

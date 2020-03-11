@@ -46,6 +46,11 @@ namespace rlms {
 			bool ret = false;
 			lock.lock ();
 
+			if(current_p_joblist.begin() + tail == current_p_joblist.end()) {
+				current_p_joblist.clear ();
+				tail = 0;
+			}
+
 			if (current_p_joblist.empty()) {
 				current_p_joblist.clear ();
 
@@ -68,9 +73,6 @@ namespace rlms {
 				item = &(*(current_p_joblist.begin () + tail));
 				tail++;
 				ret = true;
-			} else {
-				current_p_joblist.clear ();
-				tail = 0;
 			}
 
 			lock.unlock ();
