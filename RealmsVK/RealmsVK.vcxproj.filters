@@ -92,9 +92,6 @@
     <ClCompile Include="Module\Input\InputMap.cpp">
       <Filter>Module\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Module\Graphics\GLError.cpp">
-      <Filter>Module\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Module\Input\Input.cpp">
       <Filter>Module\Input</Filter>
     </ClCompile>
@@ -105,19 +102,19 @@
       <Filter>Module\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Module\Graphics\VulkanEnvironment.cpp">
-      <Filter>Module\Graphics\Fondamentals</Filter>
+      <Filter>Module\Graphics\VulkanBase</Filter>
     </ClCompile>
     <ClCompile Include="Module\Graphics\VulkanRenderPipeline.cpp">
-      <Filter>Module\Graphics\Fondamentals</Filter>
+      <Filter>Module\Graphics\VulkanBase</Filter>
     </ClCompile>
     <ClCompile Include="Module\Graphics\Vulkan.cpp">
-      <Filter>Module\Graphics\Fondamentals</Filter>
+      <Filter>Module\Graphics\VulkanBase</Filter>
     </ClCompile>
     <ClCompile Include="Module\Graphics\VulkanDevice.cpp">
-      <Filter>Module\Graphics\Fondamentals</Filter>
+      <Filter>Module\Graphics\VulkanBase</Filter>
     </ClCompile>
     <ClCompile Include="Module\Graphics\VulkanSwapChain.cpp">
-      <Filter>Module\Graphics\Fondamentals</Filter>
+      <Filter>Module\Graphics\VulkanBase</Filter>
     </ClCompile>
     <ClCompile Include="Module\ECS\Entity.cpp">
       <Filter>Module\ECS</Filter>
@@ -129,7 +126,7 @@
       <Filter>Module\ECS</Filter>
     </ClCompile>
     <ClCompile Include="Module\Graphics\VulkanBackend.cpp">
-      <Filter>Module\Graphics\Fondamentals</Filter>
+      <Filter>Module\Graphics\VulkanBase</Filter>
     </ClCompile>
     <ClCompile Include="Base\Allocators\InvalidMemory.cpp">
       <Filter>Base\Allocators</Filter>
@@ -177,7 +174,7 @@
       <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="Module\Graphics\VulkanException.cpp">
-      <Filter>Module\Graphics\Fondamentals</Filter>
+      <Filter>Module\Graphics\VulkanBase</Filter>
     </ClCompile>
     <ClCompile Include="Module\Graphics\MeshNameSanitizer.cpp">
       <Filter>Module\Graphics\Meshs</Filter>
@@ -226,6 +223,9 @@
     </ClCompile>
     <ClCompile Include="Module\ECS\IComponent.cpp">
       <Filter>Module\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\GLError.cpp">
+      <Filter>Module\Graphics\OpenGLBase</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -295,9 +295,6 @@
     <Filter Include="Utility\MultiThreading">
       <UniqueIdentifier>{64358737-1545-4f5e-943d-1686ad86932e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Module\Graphics\Fondamentals">
-      <UniqueIdentifier>{85cdc5b4-fdc2-4859-a903-be875fb9407a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Base\old_Allocators">
       <UniqueIdentifier>{ff5c8bdc-9f4b-4129-aafe-25f8c3e8e4b9}</UniqueIdentifier>
     </Filter>
@@ -306,6 +303,12 @@
     </Filter>
     <Filter Include="Module\Graphics\Meshs">
       <UniqueIdentifier>{ebae185f-b341-49a7-9c60-f442a2248407}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Module\Graphics\VulkanBase">
+      <UniqueIdentifier>{85cdc5b4-fdc2-4859-a903-be875fb9407a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Module\Graphics\OpenGLBase">
+      <UniqueIdentifier>{012216e6-8e5b-4fac-8e1b-eb564c8e4188}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -388,9 +391,6 @@
     <ClInclude Include="Module\Graphics\IRenderer.h">
       <Filter>Module\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Module\Graphics\OpenGL.h">
-      <Filter>Module\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Module\Graphics\GameShaderProgram.h">
       <Filter>Module\Graphics\Game</Filter>
     </ClInclude>
@@ -451,9 +451,6 @@
     <ClInclude Include="RealmsVK.h">
       <Filter>Application</Filter>
     </ClInclude>
-    <ClInclude Include="Module\Graphics\GLError.h">
-      <Filter>Module\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="VKExemple.h">
       <Filter>Application</Filter>
     </ClInclude>
@@ -467,19 +464,19 @@
       <Filter>Module\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Module\Graphics\Vulkan.h">
-      <Filter>Module\Graphics\Fondamentals</Filter>
+      <Filter>Module\Graphics\VulkanBase</Filter>
     </ClInclude>
     <ClInclude Include="Module\Graphics\VulkanEnvironment.h">
-      <Filter>Module\Graphics\Fondamentals</Filter>
+      <Filter>Module\Graphics\VulkanBase</Filter>
     </ClInclude>
     <ClInclude Include="Module\Graphics\VulkanRenderPipeline.h">
-      <Filter>Module\Graphics\Fondamentals</Filter>
+      <Filter>Module\Graphics\VulkanBase</Filter>
     </ClInclude>
     <ClInclude Include="Module\Graphics\VulkanSwapChain.h">
-      <Filter>Module\Graphics\Fondamentals</Filter>
+      <Filter>Module\Graphics\VulkanBase</Filter>
     </ClInclude>
     <ClInclude Include="Module\Graphics\VulkanDevice.h">
-      <Filter>Module\Graphics\Fondamentals</Filter>
+      <Filter>Module\Graphics\VulkanBase</Filter>
     </ClInclude>
     <ClInclude Include="Module\ECS\Entity.h">
       <Filter>Module\ECS</Filter>
@@ -497,7 +494,7 @@
       <Filter>Module\ECS</Filter>
     </ClInclude>
     <ClInclude Include="Module\Graphics\VulkanBackend.h">
-      <Filter>Module\Graphics\Fondamentals</Filter>
+      <Filter>Module\Graphics\VulkanBase</Filter>
     </ClInclude>
     <ClInclude Include="Base\Allocators\InvalidMemory.h">
       <Filter>Base\Allocators</Filter>
@@ -560,7 +557,7 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="Module\Graphics\VulkanException.h">
-      <Filter>Module\Graphics\Fondamentals</Filter>
+      <Filter>Module\Graphics\VulkanBase</Filter>
     </ClInclude>
     <ClInclude Include="Module\Graphics\MeshNameSanitizer.h">
       <Filter>Module\Graphics\Meshs</Filter>
@@ -624,6 +621,13 @@
     </ClInclude>
     <ClInclude Include="Utility\MultiThreading\Job.h">
       <Filter>Utility\MultiThreading</Filter>
+    </ClInclude>
+    <ClInclude Include="Ratio.h" />
+    <ClInclude Include="Module\Graphics\OpenGL.h">
+      <Filter>Module\Graphics\OpenGLBase</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\GLError.h">
+      <Filter>Module\Graphics\OpenGLBase</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

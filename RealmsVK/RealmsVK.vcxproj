@@ -307,6 +307,7 @@
     <ClInclude Include="Module\World\ChunkManager.h" />
     <ClInclude Include="Module\World\World.h" />
     <ClInclude Include="Module\World\WorldManager.h" />
+    <ClInclude Include="Ratio.h" />
     <ClInclude Include="RealmApplication.h" />
     <ClInclude Include="RealmApplicationMT.h" />
     <ClInclude Include="RealmApplication_old.h" />
