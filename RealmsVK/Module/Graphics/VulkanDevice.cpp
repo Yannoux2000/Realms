@@ -13,7 +13,7 @@ void VulkanDevice::pickPhysicalDevice () {
 	vkEnumeratePhysicalDevices (*r_instance, &deviceCount, nullptr);
 
 	if (deviceCount == 0) {
-		GraphicsManager::GetLogger ()->tag (LogTags::Error) << "Couldn't find any GPUs with Vulkan support!\n";
+		GraphicsManager::GetLogger ()->tag (LogTags::Error) << "Couldn't_start find any GPUs with Vulkan support!\n";
 		throw std::runtime_error ("failed to find GPUs with Vulkan support!");
 	}
 

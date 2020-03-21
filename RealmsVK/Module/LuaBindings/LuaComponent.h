@@ -106,7 +106,7 @@ namespace rlms {
 
 		std::string debug () {
 			std::stringstream ss ("");
-			ss << "\t" << _type_name << " :\n";
+			ss << "\t_start" << _type_name << " :\n";
 			for (auto it = attributes_sub_address.begin (); it != attributes_sub_address.end (); it++) {
 				ss << "" << it->first << " = " << it->second << "\n";
 			}

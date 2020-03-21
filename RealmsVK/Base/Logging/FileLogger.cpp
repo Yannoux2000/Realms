@@ -1,6 +1,8 @@
 #include "FileLogger.h"
 
 #include "../../_Preprocess.h"
+#include "../Timer/TimeFormat.h"
+#include "../Timer/ApplicationTime.h"
 #include "LogTime.h"
 
 using namespace rlms;
@@ -11,7 +13,7 @@ FileLogger::FileLogger (std::string filename) {
 	if (!_file.good ()) return;
 	_file << "===============================================\n"
 		<< "    Begin log ( "
-		<< LogTime::GetDateTime ()
+		<< TimeFormat::NowDate ()
 		<< " ): "
 		<< RLMS_PLATFORM_NAME
 		<< "\n===============================================\n";
@@ -22,7 +24,7 @@ FileLogger::~FileLogger () {
 	if (!_file.good ()) return;
 	_file << "===============================================\n"
 		<< "    Ended Output log ( "
-		<< LogTime::GetDateTime ()
+		<< TimeFormat::NowDate()
 		<< " ): "
 		<< RLMS_PLATFORM_NAME
 		<< "\n===============================================\n\n\n";
@@ -31,8 +33,8 @@ FileLogger::~FileLogger () {
 }
 
 void FileLogger::log (const std::string& s, const char& tag, std::string name) {
-	_file 
-		<< LogTime::GetTime ()
+	_file
+		<< TimeFormat::Precise (ApplicationTime::Since ())
 		<< " : [ " << tag << " ] " 
 		<< (name.empty () ? "" : "{" + name + "} ")
 		<< s <<

@@ -77,10 +77,10 @@ static void stackDump (lua_State* L) {
 	int i;
 	int top = lua_gettop (L);
 	for (i = -1; i >= -top; i--) {  /* repeat for each level */
-		int t = lua_type (L, i);
+		int t_start = lua_type (L, i);
 
 		std::cout << "( " << i << " = ";
-		switch (t) {
+		switch (t_start) {
 			case LUA_TSTRING:  /* strings */
 				std::cout << lua_tostring (L, i);
 				break;
@@ -209,19 +209,19 @@ int test_scheduler () {
 	rlms::Job jbb1 ([]() { std::cout << "(a)"; }, 102);
 	rlms::Job jbc1 ([]() { std::cout << "(l)"; }, 103);
 	rlms::Job jbd1 ([]() { std::cout << "(u)"; }, 104);
-	rlms::Job jbe1 ([]() { std::cout << "(t)"; }, 105);
+	rlms::Job jbe1 ([]() { std::cout << "(t_start)"; }, 105);
 
 	rlms::Job jba2 ([]() { std::cout << "[s]"; }, 101);
 	rlms::Job jbb2 ([]() { std::cout << "[a]"; }, 102);
 	rlms::Job jbc2 ([]() { std::cout << "[l]"; }, 103);
 	rlms::Job jbd2 ([]() { std::cout << "[u]"; }, 104);
-	rlms::Job jbe2 ([]() { std::cout << "[t]"; }, 105);
+	rlms::Job jbe2 ([]() { std::cout << "[t_start]"; }, 105);
 
 	rlms::Job jba3 ([]() { std::cout << "{s}"; }, 101);
 	rlms::Job jbb3 ([]() { std::cout << "{a}"; }, 102);
 	rlms::Job jbc3 ([]() { std::cout << "{l}"; }, 103);
 	rlms::Job jbd3 ([]() { std::cout << "{u}"; }, 104);
-	rlms::Job jbe3 ([]() { std::cout << "{t}"; }, 105);
+	rlms::Job jbe3 ([]() { std::cout << "{t_start}"; }, 105);
 
 	rlms::Job jba4 ([]() { std::cout << "\n"; }, 101);
 	rlms::Job jbb4 ([]() { std::cout << "\n"; }, 102);
@@ -232,35 +232,35 @@ int test_scheduler () {
 
 	rlms::Job finaljob ([]() { rlms::JobSystem::FreeMainThread (); }, 200);
 
-	rlms::JobSystem::Register (jba1);
-	rlms::JobSystem::Register (jbb1);
-	rlms::JobSystem::Register (jbc1);
-	rlms::JobSystem::Register (jbd1);
-	rlms::JobSystem::Register (jbe1);
+	rlms::JobSystem::Register (std::move (jba1));
+	rlms::JobSystem::Register (std::move (jbb1));
+	rlms::JobSystem::Register (std::move (jbc1));
+	rlms::JobSystem::Register (std::move (jbd1));
+	rlms::JobSystem::Register (std::move (jbe1));
 
-	rlms::JobSystem::Register (jba2);
-	rlms::JobSystem::Register (jbb2);
-	rlms::JobSystem::Register (jbc2);
-	rlms::JobSystem::Register (jbd2);
-	rlms::JobSystem::Register (jbe2);
+	rlms::JobSystem::Register (std::move (jba2));
+	rlms::JobSystem::Register (std::move (jbb2));
+	rlms::JobSystem::Register (std::move (jbc2));
+	rlms::JobSystem::Register (std::move (jbd2));
+	rlms::JobSystem::Register (std::move (jbe2));
 
-	rlms::JobSystem::Register (jba3);
-	rlms::JobSystem::Register (jbb3);
-	rlms::JobSystem::Register (jbc3);
-	rlms::JobSystem::Register (jbd3);
-	rlms::JobSystem::Register (jbe3);
+	rlms::JobSystem::Register (std::move (jba3));
+	rlms::JobSystem::Register (std::move (jbb3));
+	rlms::JobSystem::Register (std::move (jbc3));
+	rlms::JobSystem::Register (std::move (jbd3));
+	rlms::JobSystem::Register (std::move (jbe3));
 
-	rlms::JobSystem::Register (jba4);
-	rlms::JobSystem::Register (jbb4);
-	rlms::JobSystem::Register (jbc4);
-	rlms::JobSystem::Register (jbd4);
-	rlms::JobSystem::Register (jbe4);
+	rlms::JobSystem::Register (std::move (jba4));
+	rlms::JobSystem::Register (std::move (jbb4));
+	rlms::JobSystem::Register (std::move (jbc4));
+	rlms::JobSystem::Register (std::move (jbd4));
+	rlms::JobSystem::Register (std::move (jbe4));
 
-	rlms::JobSystem::Register (finaljob);
+	rlms::JobSystem::Register (std::move (finaljob));
 
 	rlms::JobSystem::WakeUp ();
 
-	rlms::JobSystem::MainWorker ();
+	rlms::JobSystem::CaptureMainWorker ();
 
 	//while (!rlms::JobSystem::IsBusy ());
 	rlms::JobSystem::Terminate ();
@@ -268,11 +268,69 @@ int test_scheduler () {
 	return 0;
 }
 
+#include "Utility/MultiThreading/PeriodicJob.h"
+
+int test_scheduler2 () {
+
+	auto a = ApplicationTime::Now ();
+
+	while (ApplicationTime::Now () < a) {
+		std::cout << "wtf ça déconne en faite\n";
+	}
+
+	auto b = a + std::chrono::seconds (3);
+	while (!(ApplicationTime::Now () > b)) {
+		std::cout << "echeance non atteinte...\n";
+	}
+
+	rlms::ApplicationTime::Initialize ();
+	rlms::JobSystem::Initialize ();
+
+	rlms::Job jb1 ([]() { std::cout << "(=)"; }, 101);
+	rlms::PeriodicJob<std::ratio<6, 1>> jba1 ([]() { std::cout << "(Display)"; });
+	rlms::PeriodicJob<std::ratio<2, 1>> jba2 ([]() { std::cout << "(Update)"; });
+	rlms::PeriodicJob<std::ratio<1, 2>> jba3 ([]() { std::cout << "(Inputs)\n"; });
+
+	rlms::JobSystem::Register (std::move (jb1));
+	rlms::JobSystem::Register (std::move (jba1));
+	rlms::JobSystem::Register (std::move (jba2));
+	rlms::JobSystem::Register (std::move (jba3));
+
+	rlms::JobSystem::WakeUp ();
+
+	while (rlms::ApplicationTime::Since () < std::chrono::seconds(10)) {
+		rlms::JobSystem::MainWorker ();
+	}
+
+	rlms::JobSystem::Terminate ();
+
+	return 0;
+}
+
+#include "Base/Timer/ApplicationTime.h"
+#include <chrono>
+
+int test_time () {
+	ApplicationTime::Initialize ();
+	std::chrono::duration<double, std::ratio<1, 61>> period (1);
+
+	auto t_start = ApplicationTime::Now ();
+	ApplicationTime::Since (t_start);
+
+	for (int i = 0; i < 50; i++) {
+		while (ApplicationTime::Since (t_start) < period) {
+			std::cout << (period < ApplicationTime::Since (t_start) ? "max prio" : "min prio") << std::endl;
+		}
+		std::cout << "\n" << ApplicationTime::Since (t_start).count () << std::endl << std::endl;
+		t_start = ApplicationTime::Now ();
+	}
+
+	return 0;
+}
+
 int main () {
 	MemCheck ();
-
-	return test_scheduler ();
-
+	return test_scheduler2 ();
 }
 
 int lua_tests() {
@@ -344,7 +402,7 @@ int lua_tests() {
 		std::cout << "ghost is table" << std::endl;
 	} else {
 		if (lua_isnil (L, -1)) {
-			std::cout << "ghost doesn't exists ???" << std::endl;
+			std::cout << "ghost doesn't_start exists ???" << std::endl;
 			lua_close (L);
 			return EXIT_FAILURE;
 		}
@@ -355,7 +413,7 @@ int lua_tests() {
 		std::cout << "ghost is table" << std::endl;
 	} else {
 		if (lua_isnil (L2, -1)) {
-			std::cout << "ghost doesn't exists ???" << std::endl;
+			std::cout << "ghost doesn't_start exists ???" << std::endl;
 			lua_close (L2);
 			return EXIT_FAILURE;
 		}

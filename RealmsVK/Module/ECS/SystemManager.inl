@@ -60,7 +60,7 @@ template<class S> inline S* SystemManagerImpl::getSystem () {
 
 	//System type exists
 	if (it == _systems.end ()) {
-		logger->tag (LogTags::Error) << "System doesn't exist !" << '\n';
+		logger->tag (LogTags::Error) << "System doesn't_start exist !" << '\n';
 		SystemManager::n_errors++;
 		return nullptr;
 	}
@@ -85,7 +85,7 @@ template<class S> inline void SystemManagerImpl::destroySystem () {
 	auto it = _systems.find (&typeid(S));
 
 	if (it == _systems.end ()) {
-		logger->tag (LogTags::Error) << "System doesn't exist !" << '\n';
+		logger->tag (LogTags::Error) << "System doesn't_start exist !" << '\n';
 		SystemManager::n_errors++;
 		return;
 	}

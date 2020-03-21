@@ -109,15 +109,15 @@ TEST_F (TestBindingsEntity, Destructor) {
 
 TEST_F (TestBindingsEntity, addComponent) {
 	Entity e (1);
-	IComponent t;
+	IComponent t_start;
 	ASSERT_NO_THROW (
-		e.add (&t);
+		e.add (&t_start);
 	);
 }
 
 TEST_F (TestBindingsEntity, hasComponent) {
 	Entity e (1);
-	IComponent t;
+	IComponent t_start;
 	bool ret = false;
 
 	ASSERT_NO_THROW (
@@ -126,7 +126,7 @@ TEST_F (TestBindingsEntity, hasComponent) {
 	ASSERT_EQ (ret, false);
 
 	ret = true;
-	e.add (&t);
+	e.add (&t_start);
 	ASSERT_NO_THROW (
 		ret = e.has<IComponent> ();
 	);
@@ -136,29 +136,29 @@ TEST_F (TestBindingsEntity, hasComponent) {
 
 TEST_F (TestBindingsEntity, getComponent) {
 	Entity e (1);
-	IComponent* c, t;
+	IComponent* c, t_start;
 
 	ASSERT_NO_THROW (
 		c = e.get<IComponent> ();
 	);
 	ASSERT_EQ (c, nullptr);
 
-	e.add (&t);
+	e.add (&t_start);
 	ASSERT_NO_THROW (
 		c = e.get<IComponent> ();
 	);
-	ASSERT_EQ (c, &t);
+	ASSERT_EQ (c, &t_start);
 }
 
 TEST_F (TestBindingsEntity, remComponent) {
 	Entity e (1);
-	IComponent t;
+	IComponent t_start;
 
 	ASSERT_NO_THROW (
 		e.rem<IComponent> ();
 	);
 
-	e.add (&t);
+	e.add (&t_start);
 	ASSERT_NO_THROW (
 		e.rem<IComponent> ();
 	);
@@ -176,19 +176,19 @@ TEST_F (TestBindingsEntity, id) {
 TEST_F (TestBindingsEntity, Destructor2) {
 	Entity* e = new Entity (1);
 	TransformComponentPrototype transformProto;
-	TransformComponent* t = transformProto.Create(alloc, e->id(), 5);
-	t->position = Vec3<double> (5, 3, 1);
+	TransformComponent* t_start = transformProto.Create(alloc, e->id(), 5);
+	t_start->position = Vec3<double> (5, 3, 1);
 
-	e->add (t);
+	e->add (t_start);
 	ASSERT_NO_THROW (
 		delete e;
 	);
 
-	ASSERT_NE (t, nullptr);
+	ASSERT_NE (t_start, nullptr);
 	ASSERT_NO_THROW (
-		ASSERT_EQ (t->position.getX (), 5);
-	ASSERT_EQ (t->position.getY (), 3);
-	ASSERT_EQ (t->position.getZ (), 1);
+		ASSERT_EQ (t_start->position.getX (), 5);
+	ASSERT_EQ (t_start->position.getY (), 3);
+	ASSERT_EQ (t_start->position.getZ (), 1);
 	);
 
 }
@@ -201,7 +201,7 @@ TEST_F (TestBindingsEntity, getComponents) {
 
 	IComponent c;
 	TransformComponentPrototype transformProto;
-	TransformComponent* t = transformProto.Create (alloc, e.id (), 5);
+	TransformComponent* t_start = transformProto.Create (alloc, e.id (), 5);
 	std::vector<IComponent*> v;
 	bool ret;
 
@@ -217,13 +217,13 @@ TEST_F (TestBindingsEntity, getComponents) {
 	ASSERT_FALSE (ret);
 
 	e.add (&c);
-	e.add (t);
+	e.add (t_start);
 
 	ASSERT_EQ (e.has<IComponent> (), true);
 	ASSERT_EQ (e.has<TransformComponent> (), true);
 
 	ASSERT_NE (e.get<TransformComponent> (), nullptr);
-	ASSERT_EQ (e.get<TransformComponent> (), t);
+	ASSERT_EQ (e.get<TransformComponent> (), t_start);
 
 	ASSERT_NE (e.get<IComponent> (), nullptr);
 	ASSERT_EQ (e.get<IComponent> (), &c);
@@ -248,7 +248,7 @@ TEST_F (TestBindingsEntity, nominalUseCase) {
 
 	IComponent ca, cb;
 	TransformComponentPrototype transformProto;
-	TransformComponent* t = transformProto.Create (alloc, e.id (), 5);
+	TransformComponent* t_start = transformProto.Create (alloc, e.id (), 5);
 
 	ASSERT_EQ (e.has<IComponent> (), false);
 	ASSERT_EQ (e.has<TransformComponent> (), false);
@@ -271,10 +271,10 @@ TEST_F (TestBindingsEntity, nominalUseCase) {
 	ASSERT_EQ (e.get<IComponent> (), &cb);
 	ASSERT_EQ (e.get<TransformComponent> (), nullptr);
 
-	e.add (t);
+	e.add (t_start);
 
 	ASSERT_EQ (e.has<IComponent> (), true);
 	ASSERT_EQ (e.has<TransformComponent> (), true);
 	ASSERT_NE (e.get<TransformComponent> (), nullptr);
-	ASSERT_EQ (e.get<TransformComponent> (), t);
+	ASSERT_EQ (e.get<TransformComponent> (), t_start);
 }

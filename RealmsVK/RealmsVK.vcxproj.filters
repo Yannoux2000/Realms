@@ -227,6 +227,15 @@
     <ClCompile Include="Module\Graphics\GLError.cpp">
       <Filter>Module\Graphics\OpenGLBase</Filter>
     </ClCompile>
+    <ClCompile Include="Base\Timer\ApplicationTime.cpp">
+      <Filter>Base\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Timer\TimeFormat.cpp">
+      <Filter>Base\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Timer\ITimer.cpp">
+      <Filter>Base\Timer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -309,6 +318,9 @@
     </Filter>
     <Filter Include="Module\Graphics\OpenGLBase">
       <UniqueIdentifier>{012216e6-8e5b-4fac-8e1b-eb564c8e4188}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base\Timer">
+      <UniqueIdentifier>{776e964a-b742-45f5-885d-09f1c480ebc2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -622,12 +634,23 @@
     <ClInclude Include="Utility\MultiThreading\Job.h">
       <Filter>Utility\MultiThreading</Filter>
     </ClInclude>
-    <ClInclude Include="Ratio.h" />
     <ClInclude Include="Module\Graphics\OpenGL.h">
       <Filter>Module\Graphics\OpenGLBase</Filter>
     </ClInclude>
     <ClInclude Include="Module\Graphics\GLError.h">
       <Filter>Module\Graphics\OpenGLBase</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Timer\ApplicationTime.h">
+      <Filter>Base\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Timer\TimeFormat.h">
+      <Filter>Base\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\MultiThreading\PeriodicJob.h">
+      <Filter>Utility\MultiThreading</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Timer\ITimer.h">
+      <Filter>Base\Timer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

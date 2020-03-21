@@ -10,7 +10,7 @@ namespace rlms {
 	private:
 		static constexpr size_t size = 256;
 
-		std::array<Job, size> joblist;
+		std::array<IJob*, size> joblist;
 		size_t head;
 		size_t tail;
 		std::mutex lock;
@@ -18,7 +18,7 @@ namespace rlms {
 
 		FIFOJobScheduler () : head (0), tail (0) {}
 
-		inline bool add_job (Job const& item) override {
+		inline bool add_job (IJob* const& item) override {
 			bool ret = false;
 			size_t next = (head + 1) % size;
 			lock.lock ();
@@ -35,12 +35,12 @@ namespace rlms {
 
 		inline void reset () {}
 
-		inline virtual bool elect_job (Job*& item) override {
+		inline virtual bool elect_job (IJob*& item) override {
 			bool ret = false;
 			lock.lock ();
 
 			if (tail != head) {
-				item = &joblist[tail];
+				item = joblist[tail];
 				tail = (tail + 1) % size;
 				ret = true;
 			}

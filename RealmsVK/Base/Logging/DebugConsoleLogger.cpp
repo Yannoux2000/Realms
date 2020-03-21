@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include "../../_Preprocess.h"
+#include "../Timer/TimeFormat.h"
+#include "../Timer/ApplicationTime.h"
 #include "LogTime.h"
 
 using namespace rlms;
@@ -28,7 +30,7 @@ DebugConsoleLogger::~DebugConsoleLogger () {
 
 void DebugConsoleLogger::log (const std::string& s, const char& tag, std::string name) {
 	std::cout
-		<< LogTime::GetTime ()
+		<< TimeFormat::Precise (ApplicationTime::Since ())
 		<< " : [ " << tag << " ] "
 		<< (name.empty() ? "" : "{" + name + "} ")
 		<< s <<

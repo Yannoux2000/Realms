@@ -38,10 +38,12 @@ private:
 	void poll ();
 
 	// Add a job to execute asynchronously. Any idle thread will execute this job.
-	void execute_job (Job const job);
+	void execute_job (IJob* job);
 	void reset ();
 	void pass (uint8_t n);
-	void register_job (Job const job);
+	void register_job (IJob* job);
+
+	void main_worker ();
 
 	void main_worker_loop ();
 	// Divide a job onto multiple jobs and execute in parallel.
@@ -69,8 +71,12 @@ void rlms::JobSystem::Initialize (std::shared_ptr<Logger> funnel) {
 	instance->start (funnel);
 }
 
-void rlms::JobSystem::Execute (Job const job) {
-	instance->execute_job (job);
+void rlms::JobSystem::Register (IJob* j) {
+	instance->register_job (j);
+}
+
+void rlms::JobSystem::Execute (IJob* j) {
+	instance->execute_job (j);
 }
 
 void rlms::JobSystem::Reset () {
@@ -81,11 +87,11 @@ void rlms::JobSystem::WakeUp (uint8_t n) {
 	instance->pass (n);
 }
 
-void rlms::JobSystem::Register (Job const job) {
-	instance->register_job (job);
+void rlms::JobSystem::MainWorker () {
+	instance->main_worker ();
 }
 
-void rlms::JobSystem::MainWorker () {
+void rlms::JobSystem::CaptureMainWorker () {
 	instance->main_worker_loop ();
 }
 
@@ -122,13 +128,15 @@ void rlms::JobSystemImpl::start (std::shared_ptr<Logger> funnel) {
 	for (uint32_t threadID = 0; threadID < numThreads; ++threadID) {
 		logger->tag (LogTags::Info) <<"Creating thread with id : " << threadID << "\n";
 		std::thread* worker = new std::thread ([this] {
-			Job* job = nullptr; // the current job for the thread, it's empty at start.
+			IJob* job = nullptr; // the current job for the thread, it's empty at start.
 
 			while (!endSignal) {
 				if (jobSched.elect_job (job)) // try to grab a job from the jobSequencer queue
 				{
 					// It found a job, execute it:
 					job->operator()();
+					delete job;
+
 					finishedLabel.fetch_add (1); // update worker label state
 				} else {
 					idleWorkers.fetch_add (1);
@@ -171,11 +179,12 @@ inline void rlms::JobSystemImpl::poll () {
 	std::this_thread::yield (); // allow this thread to be rescheduled
 }
 
-void rlms::JobSystemImpl::execute_job (Job const job) {
+void rlms::JobSystemImpl::execute_job (IJob* job) {
 	// The main thread label state is updated:
 	currentLabel += 1;
 
 	// Try to push a new job until it is pushed successfully:
+
 	while (!jobSched.add_job (job)) {
 		poll ();
 	}
@@ -199,7 +208,7 @@ void rlms::JobSystemImpl::pass (uint8_t n) {
 	}
 }
 
-void rlms::JobSystemImpl::register_job (Job const job) {
+void rlms::JobSystemImpl::register_job (IJob* job) {
 	// The main thread label state is updated:
 	currentLabel += 1;
 
@@ -209,15 +218,26 @@ void rlms::JobSystemImpl::register_job (Job const job) {
 	}
 }
 
-void rlms::JobSystemImpl::main_worker_loop () {
+void rlms::JobSystemImpl::main_worker () {
+	IJob* job = nullptr; // the current job for the thread, it's empty at start.
+	if (jobSched.elect_job (job)) // try to grab a job from the jobSequencer queue
+	{
+		// It found a job, execute it:
+		job->operator()();
+		finishedLabel.fetch_add (1); // update worker label state
+	}
+}
 
-	Job* job = nullptr; // the current job for the thread, it's empty at start.
+void rlms::JobSystemImpl::main_worker_loop () {
+	IJob* job = nullptr; // the current job for the thread, it's empty at start.
 
 	while (!endSignal && !endMainSignal) {
 		if (jobSched.elect_job (job)) // try to grab a job from the jobSequencer queue
 		{
 			// It found a job, execute it:
 			job->operator()();
+			delete job;
+
 			finishedLabel.fetch_add (1); // update worker label state
 		} else {
 			idleWorkers.fetch_add (1);
@@ -228,7 +248,6 @@ void rlms::JobSystemImpl::main_worker_loop () {
 			idleWorkers.fetch_sub (1);
 		}
 	}
-
 }
 
 void rlms::JobSystemImpl::dispatch (uint32_t jobCount, uint32_t groupSize, const std::function<void (JobDispatchArgs)>& job) {

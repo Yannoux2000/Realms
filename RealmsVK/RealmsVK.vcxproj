@@ -155,6 +155,9 @@
     <ClCompile Include="Base\Logging\LoggerHandler.cpp" />
     <ClCompile Include="Base\Logging\LogTime.cpp" />
     <ClCompile Include="Base\Math\VoxelMath.cpp" />
+    <ClCompile Include="Base\Timer\ApplicationTime.cpp" />
+    <ClCompile Include="Base\Timer\ITimer.cpp" />
+    <ClCompile Include="Base\Timer\TimeFormat.cpp" />
     <ClCompile Include="Base\Version.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Module\ECS\ComponentManager.cpp" />
@@ -243,6 +246,9 @@
     <ClInclude Include="Base\Math\Vec3.h" />
     <ClInclude Include="Base\Math\VoxelMath.h" />
     <ClInclude Include="Base\Exception.h" />
+    <ClInclude Include="Base\Timer\ApplicationTime.h" />
+    <ClInclude Include="Base\Timer\ITimer.h" />
+    <ClInclude Include="Base\Timer\TimeFormat.h" />
     <ClInclude Include="Base\Version.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="CoreTypes.h" />
@@ -307,7 +313,6 @@
     <ClInclude Include="Module\World\ChunkManager.h" />
     <ClInclude Include="Module\World\World.h" />
     <ClInclude Include="Module\World\WorldManager.h" />
-    <ClInclude Include="Ratio.h" />
     <ClInclude Include="RealmApplication.h" />
     <ClInclude Include="RealmApplicationMT.h" />
     <ClInclude Include="RealmApplication_old.h" />
@@ -318,6 +323,7 @@
     <ClInclude Include="Utility\MultiThreading\FIFOJobScheduler.h" />
     <ClInclude Include="Utility\MultiThreading\IJobScheduler.h" />
     <ClInclude Include="Utility\MultiThreading\Job.h" />
+    <ClInclude Include="Utility\MultiThreading\PeriodicJob.h" />
     <ClInclude Include="Utility\MultiThreading\PriorityFIFOJobScheduler.h" />
     <ClInclude Include="Utility\MultiThreading\JobSystem.h" />
     <ClInclude Include="VKExemple.h" />

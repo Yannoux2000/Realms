@@ -2,9 +2,12 @@
 
 #include <cstdint>
 #include <limits>
+#include <chrono>
 
 namespace rlms {
 	using MEMORY_SIZE_TYPE = unsigned long long;
+
+	using DURATION = std::chrono::microseconds;
 
 	using OWNER_ID_TYPE = uint8_t;
 

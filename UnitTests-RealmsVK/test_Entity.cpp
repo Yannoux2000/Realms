@@ -29,7 +29,7 @@ TEST (TestEntity, addComponent) {
 	void* mem_ptr = malloc (size_mem);
 	rlms::MasqueradeAllocator * alloc = new rlms::MasqueradeAllocator (size_mem, mem_ptr);
 	TransformComponentPrototype transformProto;
-	TransformComponent* t = transformProto.Create (alloc, e.id (), 5);
+	TransformComponent* t_start = transformProto.Create (alloc, e.id (), 5);
 
 	{
 		SCOPED_TRACE ("IComponent");
@@ -48,7 +48,7 @@ TEST (TestEntity, addComponent) {
 
 TEST (TestEntity, hasComponent) {
 	Entity e (1);
-	IComponent t;
+	IComponent t_start;
 	bool ret = true;
 
 	{
@@ -60,7 +60,7 @@ TEST (TestEntity, hasComponent) {
 	}
 
 	ret = false;
-	e.add (&t);
+	e.add (&t_start);
 
 	{
 		SCOPED_TRACE ("Nominal");
@@ -84,7 +84,7 @@ TEST (TestEntity, hasComponent) {
 
 TEST (TestEntity, getComponent) {
 	Entity e (1);
-	IComponent *c, t;
+	IComponent *c, t_start;
 
 	{
 		SCOPED_TRACE ("Before Add");
@@ -94,14 +94,14 @@ TEST (TestEntity, getComponent) {
 		ASSERT_EQ (c, nullptr);
 	}
 
-	e.add (&t);
+	e.add (&t_start);
 
 	{
 		SCOPED_TRACE ("Nominal");
 		ASSERT_NO_THROW (
 			c = e.get<IComponent> ();
 		);
-		ASSERT_EQ (c, &t);
+		ASSERT_EQ (c, &t_start);
 	}
 
 	e.rem<IComponent> ();
@@ -117,7 +117,7 @@ TEST (TestEntity, getComponent) {
 
 TEST (TestEntity, remComponent) {
 	Entity e (1);
-	IComponent t;
+	IComponent t_start;
 
 	{
 		SCOPED_TRACE ("Before Add");
@@ -126,7 +126,7 @@ TEST (TestEntity, remComponent) {
 		);
 	}
 
-	e.add (&t);
+	e.add (&t_start);
 	{
 		SCOPED_TRACE ("Nominal");
 		ASSERT_NO_THROW (
@@ -162,9 +162,9 @@ TEST (TestEntity, Destructor2) {
 	rlms::MasqueradeAllocator* alloc = new rlms::MasqueradeAllocator (size_mem, mem_ptr);
 
 	TransformComponentPrototype transformProto;
-	TransformComponent* t = transformProto.Create (alloc, e->id (), 5);
-	t->position = Vec3<double> (5, 3, 1);
-	e->add (t);
+	TransformComponent* t_start = transformProto.Create (alloc, e->id (), 5);
+	t_start->position = Vec3<double> (5, 3, 1);
+	e->add (t_start);
 
 	{
 		SCOPED_TRACE ("NonDestructionComponents");
@@ -172,11 +172,11 @@ TEST (TestEntity, Destructor2) {
 			delete e;
 		);
 
-		ASSERT_NE (t, nullptr);
+		ASSERT_NE (t_start, nullptr);
 		ASSERT_NO_THROW (
-			ASSERT_EQ (t->position.getX (), 5);
-			ASSERT_EQ (t->position.getY (), 3);
-			ASSERT_EQ (t->position.getZ (), 1);
+			ASSERT_EQ (t_start->position.getX (), 5);
+			ASSERT_EQ (t_start->position.getY (), 3);
+			ASSERT_EQ (t_start->position.getZ (), 1);
 		);
 	}
 }
@@ -193,7 +193,7 @@ TEST (TestEntity, getComponents) {
 	rlms::MasqueradeAllocator* alloc = new rlms::MasqueradeAllocator (size_mem, mem_ptr);
 
 	TransformComponentPrototype transformProto;
-	TransformComponent* t = transformProto.Create (alloc, e.id (), 5);
+	TransformComponent* t_start = transformProto.Create (alloc, e.id (), 5);
 	std::vector<IComponent*> v;
 	bool ret;
 
@@ -212,13 +212,13 @@ TEST (TestEntity, getComponents) {
 	}
 
 	e.add (&c);
-	e.add (t);
+	e.add (t_start);
 
 	{
 		SCOPED_TRACE ("Nominal");
 		ASSERT_EQ (e.has<IComponent> (), true);
 		ASSERT_EQ (e.has<TransformComponent> (), true);
-		ASSERT_EQ (e.get<TransformComponent> (), t);
+		ASSERT_EQ (e.get<TransformComponent> (), t_start);
 		ASSERT_EQ (e.get<IComponent> (), &c);
 
 		v = e.getComponents ();
@@ -247,7 +247,7 @@ TEST (TestEntity, nominalUseCase) {
 	rlms::MasqueradeAllocator* alloc = new rlms::MasqueradeAllocator (size_mem, mem_ptr);
 
 	TransformComponentPrototype transformProto;
-	TransformComponent* t = transformProto.Create (alloc, e.id (), 5);
+	TransformComponent* t_start = transformProto.Create (alloc, e.id (), 5);
 
 	ASSERT_EQ (e.has<IComponent> (), false);
 	ASSERT_EQ (e.has<TransformComponent> (), false);
@@ -270,11 +270,11 @@ TEST (TestEntity, nominalUseCase) {
 	ASSERT_EQ (e.get<IComponent> (), &cb);
 	ASSERT_EQ (e.get<TransformComponent> (), nullptr);
 
-	e.add (t);
+	e.add (t_start);
 
 	ASSERT_EQ (e.has<IComponent> (), true);
 	ASSERT_EQ (e.has<TransformComponent> (), true);
 	ASSERT_NE (e.get<TransformComponent> (), nullptr);
-	ASSERT_EQ (e.get<TransformComponent> (), t);
+	ASSERT_EQ (e.get<TransformComponent> (), t_start);
 
 }

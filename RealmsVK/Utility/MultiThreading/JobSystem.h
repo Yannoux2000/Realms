@@ -18,15 +18,17 @@ namespace rlms {
 		static void Initialize (std::shared_ptr<Logger> funnel = nullptr);
 
 		// Add a job to execute asynchronously. Any idle thread will execute this job.
-		static void Execute (Job const job);
+		template<class JobType> static void Register (JobType&& job);
+		template<class JobType> static void Execute (JobType&& job);
+
+		static void Register (IJob* j);
+		static void Execute (IJob* j);
 
 		static void Reset ();
 		static void WakeUp (uint8_t n = 0);
 
-		// Add a job to execute asynchronously. Any idle thread will execute this job.
-		static void Register (Job const job);
-
 		static void MainWorker ();
+		static void CaptureMainWorker ();
 		static void FreeMainThread ();
 
 		// Divide a job onto multiple jobs and execute in parallel.
@@ -42,4 +44,14 @@ namespace rlms {
 	private:
 		static std::unique_ptr<JobSystemImpl> instance;
 	};
+
+	template<class JobType> void JobSystem::Register (JobType&& job) {
+		JobType* j = new JobType (std::move(job));
+		Register (static_cast<IJob*>(j));
+	}
+
+	template<class JobType> void JobSystem::Execute (JobType&& job) {
+		JobType* j = new JobType (std::move(job));
+		Execute (static_cast<IJob*>(j));
+	}
 }

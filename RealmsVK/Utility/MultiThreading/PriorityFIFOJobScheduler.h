@@ -5,32 +5,32 @@
 #include <vector>
 #include <algorithm>
 
+#include "IJobScheduler.h"
 #include "JobSystem.h"
-#include "Job.h"
 
 namespace rlms {
-	class PriorityFIFOJobScheduler {
+	class PriorityFIFOJobScheduler : public IJobScheduler {
 	private:
 		static constexpr size_t size = 256;
 
-		std::vector<Job> joblist;
-		std::vector<Job> current_p_joblist;
+		std::vector<IJob*> joblist;
+		std::vector<IJob*> current_p_joblist;
 		std::mutex lock;
 
 		size_t tail = 0;
 
-		std::vector<Job>::iterator it_head;
+		std::vector<IJob*>::iterator it_head;
 
 		JOB_PRIORITY_TYPE current_p = JOB_MAX_PRIORITY;
 
 	public:
-		inline bool add_job (Job const& item) {
+		inline bool add_job (IJob* const& item) override {
 			bool ret = false;
 			lock.lock ();
 
 			if (joblist.size() <= size) {
-				it_head = std::upper_bound (joblist.begin (), joblist.end (), item, [](Job const& a, Job const& b) { return a.priority < b.priority; });
-				joblist.insert (it_head, item);
+				it_head = std::upper_bound (joblist.begin (), joblist.end (), item, [](IJob* const& a, IJob* const& b) { return a->getPriority() < b->getPriority (); });
+				joblist.emplace (it_head, std::move(item));
 				ret = true;
 			}
 
@@ -42,7 +42,7 @@ namespace rlms {
 			tail = 0;
 		}
 
-		inline bool elect_job (Job*& item) {
+		inline bool elect_job (IJob*& item) {
 			bool ret = false;
 			lock.lock ();
 
@@ -57,12 +57,25 @@ namespace rlms {
 				auto it = std::min (joblist.begin (), joblist.end ());
 
 				if (it != joblist.end ()) { //extract same priority jobs to be executed now
-					auto begin = std::lower_bound (joblist.begin (), joblist.end (), (*it), [](Job const& a, Job const& b) { return a.priority < b.priority; });
-					auto end = std::upper_bound (begin, joblist.end (), (*it), [](Job const& a, Job const& b) { return a.priority < b.priority; });
+					auto begin = std::lower_bound (joblist.begin (), joblist.end (), (*it), [](IJob* const& a, IJob* const& b) { return a->getPriority () < b->getPriority (); });
+					auto end = std::upper_bound (begin, joblist.end (), (*it), [](IJob* const& a, IJob* const& b) { return a->getPriority () < b->getPriority (); });
 
 					//transfer jobs to current_priority queue
 					current_p_joblist.assign (begin, end);
 					joblist.erase (begin, end);
+
+					//non-availables are reinserted back
+					for (int i = 0; i < current_p_joblist.size(); i++) {
+						auto it = current_p_joblist.begin () + i;
+
+						if (!(*it)->available ()) {
+							it_head = std::upper_bound (joblist.begin (), joblist.end (), (*it), [](IJob* const& a, IJob* const& b) { return a->getPriority () < b->getPriority (); });
+							joblist.emplace (it_head, std::move ((*it)));
+
+							current_p_joblist.erase (it);
+							i--;
+						}
+					}
 
 					//reset iterator
 					tail = 0;
@@ -70,7 +83,7 @@ namespace rlms {
 			}
 
 			if(current_p_joblist.begin () + tail != current_p_joblist.end()) {
-				item = &(*(current_p_joblist.begin () + tail));
+				item = *(current_p_joblist.begin () + tail);
 				tail++;
 				ret = true;
 			}

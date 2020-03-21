@@ -1,10 +1,10 @@
 #pragma once
 
 #include "../../CoreTypes.h"
+#include "../../Base/IBase.h"
 #include <functional>
 
 namespace rlms {
-
 	// This works fine as f1 and f2 are std::function<void()>
 	// binding to a ref will make the evolutions be taken into account
 	//
@@ -24,20 +24,14 @@ namespace rlms {
 	//	f2 ();
 	//}
 
-
-	struct IJob {
+	struct IJob : public IBase {
 		std::function<void ()> job;
 
 		IJob () {}
+		IJob (std::function<void ()> item ) : job(item) {}
+		IJob (IJob && j) noexcept : job(std::move(j.job)) {}
 
-		IJob (std::function<void ()> item ) : job(item) {
-		}
-
-		virtual void operator()() {
-			if (job) {
-				job ();
-			} else throw std::exception ("invalid job");
-		}
+		virtual void operator()() = 0;
 
 		virtual bool available () {
 			return true;
@@ -62,24 +56,17 @@ namespace rlms {
 
 	public:
 		Job () : IJob(), priority (JOB_MIN_PRIORITY) {}
-		Job (std::function<void ()> item, JOB_PRIORITY_TYPE const n = JOB_MIN_PRIORITY) : IJob(item), priority (n) {}
+		Job (std::function<void ()> item, JOB_PRIORITY_TYPE const n = JOB_MIN_PRIORITY) : IJob (item), priority (n) {}
+		Job (Job&& j) noexcept : IJob (std::move (j)), priority(std::move(j.priority))  {}
+
+		void operator()() override {
+			if (job) {
+				job ();
+			} else throw std::exception ("invalid job");
+		}
 
 		JOB_PRIORITY_TYPE const getPriority () const override {
 			return priority;
-		}
-	};
-
-	struct PeriodicJob : public IJob {
-		JOB_RATE_TYPE rate;
-
-		PeriodicJob () : IJob (), rate (0) {}
-		PeriodicJob (std::function<void ()> item, JOB_PRIORITY_TYPE const n = JOB_MIN_PRIORITY) : IJob (item), rate (n) {}
-
-		void operator()() override {
-			if (job != nullptr) {
-				job ();
-			}
-			else throw std::exception ("invalid job");
 		}
 	};
 }
