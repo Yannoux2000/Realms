@@ -36,7 +36,6 @@ namespace rlms {
 	private:
 		using _allocType = MasqueradeAllocator;
 
-
 	public:
 		struct MemorySettings {
 			size_t total_size = 16384;
@@ -53,7 +52,7 @@ namespace rlms {
 
 		void start (ApplicationSettings& stgs) {
 			startLogger (nullptr, true);
-			logger->tag (LogTags::None) << "Starting Application.\n";
+			logger->tag (LogTags::None) << "Initializing Application.\n";
 
 			//read all graphics and controls and mods options
 
@@ -63,7 +62,7 @@ namespace rlms {
 			initGraphics (stgs);
 			initInputs (stgs);
 			initGameCore (stgs);
-			logger->tag (LogTags::None) << "Application is Started.\n";
+			logger->tag (LogTags::None) << "Application is Ready.\n";
 		}
 
 		void run () {
@@ -125,8 +124,9 @@ namespace rlms {
 
 		void initMemory (ApplicationSettings& stgs) {
 			void* mem = malloc (stgs.memory.total_size);
-			app_alloc = std::make_unique<_allocType> (mem, stgs.memory.total_size);
+			app_alloc = std::unique_ptr<_allocType> (new _allocType (stgs.memory.total_size, mem));
 		}
+
 		void initWindow (ApplicationSettings& stgs) {
 			logger->tag (LogTags::Debug) << "Initializing Window.";
 

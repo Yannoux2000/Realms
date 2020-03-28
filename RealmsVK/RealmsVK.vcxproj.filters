@@ -41,9 +41,6 @@
     <ClCompile Include="Base\Logging\LoggerHandler.cpp">
       <Filter>Base\Logging</Filter>
     </ClCompile>
-    <ClCompile Include="Base\Logging\LogTime.cpp">
-      <Filter>Base\Logging</Filter>
-    </ClCompile>
     <ClCompile Include="Base\Math\VoxelMath.cpp">
       <Filter>Base\Math</Filter>
     </ClCompile>
@@ -236,6 +233,15 @@
     <ClCompile Include="Base\Timer\ITimer.cpp">
       <Filter>Base\Timer</Filter>
     </ClCompile>
+    <ClCompile Include="Module\GUI\IWidget.cpp">
+      <Filter>Module\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\GUI\Layer.cpp">
+      <Filter>Module\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\GUI\UIConstraint.cpp">
+      <Filter>Module\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -322,6 +328,9 @@
     <Filter Include="Base\Timer">
       <UniqueIdentifier>{776e964a-b742-45f5-885d-09f1c480ebc2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility\DataManagement">
+      <UniqueIdentifier>{3e07e0aa-2f38-4a22-a80e-525727eeed15}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_MemLeakMonitor.h" />
@@ -371,9 +380,6 @@
       <Filter>Base\Logging</Filter>
     </ClInclude>
     <ClInclude Include="Base\Logging\LoggerHandler.h">
-      <Filter>Base\Logging</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\Logging\LogTime.h">
       <Filter>Base\Logging</Filter>
     </ClInclude>
     <ClInclude Include="Base\Math\IVoxel.h">
@@ -651,6 +657,15 @@
     </ClInclude>
     <ClInclude Include="Base\Timer\ITimer.h">
       <Filter>Base\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\GUI\IWidget.h">
+      <Filter>Module\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\GUI\Layer.h">
+      <Filter>Module\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\GUI\UIConstraint.h">
+      <Filter>Module\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

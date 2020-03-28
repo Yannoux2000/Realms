@@ -1,5 +1,6 @@
 #pragma once
 #include "JobSystem.h"
+#include <memory>
 
 namespace rlms {
 	class IJobScheduler {

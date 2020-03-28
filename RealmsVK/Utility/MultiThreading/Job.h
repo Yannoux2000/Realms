@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../_PreProcess.h"
 #include "../../CoreTypes.h"
 #include "../../Base/IBase.h"
 #include <functional>
@@ -55,18 +56,39 @@ namespace rlms {
 		JOB_PRIORITY_TYPE priority;
 
 	public:
-		Job () : IJob(), priority (JOB_MIN_PRIORITY) {}
 		Job (std::function<void ()> item, JOB_PRIORITY_TYPE const n = JOB_MIN_PRIORITY) : IJob (item), priority (n) {}
-		Job (Job&& j) noexcept : IJob (std::move (j)), priority(std::move(j.priority))  {}
+		Job (Job&& j) noexcept : IJob (std::move (j)), priority (std::move (j.priority)) {}
 
 		void operator()() override {
-			if (job) {
+			if (job && available()) {
 				job ();
 			} else throw std::exception ("invalid job");
 		}
 
 		JOB_PRIORITY_TYPE const getPriority () const override {
 			return priority;
+		}
+	};
+
+	class ConditionnalJob : public Job {
+	private:
+		std::function<bool ()> condition;
+
+	public:
+		ConditionnalJob (std::function<bool()> cond ,std::function<void ()> item, JOB_PRIORITY_TYPE const n = JOB_MIN_PRIORITY) : Job (item, n), condition(cond) {}
+		ConditionnalJob (ConditionnalJob&& j) noexcept : Job (std::move (j)), condition (std::move (j.condition)) {}
+
+		bool available () override {
+			if (condition) {
+				return condition ();
+			} else throw std::exception ("invalid condition");
+			return false;
+		}
+
+		void operator()() override {
+			if (job) {
+				job ();
+			} else throw std::exception ("invalid job");
 		}
 	};
 }

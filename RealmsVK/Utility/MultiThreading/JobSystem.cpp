@@ -113,7 +113,7 @@ void rlms::JobSystem::Terminate () {
 }
 
 void rlms::JobSystemImpl::start (std::shared_ptr<Logger> funnel) {
-	startLogger (funnel, true);
+	startLogger (funnel);
 	logger->tag (LogTags::None) << "Initializing !" << '\n';
 
 	// Initialize the worker execution state to 0:
@@ -121,14 +121,14 @@ void rlms::JobSystemImpl::start (std::shared_ptr<Logger> funnel) {
 	endSignal.store (false);
 
 	auto numCores = std::thread::hardware_concurrency ();
-	numThreads = std::max (1u, numCores);
+	numThreads = std::max (1u, numCores - 1);
 	logger->tag (LogTags::Info) << numThreads << " Threads counted for " << numCores << " Processing units.\n";
 
 	//starting workers
 	for (uint32_t threadID = 0; threadID < numThreads; ++threadID) {
 		logger->tag (LogTags::Info) <<"Creating thread with id : " << threadID << "\n";
 		std::thread* worker = new std::thread ([this] {
-			IJob* job = nullptr; // the current job for the thread, it's empty at start.
+			IJob* job; // the current job for the thread, it's empty at start.
 
 			while (!endSignal) {
 				if (jobSched.elect_job (job)) // try to grab a job from the jobSequencer queue
@@ -142,7 +142,7 @@ void rlms::JobSystemImpl::start (std::shared_ptr<Logger> funnel) {
 					idleWorkers.fetch_add (1);
 					// no job, put thread to sleep
 					std::unique_lock<std::mutex> lock (wakeMutex);
-					wakeCondition.wait (lock);
+					wakeCondition.wait_for (lock, std::chrono::milliseconds(10));
 
 					idleWorkers.fetch_sub (1);
 				}
@@ -159,7 +159,9 @@ void rlms::JobSystemImpl::start (std::shared_ptr<Logger> funnel) {
 
 void rlms::JobSystemImpl::stop () {
 	//wait for all jobs to end
-	while (isBusy ()) { poll (); }
+	while (isBusy ()) {
+		poll ();
+	}
 	logger->tag (LogTags::None) << "Stopping" << '\n';
 
 	//send end signal
@@ -198,10 +200,13 @@ void rlms::JobSystemImpl::reset () {
 
 void rlms::JobSystemImpl::pass (uint8_t n) {
 
-	logger->tag (LogTags::None) << "Stopping" << '\n';
+	logger->tag (LogTags::None) << "Waking ";
+	
 	if (n == 0) {
+		*logger << "all threads.\n";
 		wakeCondition.notify_all ();
 	} else {
+		*logger << n << " threads.\n";
 		for (uint8_t i = 0; i < n; i++) {
 			wakeCondition.notify_one ();
 		}
@@ -224,6 +229,7 @@ void rlms::JobSystemImpl::main_worker () {
 	{
 		// It found a job, execute it:
 		job->operator()();
+		delete job;
 		finishedLabel.fetch_add (1); // update worker label state
 	}
 }

@@ -3,7 +3,6 @@
 #include "../../_Preprocess.h"
 #include "../Timer/TimeFormat.h"
 #include "../Timer/ApplicationTime.h"
-#include "LogTime.h"
 
 using namespace rlms;
 FileLogger::FileLogger (std::string filename) {
@@ -37,7 +36,6 @@ void FileLogger::log (const std::string& s, const char& tag, std::string name) {
 		<< TimeFormat::Precise (ApplicationTime::Since ())
 		<< " : [ " << tag << " ] " 
 		<< (name.empty () ? "" : "{" + name + "} ")
-		<< s <<
-	std::endl;
+		<< s << std::endl;
 	_file.flush ();
 };

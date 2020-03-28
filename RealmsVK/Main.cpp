@@ -270,8 +270,7 @@ int test_scheduler () {
 
 #include "Utility/MultiThreading/PeriodicJob.h"
 
-int test_scheduler2 () {
-
+int test_applicationtime () {
 	auto a = ApplicationTime::Now ();
 
 	while (ApplicationTime::Now () < a) {
@@ -283,13 +282,20 @@ int test_scheduler2 () {
 		std::cout << "echeance non atteinte...\n";
 	}
 
+	return 0;
+}
+
+int test_scheduler2 () {
+
 	rlms::ApplicationTime::Initialize ();
 	rlms::JobSystem::Initialize ();
 
+	std::atomic_bool stop = false;
+
 	rlms::Job jb1 ([]() { std::cout << "(=)"; }, 101);
-	rlms::PeriodicJob<std::ratio<6, 1>> jba1 ([]() { std::cout << "(Display)"; });
-	rlms::PeriodicJob<std::ratio<2, 1>> jba2 ([]() { std::cout << "(Update)"; });
-	rlms::PeriodicJob<std::ratio<1, 2>> jba3 ([]() { std::cout << "(Inputs)\n"; });
+	rlms::PeriodicJob<std::ratio<1, 1>> jba1 ([]() { std::cout << "(Display)"; }, stop);
+	rlms::PeriodicJob<std::ratio<100, 120>> jba2 ([]() { std::cout << "(Update)"; }, stop);
+	rlms::PeriodicJob<std::ratio<100, 120>> jba3 ([]() { std::cout << "(Inputs)\n"; }, stop);
 
 	rlms::JobSystem::Register (std::move (jb1));
 	rlms::JobSystem::Register (std::move (jba1));
@@ -298,39 +304,75 @@ int test_scheduler2 () {
 
 	rlms::JobSystem::WakeUp ();
 
-	while (rlms::ApplicationTime::Since () < std::chrono::seconds(10)) {
+	while (rlms::ApplicationTime::Since () < std::chrono::seconds (3)) {
 		rlms::JobSystem::MainWorker ();
 	}
 
-	rlms::JobSystem::Terminate ();
+	stop.store (true);
 
+	rlms::JobSystem::Terminate ();
 	return 0;
 }
 
-#include "Base/Timer/ApplicationTime.h"
-#include <chrono>
+int test_scheduler3 () {
+	rlms::ApplicationTime::Initialize ();
+	rlms::JobSystem::Initialize ();
 
-int test_time () {
-	ApplicationTime::Initialize ();
-	std::chrono::duration<double, std::ratio<1, 61>> period (1);
+	std::atomic_bool stop_a = false;
+	std::atomic_bool stop_b = false;
 
-	auto t_start = ApplicationTime::Now ();
-	ApplicationTime::Since (t_start);
+	rlms::JobSystem::Execute (std::move (Job ([&stop_a, &stop_b]() {
+		while (!stop_a || !stop_b);
+		std::cout << "salut" << std::endl;
+		}, 200)));
 
-	for (int i = 0; i < 50; i++) {
-		while (ApplicationTime::Since (t_start) < period) {
-			std::cout << (period < ApplicationTime::Since (t_start) ? "max prio" : "min prio") << std::endl;
-		}
-		std::cout << "\n" << ApplicationTime::Since (t_start).count () << std::endl << std::endl;
-		t_start = ApplicationTime::Now ();
+	while (rlms::ApplicationTime::Since () < std::chrono::seconds (3)) { }
+
+	rlms::JobSystem::Execute (std::move (Job ([&stop_a]() {
+		std::cout << "wow a" << std::endl;
+		stop_a.store (true);
+		}, 100)));
+
+	while (rlms::ApplicationTime::Since () < std::chrono::seconds (6)) { }
+
+	rlms::JobSystem::Execute (std::move (Job ([&stop_b]() {
+		std::cout << "wow b" << std::endl;
+		stop_b.store (true);
+		}, 100)));
+
+	std::cout << "timed out ?" << std::endl;
+
+	rlms::JobSystem::Terminate ();
+	return 0;
+}
+
+#include "fmod/fmod.hpp"
+#include "fmod/fmod_errors.h" // Only if you want error checking
+
+int test_fmod () {
+	FMOD::System* m_pSystem;
+
+	if (FMOD::System_Create (&m_pSystem) != FMOD_OK) {
+   // Report Error
+		return 1;
 	}
 
+	int driverCount = 0;
+	m_pSystem->getNumDrivers (&driverCount);
+
+	if (driverCount == 0) {
+	   // Report Error
+		return 2;
+	}
+
+	// Initialize our Instance with 36 Channels
+	m_pSystem->init (36, FMOD_INIT_NORMAL, NULL);
 	return 0;
 }
 
 int main () {
 	MemCheck ();
-	return test_scheduler2 ();
+	return application_test ();
 }
 
 int lua_tests() {

@@ -33,3 +33,7 @@
 #ifndef RLMS_DEBUG
 #define RLMS_DEBUG_BOOL false
 #endif // RLMS_DEBUG
+
+#ifdef RLMS_DEBUG
+#include "_MemLeakMonitor.h"
+#endif

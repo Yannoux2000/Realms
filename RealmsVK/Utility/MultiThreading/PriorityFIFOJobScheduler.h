@@ -11,6 +11,9 @@
 namespace rlms {
 	class PriorityFIFOJobScheduler : public IJobScheduler {
 	private:
+		static bool comparator (IJob* const& a, IJob* const& b) {
+			return a->getPriority () < b->getPriority (); 
+		}
 		static constexpr size_t size = 256;
 
 		std::vector<IJob*> joblist;
@@ -18,8 +21,6 @@ namespace rlms {
 		std::mutex lock;
 
 		size_t tail = 0;
-
-		std::vector<IJob*>::iterator it_head;
 
 		JOB_PRIORITY_TYPE current_p = JOB_MAX_PRIORITY;
 
@@ -29,7 +30,7 @@ namespace rlms {
 			lock.lock ();
 
 			if (joblist.size() <= size) {
-				it_head = std::upper_bound (joblist.begin (), joblist.end (), item, [](IJob* const& a, IJob* const& b) { return a->getPriority() < b->getPriority (); });
+				auto it_head = std::upper_bound (joblist.begin (), joblist.end (), item, comparator);
 				joblist.emplace (it_head, std::move(item));
 				ret = true;
 			}
@@ -57,8 +58,8 @@ namespace rlms {
 				auto it = std::min (joblist.begin (), joblist.end ());
 
 				if (it != joblist.end ()) { //extract same priority jobs to be executed now
-					auto begin = std::lower_bound (joblist.begin (), joblist.end (), (*it), [](IJob* const& a, IJob* const& b) { return a->getPriority () < b->getPriority (); });
-					auto end = std::upper_bound (begin, joblist.end (), (*it), [](IJob* const& a, IJob* const& b) { return a->getPriority () < b->getPriority (); });
+					auto begin = std::lower_bound (joblist.begin (), joblist.end (), (*it), comparator);
+					auto end = std::upper_bound (begin, joblist.end (), (*it), comparator);
 
 					//transfer jobs to current_priority queue
 					current_p_joblist.assign (begin, end);
@@ -69,7 +70,7 @@ namespace rlms {
 						auto it = current_p_joblist.begin () + i;
 
 						if (!(*it)->available ()) {
-							it_head = std::upper_bound (joblist.begin (), joblist.end (), (*it), [](IJob* const& a, IJob* const& b) { return a->getPriority () < b->getPriority (); });
+							auto it_head = std::upper_bound (joblist.begin (), joblist.end (), (*it), comparator);
 							joblist.emplace (it_head, std::move ((*it)));
 
 							current_p_joblist.erase (it);

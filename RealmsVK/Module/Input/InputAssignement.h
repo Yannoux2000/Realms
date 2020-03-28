@@ -3,6 +3,7 @@
 //#include "SFML/Window.hpp"
 #include "../../Base/Math/Vec2.h"
 #include "Input.h"
+#include "InputManager.h"
 
 // Action : a single-time thing like openning a door or casting a spell pressed then discarded
 // State : a repeatable action, like walking in an fps or arrows in a str
@@ -124,7 +125,9 @@ namespace rlms {
 		KeyMouseSlideAssignement (int && key) : m_key (key), SlideInputAssignement () {};
 
 		void update (Input& n) override {
-			//slideUpdate (sf::Keyboard::isKeyPressed (m_key), sf::Mouse::getPosition ());
+			if (n.scancode == m_key) {
+				slideUpdate (n.action == Input::InputAction::Press, InputManager::GetCursorPos());
+			}
 		}
 	};
 
@@ -136,7 +139,9 @@ namespace rlms {
 		MouseButtonInputAssignement (int && button) : m_button (button), InputAssignement () {};
 
 		void update (Input& n) override {
-			//flagUpdate (sf::Mouse::isButtonPressed (m_button));
+			if (n.scancode == m_button) {
+				flagUpdate (n.action == Input::InputAction::Press);
+			}
 		}
 	};
 
@@ -148,7 +153,9 @@ namespace rlms {
 		MouseButtonSlideAssignement (int && button) : m_button (button), SlideInputAssignement () {};
 
 		void update (Input& n) override {
-			//slideUpdate (sf::Mouse::isButtonPressed (m_button), sf::Mouse::getPosition ());
+			if (n.scancode == m_button) {
+				slideUpdate (n.action == Input::InputAction::Press, InputManager::GetCursorPos ());
+			}
 		}
 	};
 }

@@ -3,6 +3,7 @@
 #include "JobSystem.h"
 #include "../../Base/Timer/ApplicationTime.h"
 #include "../../CoreTypes.h"
+#include <atomic>
 
 namespace rlms {
 	struct DelayedJob : public IJob {
@@ -34,24 +35,27 @@ namespace rlms {
 		ApplicationTime::time_point t_start;
 		ApplicationTime::time_point t_end;
 
-		PeriodicJob () : IJob (), t_start (ApplicationTime::Now ()), t_end(ApplicationTime::Now()) {
+		std::atomic_bool& kill_signal;
+
+		PeriodicJob (std::function<void ()> item, std::atomic_bool& signal) 
+			: IJob (item), t_start (ApplicationTime::Now ()), t_end (ApplicationTime::Now ()), kill_signal(signal) {
 			t_end += std::chrono::duration_cast<ApplicationTime::chrono::duration>(d);
 		}
-		PeriodicJob (std::function<void ()> item) : IJob (item), t_start (ApplicationTime::Now ()), t_end (ApplicationTime::Now ()) {
+		PeriodicJob (std::function<void ()>&& item, ApplicationTime::time_point t_start, std::atomic_bool& signal) 
+			: IJob (item), t_start (t_start), t_end (t_start), kill_signal(signal) {
 			t_end += std::chrono::duration_cast<ApplicationTime::chrono::duration>(d);
 		}
-		PeriodicJob (std::function<void ()>&& item, ApplicationTime::time_point t_start) : IJob (item), t_start (t_start), t_end (t_start) {
-			t_end += std::chrono::duration_cast<ApplicationTime::chrono::duration>(d);
-		}
-		PeriodicJob (PeriodicJob && j) noexcept : IJob(std::move(j)), t_start(std::move(j.t_start)), t_end (std::move(j.t_end)) {}
+		PeriodicJob (PeriodicJob && j) noexcept 
+			: IJob(std::move(j)), t_start(std::move(j.t_start)), t_end (std::move(j.t_end)), kill_signal(j.kill_signal) {}
 
 		void operator()() override {
 			if (job != nullptr) {
-				t_start = ApplicationTime::Now ();
 				job ();
 			} else throw std::exception ("invalid job");
 
-			rlms::JobSystem::Register (PeriodicJob<period> (std::move(job), t_end));
+			if(kill_signal != true) {
+				rlms::JobSystem::Register (PeriodicJob<period> (std::move(job), std::max(t_end, ApplicationTime::Now()), kill_signal));
+			}
 		}
 
 		bool available () override {

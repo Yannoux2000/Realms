@@ -82,7 +82,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>..\ExtLibs\libs-msvc\libs-x64;C:\VulkanSDK\1.2.131.2\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;vulkan-1.lib;lua53.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;vulkan-1.lib;lua53.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -153,7 +153,6 @@
     <ClCompile Include="Base\Logging\ILogged.cpp" />
     <ClCompile Include="Base\Logging\Logger.cpp" />
     <ClCompile Include="Base\Logging\LoggerHandler.cpp" />
-    <ClCompile Include="Base\Logging\LogTime.cpp" />
     <ClCompile Include="Base\Math\VoxelMath.cpp" />
     <ClCompile Include="Base\Timer\ApplicationTime.cpp" />
     <ClCompile Include="Base\Timer\ITimer.cpp" />
@@ -193,6 +192,9 @@
     <ClCompile Include="Module\Graphics\VulkanException.cpp" />
     <ClCompile Include="Module\Graphics\VulkanRenderPipeline.cpp" />
     <ClCompile Include="Module\Graphics\VulkanSwapChain.cpp" />
+    <ClCompile Include="Module\GUI\IWidget.cpp" />
+    <ClCompile Include="Module\GUI\Layer.cpp" />
+    <ClCompile Include="Module\GUI\UIConstraint.cpp" />
     <ClCompile Include="Module\Input\AssignSanitizer.cpp" />
     <ClCompile Include="Module\Input\Input.cpp" />
     <ClCompile Include="Module\Input\InputAssignement.cpp" />
@@ -238,7 +240,6 @@
     <ClInclude Include="Base\Logging\ILogged.h" />
     <ClInclude Include="Base\Logging\Logger.h" />
     <ClInclude Include="Base\Logging\LoggerHandler.h" />
-    <ClInclude Include="Base\Logging\LogTime.h" />
     <ClInclude Include="Base\Math\IVoxel.h" />
     <ClInclude Include="Base\Math\Rect.h" />
     <ClInclude Include="Base\Math\Vec.h" />
@@ -294,6 +295,9 @@
     <ClInclude Include="Module\Graphics\VulkanException.h" />
     <ClInclude Include="Module\Graphics\VulkanRenderPipeline.h" />
     <ClInclude Include="Module\Graphics\VulkanSwapChain.h" />
+    <ClInclude Include="Module\GUI\IWidget.h" />
+    <ClInclude Include="Module\GUI\Layer.h" />
+    <ClInclude Include="Module\GUI\UIConstraint.h" />
     <ClInclude Include="Module\Input\AssignSanitizer.h" />
     <ClInclude Include="Module\Input\Input.h" />
     <ClInclude Include="Module\Input\InputAssignement.h" />

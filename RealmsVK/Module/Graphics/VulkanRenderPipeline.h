@@ -39,6 +39,7 @@ namespace rlms {
 			_SwapChain.createFramebuffers (*r_device, renderPass);
 
 		}
+
 		void stop () {
 			_SwapChain.destroyFramebuffers (r_device->getDevice ());
 
@@ -49,7 +50,6 @@ namespace rlms {
 			_SwapChain.destroyImageViews (r_device->getDevice ());
 			_SwapChain.destroySwapChain (r_device->getDevice ());
 		}
-
 
 		VkRenderPass const& getRenderPass () {
 			return renderPass;

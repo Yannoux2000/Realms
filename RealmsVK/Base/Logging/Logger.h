@@ -28,6 +28,8 @@ namespace rlms {
 			bool t_dev_disp = true,
 			bool t_error_disp = true,
 			bool t_warn_disp = true);
+
+		static bool Displayable (const char current_tag);
 	};
 
 	class Logger {

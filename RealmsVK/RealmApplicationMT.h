@@ -10,6 +10,7 @@
 
 //#include "Utility/FileIO/VoxFileParser.h"
 #include "Utility/MultiThreading/JobSystem.h"
+#include "Utility/MultiThreading/PeriodicJob.h"
 
 #include "Module/Input/InputManager.h"
 
@@ -39,15 +40,30 @@ namespace rlms {
 	private:
 		using _allocType = MasqueradeAllocator;
 
-		std::atomic_bool runInput;
-		std::atomic_bool runGraphics;
-		std::atomic_bool runUpdate;
+		enum SystemsStatus {
+			Undefined = 0,
+			Initializing,
+			Ready,
+			Running,
+			Idle,
+			Stopped,
+			Terminated
+		};
+
+		std::atomic<SystemsStatus> statusInput;
+		std::atomic<SystemsStatus> statusUpdate;
+		std::atomic<SystemsStatus> statusGraphics;
+		std::atomic<SystemsStatus> statusWindow;
+
+		std::atomic_bool stop_signal;
 
 	public:
 		struct MemorySettings {
 			size_t total_size = 16384;
 			size_t mesh_size = 4096;
 			size_t ecs_size = 8192;
+			size_t entity_size = 4096;
+			size_t component_size = 4096;
 		};
 
 		struct ApplicationSettings {
@@ -58,69 +74,260 @@ namespace rlms {
 		};
 
 		void start (ApplicationSettings& stgs) {
+			ApplicationTime::Initialize ();
 			startLogger (nullptr, true);
-			logger->tag (LogTags::None) << "Starting Application.\n";
+
+			logger->tag (LogTags::None) << "Initializing Application.\n";
+			stop_signal.store (false);
 
 			//read all graphics and controls and mods options
-			initMemory (stgs);
+
+			//Memory initialisation
+			void* mem = malloc (stgs.memory.total_size);
+			app_alloc = std::unique_ptr<_allocType> (new _allocType (stgs.memory.total_size, mem));
+
 			JobSystem::Initialize (logger);
 
-			JobSystem::Register (Job (
-				[this, stgs]() {
+			//Window initialisation
+			JobSystem::Register (ConditionnalJob (
+				[this]() -> bool {
+					return statusWindow == Initializing;
+				}
+				, [this, stgs]() {
+					logger->tag (LogTags::Debug) << "Initializing Window.";
 
-					initWindow (stgs);
-					initGraphics (stgs);
+					AspectRatio::Set (stgs.aspect_width, stgs.aspect_height);
+					logger->tag (LogTags::Dev) << "( " << AspectRatio::Width () << ", " << AspectRatio::Height () << ")\n";
 
-					while (runGraphics) {
-						DisplayLoop ();
+					// crée la fenêtre
+					glfwInit ();
+					glfwWindowHint (GLFW_CLIENT_API, GLFW_NO_API);
+					glfwWindowHint (GLFW_RESIZABLE, GLFW_FALSE);
+					glfwWindowHint (GLFW_SCALE_TO_MONITOR, GLFW_TRUE);
+
+					if (stgs.fullscreen) {
+						GLFWmonitor* mon = glfwGetPrimaryMonitor ();
+						AspectRatio::Set (1920, 1080);
+						window = glfwCreateWindow (AspectRatio::Width (), AspectRatio::Height (), "Realms", mon, nullptr);
+					} else {
+						window = glfwCreateWindow (AspectRatio::Width (), AspectRatio::Height (), "Realms", nullptr, nullptr);
 					}
 
-					termGraphics ();
-					termWindow ();
+					statusWindow.store (Ready);
 				}
-			, 2000));
+			, 1));
 
-
-			JobSystem::Register (Job (
-				[this, stgs]() {
+			//Core initialisation
+			JobSystem::Register (ConditionnalJob (
+				[this]() -> bool {
+					return statusWindow == Initializing;
+				}
+				, [this, stgs]() {
 					rlms::ECS_Core::Initialize (app_alloc.get (), stgs.memory.ecs_size, logger);
+					statusUpdate.store (Ready);
 				}
-			, 2000));
+			, 1));
 
-
-			JobSystem::Register (Job (
-				[this, stgs]() {
-
-					initInputs (stgs);
-
-					while (runInput) {
-						InputLoop ();
-					}
-
-					InputManager::Terminate ();
+			//Graphics initialisation
+			JobSystem::Register (ConditionnalJob (
+				[this]() -> bool {
+					return statusWindow == Ready
+						&& statusGraphics == Initializing;
 				}
-			, 2000));
+				, [this, stgs]() {
+					rlms::GraphicsManager::Initialize (app_alloc.get (), stgs.memory.mesh_size, window, logger);
+					rlms::GraphicsManager::Load ();
 
-			logger->tag (LogTags::None) << "Application is Started.\n";
-			logger->tag (LogTags::None) << "Running Application.\n";
+					statusGraphics.store (Ready);
+				}
+			, 2));
+
+			//Input initialisation
+			JobSystem::Register (ConditionnalJob (
+				[this]() -> bool {
+					return statusWindow == Ready
+						&& statusInput == Initializing;
+				}
+				, [this, stgs]() {
+					rlms::InputManager::Initialize ();
+					rlms::InputManager::SetCallbacks (window);
+
+					//rlms::InputManager::BindEvent ("close", sf::Event::Closed);
+					//rlms::InputManager::BindEvent ("resized", sf::Event::Resized);
+
+					rlms::InputManager::BindKey ("game::quit", glfwGetKeyScancode (GLFW_KEY_ESCAPE));
+					rlms::InputManager::EnableInputMap ("game");
+
+					//rlms::InputManager::BindKey ("cam::reset", glfwGetKeyScancode (GLFW_KEY_SPACE));
+					//rlms::InputManager::BindKey ("cam::test", glfwGetKeyScancode (GLFW_KEY_E));
+					//rlms::InputManager::BindKey ("cam::reload", glfwGetKeyScancode (GLFW_KEY_R));
+					//rlms::InputManager::BindKey ("cam::zoom", glfwGetKeyScancode (GLFW_KEY_PAGE_UP));
+					//
+					//rlms::InputManager::BindSlide ("cam::look", sf::Mouse::Right);
+					//
+					//rlms::InputManager::BindKey ("cam::forward", glfwGetKeyScancode (GLFW_KEY_Z));
+					//rlms::InputManager::BindKey ("cam::left", glfwGetKeyScancode (GLFW_KEY_Q));
+					//rlms::InputManager::BindKey ("cam::backward", glfwGetKeyScancode (GLFW_KEY_S));
+					//rlms::InputManager::BindKey ("cam::right", glfwGetKeyScancode (GLFW_KEY_D));
+					//rlms::InputManager::EnableInputMap ("cam");
+					statusInput.store (Ready);
+				}
+			, 2));
+
+			//Periodic Jobs initialisation
+			JobSystem::Register (ConditionnalJob (
+				[this]() -> bool {
+				return statusInput == SystemsStatus::Ready
+					&& statusUpdate == SystemsStatus::Ready
+					&& statusWindow == SystemsStatus::Ready
+					&& statusGraphics == SystemsStatus::Ready;
+				},
+				[this]() {
+					logger->tag (LogTags::Info) << "Application is Ready, Initializing.\n";
+					//Graphical Loop
+					JobSystem::Register (PeriodicJob<std::ratio<1, 60>> (
+						[this]() {
+							logger->tag (LogTags::Dev) << "(Graphics)\n";
+							if(statusGraphics != Idle) {
+								rlms::GraphicsManager::Draw ();
+							}
+						}
+					, stop_signal));
+
+					//Input Loop
+					JobSystem::Register (PeriodicJob<std::ratio<1, 500>> (
+						[this]() {
+							//logger->tag (LogTags::Dev) << "(Input)\n";
+							rlms::InputManager::Poll (window);
+							if (glfwWindowShouldClose (window)) {
+								logger->tag (LogTags::Info) << "stop_signal has been received !\n";
+								stop_signal.store (true);
+							}
+						}
+					, stop_signal));
+
+					//Update Loop
+					JobSystem::Register (PeriodicJob<std::ratio<1, 30>> (
+						[this]() {
+							logger->tag (LogTags::Dev) << "(Update)\n";
+							if(statusUpdate != Idle) {
+								if (rlms::InputManager::IsPressed ("game::quit") || rlms::InputManager::IsPressed ("close")) {
+									running = false;
+								}
+					
+								//if (rlms::InputManager::IsPressed ("cam::set")) {
+								//	logger->tag (LogTags::Debug) << "Enter\n";
+								//}
+								//if (rlms::InputManager::IsPressed ("cam::reset")) {
+								//	Camera::MainCamera->reset ();
+								//}
+								//if (rlms::InputManager::IsDown ("cam::look")) {
+								//	glm::ivec2 delta;
+								//	auto vec = InputManager::GetDeltaPos ("cam::look");
+								//	delta.x = vec[0];
+								//	delta.y = vec[1];
+								//	Camera::MainCamera->look (delta);
+								//}
+								//
+								//if (rlms::InputManager::IsDown ("cam::forward")) {
+								//	Camera::MainCamera->move (Camera::MainCamera->forward);
+								//}
+								//if (rlms::InputManager::IsDown ("cam::backward")) {
+								//	Camera::MainCamera->move (-Camera::MainCamera->forward);
+								//}
+								//if (rlms::InputManager::IsDown ("cam::left")) {
+								//	Camera::MainCamera->move (-Camera::MainCamera->right);
+								//}
+								//if (rlms::InputManager::IsDown ("cam::right")) {
+								//	Camera::MainCamera->move (Camera::MainCamera->right);
+								//}
+							}
+						}
+					, stop_signal));
+
+				}
+				, 3));
+
+			statusInput.store (Initializing);
+			statusUpdate.store (Initializing);
+			statusWindow.store (Initializing);
+			statusGraphics.store (Initializing);
 			JobSystem::WakeUp ();
 		}
 
 		void run () {
+			logger->tag (LogTags::Info) << "Application is Running.\n";
+			while (!stop_signal) {
+				JobSystem::MainWorker ();
+			}
 		}
 
 		void stop () {
 			logger->tag (LogTags::None) << "Terminating Application.\n";
+			JobSystem::Register (Job (
+				[this]() {
+					statusInput.store (Stopped);
+					statusGraphics.store (Stopped);
+					statusUpdate.store (Stopped);
+					statusWindow.store (Stopped);
+				}
+				, JOB_MIN_PRIORITY));
 
-			termInputs ();
+			while (JobSystem::IsBusy ());
 
-			termGameCore ();
+			//Terminate Input
+			JobSystem::Register (ConditionnalJob (
+				[this]() -> bool {
+					return stop_signal && statusInput == Stopped;
+				}
+				, [this]() {
+					InputManager::Terminate ();
+					statusInput.store (Terminated);
+				}
+				, JOB_MIN_PRIORITY - 1));
 
-			termGraphics ();
-			termWindow ();
+			//Terminate Graphics
+			JobSystem::Register (ConditionnalJob (
+				[this]() -> bool {
+					return stop_signal && statusGraphics == Stopped;
+				}
+				, [this]() {
+					rlms::GraphicsManager::Unload ();
+					rlms::GraphicsManager::Terminate ();
+					statusGraphics.store (Terminated);
+				}
+				, JOB_MIN_PRIORITY - 1));
 
+			//Terminate Update
+			JobSystem::Register (ConditionnalJob (
+				[this]() -> bool {
+					return stop_signal && statusUpdate == Stopped;
+				}
+				, [this]() {
+					rlms::ECS_Core::Terminate ();
+					statusUpdate.store (Terminated);
+				}
+				, JOB_MIN_PRIORITY - 0));
+
+			//Terminate Window
+			JobSystem::Register (ConditionnalJob (
+				[this]() -> bool {
+					return stop_signal && statusWindow == Stopped;
+				}
+				, [this]() {
+					glfwDestroyWindow (window);
+					glfwTerminate ();
+					statusWindow.store (Terminated);
+				}
+				, JOB_MIN_PRIORITY - 0));
+
+			JobSystem::WakeUp ();
 			JobSystem::Terminate ();
-			termMemory ();
+
+			void* mem = app_alloc->getStart ();
+			app_alloc.reset ();
+			free (mem);
+
 			logger->tag (LogTags::None) << "Application has Terminated.\n";
 		}
 
@@ -133,134 +340,5 @@ namespace rlms {
 		std::string getLogName () override {
 			return "Realms";
 		};
-
-		void initMemory (ApplicationSettings const& stgs) {
-			void* mem = malloc (stgs.memory.total_size);
-			app_alloc = std::unique_ptr<_allocType> ( new _allocType (stgs.memory.total_size, mem));
-		}
-		void initWindow (ApplicationSettings const& stgs) {
-			logger->tag (LogTags::Debug) << "Initializing Window.";
-
-			AspectRatio::Set (stgs.aspect_width, stgs.aspect_height);
-			logger->tag (LogTags::Dev) << "( " << AspectRatio::Width () << ", " << AspectRatio::Height () << ")\n";
-
-			// crée la fenêtre
-			glfwInit ();
-
-			glfwWindowHint (GLFW_CLIENT_API, GLFW_NO_API);
-			glfwWindowHint (GLFW_RESIZABLE, GLFW_FALSE);
-			glfwWindowHint (GLFW_SCALE_TO_MONITOR, GLFW_TRUE);
-
-			if (stgs.fullscreen) {
-				GLFWmonitor* mon = glfwGetPrimaryMonitor ();
-				AspectRatio::Set (1920, 1080);
-				window = glfwCreateWindow (AspectRatio::Width (), AspectRatio::Height (), "Realms", mon, nullptr);
-			} else {
-				window = glfwCreateWindow (AspectRatio::Width (), AspectRatio::Height (), "Realms", nullptr, nullptr);
-			}
-		}
-		void initInputs (ApplicationSettings const& stgs) {
-			rlms::InputManager::Initialize ();
-
-			rlms::InputManager::SetCallbacks (window);
-
-			//rlms::InputManager::BindEvent ("close", sf::Event::Closed);
-			//rlms::InputManager::BindEvent ("resized", sf::Event::Resized);
-
-			// chargement des ressources, initialisation des états OpenGL, ...
-			rlms::InputManager::BindKey ("game::quit", glfwGetKeyScancode (GLFW_KEY_ESCAPE));
-			rlms::InputManager::EnableInputMap ("game");
-
-			rlms::InputManager::BindKey ("cam::reset", glfwGetKeyScancode (GLFW_KEY_SPACE));
-			rlms::InputManager::BindKey ("cam::test", glfwGetKeyScancode (GLFW_KEY_E));
-			rlms::InputManager::BindKey ("cam::reload", glfwGetKeyScancode (GLFW_KEY_R));
-			rlms::InputManager::BindKey ("cam::zoom", glfwGetKeyScancode (GLFW_KEY_PAGE_UP));
-
-			//rlms::InputManager::BindSlide ("cam::look", sf::Mouse::Right);
-
-			rlms::InputManager::BindKey ("cam::forward", glfwGetKeyScancode (GLFW_KEY_Z));
-			rlms::InputManager::BindKey ("cam::left", glfwGetKeyScancode (GLFW_KEY_Q));
-			rlms::InputManager::BindKey ("cam::backward", glfwGetKeyScancode (GLFW_KEY_S));
-			rlms::InputManager::BindKey ("cam::right", glfwGetKeyScancode (GLFW_KEY_D));
-			rlms::InputManager::EnableInputMap ("cam");
-		}
-		void initGraphics (ApplicationSettings const& stgs) {
-			rlms::GraphicsManager::Initialize (app_alloc.get (), stgs.memory.mesh_size, window);
-			rlms::GraphicsManager::Load ();
-		}
-		void initGameCore (ApplicationSettings const& stgs) {
-			rlms::ECS_Core::Initialize (app_alloc.get (), stgs.memory.ecs_size);
-		}
-
-		void InputLoop () {
-			rlms::InputManager::Poll (window);
-			if (rlms::InputManager::IsPressed ("game::quit") || rlms::InputManager::IsPressed ("close")) {
-				running = false;
-			}
-
-			if (rlms::InputManager::IsPressed ("cam::set")) {
-				logger->tag (LogTags::Debug) << "Enter\n";
-			}
-
-			if (rlms::InputManager::IsDown ("cam::forward")) {
-				Camera::MainCamera->move (Camera::MainCamera->forward);
-			}
-
-			if (rlms::InputManager::IsDown ("cam::backward")) {
-				Camera::MainCamera->move (-Camera::MainCamera->forward);
-			}
-
-			if (rlms::InputManager::IsDown ("cam::left")) {
-				Camera::MainCamera->move (-Camera::MainCamera->right);
-			}
-
-			if (rlms::InputManager::IsDown ("cam::right")) {
-				Camera::MainCamera->move (Camera::MainCamera->right);
-			}
-
-			if (rlms::InputManager::IsPressed ("cam::reset")) {
-				Camera::MainCamera->reset ();
-			}
-
-			if (rlms::InputManager::IsDown ("cam::look")) {
-				glm::ivec2 delta;
-				auto vec = InputManager::GetDeltaPos ("cam::look");
-				delta.x = vec[0];
-				delta.y = vec[1];
-				Camera::MainCamera->look (delta);
-			}
-		}
-		void UpdateLoop () {
-
-		}
-		void ModelLoop () {
-
-		}
-		void DisplayLoop () {
-			rlms::GraphicsManager::Draw ();
-		}
-		void GameCoreLoop () {
-
-		}
-
-		void termMemory () {
-			void* mem = app_alloc->getStart ();
-			app_alloc.reset ();
-			free (mem);
-		}
-		void termWindow () {
-			glfwDestroyWindow (window);
-			glfwTerminate ();
-		}
-		void termInputs () {
-			InputManager::Terminate ();
-		}
-		void termGraphics () {
-			rlms::GraphicsManager::Unload ();
-			rlms::GraphicsManager::Terminate ();
-		}
-		void termGameCore () {
-			rlms::ECS_Core::Terminate ();
-		}
 	};
 }

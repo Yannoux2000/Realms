@@ -49,7 +49,7 @@ namespace rlms {
 	};
 
 	template<class M> inline void MeshRegister::Register (IMESH_TYPE_ID type_id, std::string&& filename) {
-		logger->tag (LogTags::Info) << "Loading Mesh from file(" << filename << "), with id("<< type_id <<").\n";
+		logger->tag (LogTags::Info) << "Loading Mesh from file(" << filename << "), with id("<< (type_id) <<").\n";
 		//invalid template call
 		if (!std::is_base_of<IMesh, M> ()) {
 			logger->tag (LogTags::Error) << "Invalid Mesh type!\n";

@@ -4,14 +4,13 @@
 #include "../../_Preprocess.h"
 #include "../Timer/TimeFormat.h"
 #include "../Timer/ApplicationTime.h"
-#include "LogTime.h"
 
 using namespace rlms;
 
 DebugConsoleLogger::DebugConsoleLogger () {
 	std::cout << "===============================================\n"
 		<< "    Begin log ( "
-		<< LogTime::GetDateTime ()
+		<< TimeFormat::NowDate ()
 		<< " ): "
 		<< RLMS_PLATFORM_NAME
 		<< "\n===============================================\n";
@@ -21,7 +20,7 @@ DebugConsoleLogger::DebugConsoleLogger () {
 DebugConsoleLogger::~DebugConsoleLogger () {
 	std::cout << "===============================================\n"
 		<< "    Ended Output log ( "
-		<< LogTime::GetDateTime ()
+		<< TimeFormat::NowDate ()
 		<< " ): "
 		<< RLMS_PLATFORM_NAME
 		<< "\n===============================================\n\n\n";
@@ -33,6 +32,5 @@ void DebugConsoleLogger::log (const std::string& s, const char& tag, std::string
 		<< TimeFormat::Precise (ApplicationTime::Since ())
 		<< " : [ " << tag << " ] "
 		<< (name.empty() ? "" : "{" + name + "} ")
-		<< s <<
-	std::endl;
+		<< s << std::endl;
 }

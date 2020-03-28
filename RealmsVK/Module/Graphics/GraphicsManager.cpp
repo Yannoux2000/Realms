@@ -220,7 +220,7 @@ void rlms::GraphicsManagerImpl::stop () {
 	_GDevice.stop ();
 	_vulkanEnv.stop ();
 
-	logger->tag (LogTags::None) << "Terminated correctly !" << '\n';
+	logger->tag(LogTags::None) << "Terminated correctly !" << '\n';
 }
 
 void rlms::GraphicsManagerImpl::load () {
