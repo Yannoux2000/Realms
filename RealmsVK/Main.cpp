@@ -141,11 +141,13 @@ int lua_statistics () {
 
 int testingLuaComponentPrototype () {
 
+	void* mem = malloc (4096);
+	MasqueradeAllocator alloc = MasqueradeAllocator (4096, mem);
 	lua_State* L = luaL_newstate ();
 
 	int i = luaL_dostring (L, R"(
-Prototypes = {
-	StatsComponent = {
+Prototypes = {}
+Prototypes["StatsComponent"] = {
 		health = 100,
 		health_max = 100,
 		health_regen = 1,
@@ -158,23 +160,17 @@ Prototypes = {
 		defence = 0,
 		says = "si tu chie plus fort que tu parle, va au wc pour me parler",
 		name = "Jean Naymaloquoxis"
-	},
+	}
 
-	GaletteSaucice = {
+Prototypes["GaletteSaucice"] = {
 		unChamp = "je sais pas mdr"
 	}
-}
 )");
 
 	if (i != LUA_OK) {
 		std::string b = lua_tostring (L, -1);
 		std::cout << b;
-	}
-
-	lua_getglobal (L, "a");
-	if (lua_isinteger (L, -1)) {
-	
-		std::cout << "importation worked\n";
+		return -1;
 	}
 
 	lua_getglobal (L, "Prototypes");
@@ -184,18 +180,24 @@ Prototypes = {
 		std::string name = lua_tostring (L, -2);
 		if (lua_istable (L, -1)) {
 			rlms::LuaComponentPrototype proto (L, name);
-			std::cout << proto.debug ();
+			std::cout << proto.debug () << "\n";
+
+			IComponent* c = proto.Create (&alloc, 50, 1);
+			proto.Destroy (&alloc, c);
+
+			c = proto.Create (&alloc, 200, 20);
+			std::cout << proto.debug (c) << "\n";
 		} else {
 			std::cout << "nope c'est pas bon ça\n";
 		}
 
+		std::cout << "\n";
+
 		lua_pop (L, 1);
 	}
 
-	
-
 	lua_close (L);
-
+	free (mem);
 	return 0;
 }
 
@@ -367,6 +369,17 @@ int test_fmod () {
 
 	// Initialize our Instance with 36 Channels
 	m_pSystem->init (36, FMOD_INIT_NORMAL, NULL);
+	return 0;
+}
+
+int test_glfw () {
+	GLFWwindow* window = NULL;
+
+	if (!glfwInit ()) {
+		return 0;
+	}
+
+	glfwTerminate ();
 	return 0;
 }
 

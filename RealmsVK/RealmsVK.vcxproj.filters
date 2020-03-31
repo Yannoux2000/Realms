@@ -242,6 +242,7 @@
     <ClCompile Include="Module\GUI\UIConstraint.cpp">
       <Filter>Module\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="Module\LuaBindings\Attribute.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -667,6 +668,7 @@
     <ClInclude Include="Module\GUI\UIConstraint.h">
       <Filter>Module\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="Module\LuaBindings\Attribute.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Base\Math\Rect.inl">

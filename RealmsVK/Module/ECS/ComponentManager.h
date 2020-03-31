@@ -64,70 +64,17 @@ namespace rlms {
 			return c_id != IComponent::NULL_ID;
 		}
 
-		template<class C> static const COMPONENT_ID CreateComponent ();
-		template<class C> static const COMPONENT_ID CreateComponent (Entity* entity);
-		template<class C> static const COMPONENT_ID CreateComponent (Entity* entity, COMPONENT_ID c_id);
-		template<class C> static const COMPONENT_ID CreateComponent (COMPONENT_ID c_id);
+		static const COMPONENT_ID CreateComponent (COMPONENT_TYPE_ID const& c_type, Entity* entity = nullptr);
+		static const COMPONENT_ID CreateComponent (COMPONENT_TYPE_ID const& c_type, COMPONENT_ID c_id, Entity* entity = nullptr);
 
 		static const bool HasEntity (COMPONENT_ID c_id);
-		template<class C> static const bool HasComponent (Entity* entity);
-		template<class C> static const bool HasComponent (COMPONENT_ID c_id);
 		static const bool HasComponent (COMPONENT_ID c_id);
 
 		static const ENTITY_ID& GetEntity (COMPONENT_ID c_id);
-		template<class C> static C* GetComponent (Entity* entity);
-		template<class C> static C* GetComponent (COMPONENT_ID c_id);
-		template<class C> static std::vector<C*> GetComponents ();
 		static IComponent* GetComponent (COMPONENT_ID c_id);
+		static std::vector<IComponent*> GetComponents (COMPONENT_TYPE_ID const& c_type);
 
-		template<class C> static void DestroyComponent (Entity* entity);
+		static void DestroyComponent (COMPONENT_TYPE_ID const& c_type, Entity* entity);
 		static void DestroyComponent (COMPONENT_ID c_id);
 	};
-
-	class ComponentManagerImpl : public ILogged {
-	private:
-		friend class ComponentManager;
-
-		std::string getLogName () override {
-			return "ComponentManager";
-		};
-
-		using alloc_type = MasqueradeAllocator;
-
-		std::map<ENTITY_ID, IComponent*> _lookup_table;
-		std::unique_ptr<alloc_type> m_comp_Allocator;
-
-		void start (Allocator* const& alloc, size_t entity_pool_size, std::shared_ptr<Logger> funnel);
-		void stop ();
-
-		template<class C> const COMPONENT_ID createComponent ();
-		template<class C> const COMPONENT_ID createComponent (Entity* entity);
-		template<class C> const COMPONENT_ID createComponent (Entity* entity, COMPONENT_ID c_id);
-		template<class C> const COMPONENT_ID createComponent (COMPONENT_ID c_id);
-
-		const bool hasEntity (COMPONENT_ID c_id);
-		template<class C> const bool hasComponent (Entity* entity);
-		template<class C> const bool hasComponent (COMPONENT_ID c_id);
-		const bool hasComponent (COMPONENT_ID c_id);
-
-		const ENTITY_ID& getEntity (COMPONENT_ID const& c_id);
-		template<class C> C* getComponent (Entity* entity);
-		template<class C> C* getComponent (COMPONENT_ID const& c_id);
-		template<class C> static std::vector<C*> getComponents ();
-		IComponent* getComponent (COMPONENT_ID const& c_id);
-
-		template<class C> void destroyComponent (Entity* entity);
-		void destroyComponent (COMPONENT_ID c_id);
-
-		COMPONENT_ID _id_iter;
-		inline COMPONENT_ID procedural_id_iter () {
-			return _id_iter++;
-		}
-	public:
-
-		ComponentManagerImpl ();
-		~ComponentManagerImpl ();
-	};
-
-#include "ComponentManager.inl"
 }

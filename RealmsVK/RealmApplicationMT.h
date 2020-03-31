@@ -47,7 +47,8 @@ namespace rlms {
 			Running,
 			Idle,
 			Stopped,
-			Terminated
+			Terminated,
+			Failed
 		};
 
 		std::atomic<SystemsStatus> statusInput;
@@ -94,13 +95,16 @@ namespace rlms {
 					return statusWindow == Initializing;
 				}
 				, [this, stgs]() {
-					logger->tag (LogTags::Debug) << "Initializing Window.";
+					logger->tag (LogTags::Debug) << "Initializing Window.\n";
 
 					AspectRatio::Set (stgs.aspect_width, stgs.aspect_height);
 					logger->tag (LogTags::Dev) << "( " << AspectRatio::Width () << ", " << AspectRatio::Height () << ")\n";
 
 					// crée la fenêtre
-					glfwInit ();
+					if (!glfwInit ()) {
+						statusWindow.store (Failed);
+					}
+
 					glfwWindowHint (GLFW_CLIENT_API, GLFW_NO_API);
 					glfwWindowHint (GLFW_RESIZABLE, GLFW_FALSE);
 					glfwWindowHint (GLFW_SCALE_TO_MONITOR, GLFW_TRUE);
@@ -123,7 +127,8 @@ namespace rlms {
 					return statusWindow == Initializing;
 				}
 				, [this, stgs]() {
-					rlms::ECS_Core::Initialize (app_alloc.get (), stgs.memory.ecs_size, logger);
+					EntityManager::Initialize (app_alloc.get (), stgs.memory.entity_size, logger);
+					ComponentManager::Initialize (app_alloc.get (), stgs.memory.component_size, logger);
 					statusUpdate.store (Ready);
 				}
 			, 1));
@@ -187,7 +192,6 @@ namespace rlms {
 					//Graphical Loop
 					JobSystem::Register (PeriodicJob<std::ratio<1, 60>> (
 						[this]() {
-							logger->tag (LogTags::Dev) << "(Graphics)\n";
 							if(statusGraphics != Idle) {
 								rlms::GraphicsManager::Draw ();
 							}
@@ -209,7 +213,6 @@ namespace rlms {
 					//Update Loop
 					JobSystem::Register (PeriodicJob<std::ratio<1, 30>> (
 						[this]() {
-							logger->tag (LogTags::Dev) << "(Update)\n";
 							if(statusUpdate != Idle) {
 								if (rlms::InputManager::IsPressed ("game::quit") || rlms::InputManager::IsPressed ("close")) {
 									running = false;
@@ -304,7 +307,8 @@ namespace rlms {
 					return stop_signal && statusUpdate == Stopped;
 				}
 				, [this]() {
-					rlms::ECS_Core::Terminate ();
+					EntityManager::Terminate ();
+					ComponentManager::Terminate ();
 					statusUpdate.store (Terminated);
 				}
 				, JOB_MIN_PRIORITY - 0));

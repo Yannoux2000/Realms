@@ -9,26 +9,27 @@
 namespace rlms {
 	struct TransformComponent : public IComponent {
 		Vec3<double> position;
-		TransformComponent (ENTITY_ID const& entity_id, COMPONENT_ID const& component_id) : position(), IComponent(entity_id, component_id) {}
+		TransformComponent (ENTITY_ID const& entity_id, COMPONENT_ID const& component_id, COMPONENT_TYPE_ID const& type_id) : position(), IComponent(entity_id, component_id, type_id) {}
 	};
 
 	class TransformComponentPrototype : public IComponentPrototype {
 	public:
-		TransformComponentPrototype () : IComponentPrototype ("transform", sizeof (TransformComponent), alignof(TransformComponent)) {}
+		TransformComponentPrototype () : IComponentPrototype ("Transform", sizeof (TransformComponent), alignof(TransformComponent)) {}
 		~TransformComponentPrototype() {}
 
-		TransformComponent* Create (Allocator* const& alloc, ENTITY_ID const& entity_id, COMPONENT_ID const& component_id) override {
-			return new (alloc->allocate (_size, _align)) TransformComponent (entity_id, component_id);
+		void Populate (IComponent* const& c) override {
+			auto tc = (TransformComponent*) c;
+			tc->position = Vec3<double> (0,0,0);
 		}
 
-		void* Get (IComponent* const c, std::string&& member) override {
+		void* GetAttrib (IComponent* const& c, std::string& member) override {
 			if (IBase::is<TransformComponent> (c)) {
-				if (std::regex_match (member, std::regex ("[(vec)(vector)]"))) {
+				if (member == "pos" || member == "position") {
 					return &(IBase::to<TransformComponent> (c)->position);
 				}
 			}
 
-			return _Get (c, member);
+			return nullptr;
 		}
 	};
 }

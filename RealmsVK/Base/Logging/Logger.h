@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <sstream>
+#include <mutex>
 
 namespace rlms {
 	class LogTags {
@@ -37,6 +38,7 @@ namespace rlms {
 		std::string _current_line;
 		std::string _disp_name;
 		char _tag;
+		std::mutex _lock;
 
 		void check_line_ended ();
 		Logger& endl ();
@@ -70,9 +72,11 @@ namespace rlms {
 		void reset ();
 		template<typename T> Logger& operator<<(T data) {
 			std::ostringstream oss;
+			_lock.lock ();
 			oss << _current_line << data;
 			_current_line = oss.str ();
 			check_line_ended ();
+			_lock.unlock ();
 			return *this;
 		}
 	};

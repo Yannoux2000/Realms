@@ -21,10 +21,6 @@ private:
 
 	void update (double dt);
 
-	//void preUpdate (GAME_TICK_TYPE _current_tick);
-	//void midUpdate (GAME_TICK_TYPE _current_tick);
-	//void postUpdate (GAME_TICK_TYPE _current_tick);
-
 	void stop ();
 
 public:

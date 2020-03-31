@@ -13,32 +13,28 @@
 #include <regex>
 
 namespace rlms {
+
+	////////////////////////////////////////////////////////////
+	/// \brief Factory interface for Components
+	///
+	////////////////////////////////////////////////////////////
+	class IComponentPrototype;
+
 	////////////////////////////////////////////////////////////
 	/// \brief Interface for attatching data onto entities
 	///        according to the ECS Pattern
 	///
 	////////////////////////////////////////////////////////////
-	class IComponentPrototype;
-
 	struct IComponent : public IBase {
 	private:
+		friend IComponentPrototype;
 		////////////////////////////////////////////////////////////
 		// Member data
 		////////////////////////////////////////////////////////////
-		friend IComponentPrototype;
-
 		COMPONENT_ID c_id; ///< internal id of this component
+		const COMPONENT_TYPE_ID _type_id;
 	public:
-		static IComponentPrototype* c_proto;
 		ENTITY_ID e_id; ///< internal reference of this component's entity, carried by id
-
-		////////////////////////////////////////////////////////////
-		/// \brief Default IComponent constructor
-		///
-		/// This constructor is needed for the Component manager
-		///
-		////////////////////////////////////////////////////////////
-		IComponent () : e_id (), c_id () {}
 
 		////////////////////////////////////////////////////////////
 		/// \brief Construct from entity id and defined id
@@ -49,8 +45,8 @@ namespace rlms {
 		/// \param c_id		Component's id to allow Manager call
 		///
 		////////////////////////////////////////////////////////////
-		IComponent (ENTITY_ID const& entity_id, COMPONENT_ID const& component_id)
-			: e_id (entity_id), c_id (component_id) {}
+		IComponent (ENTITY_ID const& entity_id, COMPONENT_ID const& component_id, COMPONENT_TYPE_ID const& type_id)
+			: e_id (entity_id), c_id (component_id), _type_id(type_id) {}
 
 		////////////////////////////////////////////////////////////
 		/// \brief virtual Destructor, apply inherited Destructor
@@ -69,43 +65,66 @@ namespace rlms {
 		}
 
 		////////////////////////////////////////////////////////////
+		/// \brief Component's type id getter
+		///
+		/// \return Component's type id
+		///
+		////////////////////////////////////////////////////////////
+		COMPONENT_TYPE_ID const type_id () const {
+			return _type_id;
+		}
+
+		////////////////////////////////////////////////////////////
 		// Static member data
 		////////////////////////////////////////////////////////////
 		static constexpr COMPONENT_ID NULL_ID = 0; ///< Define an null id to manage invalid components
 	};
 
 	class IComponentPrototype {
+	private:
+		static COMPONENT_TYPE_ID _type_component_id_counter;
+		COMPONENT_TYPE_ID _type_id;
 	protected:
 		std::string _type_name;
+		size_t _size;
+		uint8_t _align;
 
-		size_t _size = sizeof (IComponent);
-		uint8_t _align = alignof (IComponent);
+		virtual void Populate (IComponent* const& c) {
 
-		void* _Get (IComponent* const c, std::string& member) {
-			if (std::regex_match (member, std::regex ("[(c_id)(component_id)(id)]"))) {
-				return &c->c_id;
-			}
-			if (std::regex_match (member, std::regex ("[(e_id)(entity_id)]"))) {
-				return &c->e_id;
-			}
+		}
 
-			throw BadMemberName ();
+		virtual void* GetAttrib (IComponent* const& c, std::string& member) {
 			return nullptr;
 		}
 
 	public:
-		IComponentPrototype() : _type_name ("UNDEFINED"), _size(sizeof (IComponent)), _align(alignof (IComponent)) {}
-		IComponentPrototype (std::string const name, size_t const size, uint8_t const align) : _type_name(name), _size(size), _align(align) {}
+		IComponentPrototype() 
+			: _type_name ("UNDEFINED"), _size(sizeof (IComponent)), _align(alignof (IComponent)),
+			_type_id(_type_component_id_counter++) {}
+		
+		IComponentPrototype (std::string const name, size_t const size, uint8_t const align) 
+			: _type_name(name), _size(size), _align(align),
+			_type_id (_type_component_id_counter++) {}
 
-		virtual IComponent* Create (Allocator* const& alloc, ENTITY_ID const& entity_id, COMPONENT_ID const& component_id) {
-			return new (alloc->allocate (_size, _align)) IComponent (entity_id, component_id);
-		}
+		const std::string getTypeName ();
+		const COMPONENT_TYPE_ID& getTypeId ();
 
-		virtual void* Get (IComponent* const c, std::string&& member) {
-			return _Get (c, member);
-		}
+		bool is (IComponent* const c);
 
+		IComponent* Create (Allocator* const& alloc, ENTITY_ID const& entity_id, COMPONENT_ID const& component_id);
+		void* Get (IComponent* const c, std::string&& member);
 		void Destroy (Allocator* const& alloc, IComponent* const& c);
+
+		template<typename T> T* Get (IComponent* const c, std::string&& member) {
+			return static_cast<T*>(Get (c, std::move (member)));
+		}
+
+		template<typename T> void Set (IComponent* const c, std::string&& member, T& data) {
+			T* addr = Get<T> (c, member);
+			if (addr != nullptr) {
+				*addr = data;
+			}
+		}
 	};
 } //namespace rlms
 

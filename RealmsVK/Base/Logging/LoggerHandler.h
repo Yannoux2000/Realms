@@ -16,6 +16,7 @@ namespace rlms {
 
 	class LoggerHandler : public std::list<std::shared_ptr<Logger>>, public Logger {
 	private:
+		std::mutex _lock;
 		std::string _name;
 	public:
 		LoggerHandler& tag (const char& tag);
@@ -35,6 +36,12 @@ namespace rlms {
 		~LoggerHandler ();
 
 		void log (const std::string& s, const char& tag, std::string disp_name = "") override;
+
+		void print (const char& tag = LogTags::None, std::string const& s = "") {
+			_lock.lock ();
+			log (s, tag, disp_name ());
+			_lock.unlock ();
+		}
 
 		void channelIn (std::shared_ptr<Logger>);
 		template<class L, class ... Args> void channelIn (Args&& ... args);

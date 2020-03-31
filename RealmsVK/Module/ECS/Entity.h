@@ -25,7 +25,7 @@ namespace rlms {
 		// Member data
 		////////////////////////////////////////////////////////////
 		std::string type; ///< name for this type of entity
-		std::map<std::type_index, IComponent*> _components; ///< internal references to components, the map forces all components to be unique
+		std::map<COMPONENT_TYPE_ID, IComponent*> _components; ///< internal references to components, the map forces all components to be unique
 		ENTITY_ID _id;	///< internal id of this entity
 	public:
 
@@ -57,7 +57,7 @@ namespace rlms {
 		/// \param C*	a reference to the component's instance
 		///
 		////////////////////////////////////////////////////////////
-		template<class C> void add (C* c);
+		void add (IComponent* c);
 
 		////////////////////////////////////////////////////////////
 		/// \brief check if this entity has a C type Component reference
@@ -67,7 +67,7 @@ namespace rlms {
 		/// \return true if found ,false otherwise
 		///
 		////////////////////////////////////////////////////////////
-		template<class C> bool has ();
+		bool has (COMPONENT_TYPE_ID const& c_type_id);
 		
 		////////////////////////////////////////////////////////////
 		/// \brief get the Component from the entity's references
@@ -79,7 +79,7 @@ namespace rlms {
 		/// \return C*	a reference to the component's instance, returns a nullptr otherwise !
 		///
 		////////////////////////////////////////////////////////////
-		template<class C> C* get ();
+		IComponent* get (COMPONENT_TYPE_ID const& c_type_id);
 
 		////////////////////////////////////////////////////////////
 		/// \brief remove the Component from the entity's references
@@ -87,7 +87,7 @@ namespace rlms {
 		/// \template C	the component type to be found
 		///
 		////////////////////////////////////////////////////////////
-		template<class C> void rem ();
+		void rem (COMPONENT_TYPE_ID const& c_type_id);
 
 		////////////////////////////////////////////////////////////
 		/// \brief get all the components attached to this entity
@@ -126,8 +126,6 @@ namespace rlms {
 
 	};
 } //namespace rlms
-
-#include "Entity.inl"
 
 ////////////////////////////////////////////////////////////
 /// \class rlms::Entity

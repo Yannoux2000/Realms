@@ -11,4 +11,8 @@ namespace rlms {
 	struct BadMemberName : public ECSException {
 		BadMemberName () : ECSException ("Bad member name", "Make sure you enter a valid member name for this Data Structure") {};
 	};
+
+	struct BadComponentProto : public ECSException {
+		BadComponentProto () : ECSException ("Bad prototype", "Invalid prototype was used for this component.") {};
+	};
 }

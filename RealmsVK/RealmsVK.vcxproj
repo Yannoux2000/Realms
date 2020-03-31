@@ -200,6 +200,7 @@
     <ClCompile Include="Module\Input\InputAssignement.cpp" />
     <ClCompile Include="Module\Input\InputManager.cpp" />
     <ClCompile Include="Module\Input\InputMap.cpp" />
+    <ClCompile Include="Module\LuaBindings\Attribute.cpp" />
     <ClCompile Include="Module\LuaBindings\Bindings_Component.cpp" />
     <ClCompile Include="Module\LuaBindings\Bindings_ComponentManager.cpp" />
     <ClCompile Include="Module\LuaBindings\Bindings_Entity.cpp" />
@@ -303,6 +304,7 @@
     <ClInclude Include="Module\Input\InputAssignement.h" />
     <ClInclude Include="Module\Input\InputManager.h" />
     <ClInclude Include="Module\Input\InputMap.h" />
+    <ClInclude Include="Module\LuaBindings\Attribute.h" />
     <ClInclude Include="Module\LuaBindings\Bindings_Component.h" />
     <ClInclude Include="Module\LuaBindings\Bindings_ComponentManager.h" />
     <ClInclude Include="Module\LuaBindings\Bindings_Entity.h" />
@@ -339,8 +341,6 @@
     <None Include="Base\Math\Rect.inl" />
     <None Include="Base\Math\Vec.inl" />
     <None Include="Base\Math\Vec3.inl" />
-    <None Include="Module\ECS\ComponentManager.inl" />
-    <None Include="Module\ECS\Entity.inl" />
     <None Include="Module\ECS\SystemManager.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
