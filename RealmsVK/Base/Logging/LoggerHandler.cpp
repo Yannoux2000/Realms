@@ -30,9 +30,11 @@ LoggerHandler::~LoggerHandler () {
 }
 
 void LoggerHandler::log (const std::string& s, const char& tag, std::string disp_name) {
+	_lock.lock ();
 	for (auto it = begin (); it != end (); it++) {
 		(*it)->log (s, tag, LoggerHandler::disp_name ());
 	}
+	_lock.unlock ();
 }
 
 void LoggerHandler::channelIn (std::shared_ptr<Logger> logger) {

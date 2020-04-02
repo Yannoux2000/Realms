@@ -80,9 +80,6 @@
     <ClCompile Include="Module\Input\AssignSanitizer.cpp">
       <Filter>Module\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Module\Input\InputAssignement.cpp">
-      <Filter>Module\Input</Filter>
-    </ClCompile>
     <ClCompile Include="Module\Input\InputManager.cpp">
       <Filter>Module\Input</Filter>
     </ClCompile>
@@ -242,7 +239,18 @@
     <ClCompile Include="Module\GUI\UIConstraint.cpp">
       <Filter>Module\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="Module\LuaBindings\Attribute.cpp" />
+    <ClCompile Include="Module\Input\InputType.cpp">
+      <Filter>Module\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Input\AssignDictionnary.cpp">
+      <Filter>Module\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\LuaBindings\Attribute.cpp">
+      <Filter>Module\LuaBindings</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Input\InputException.cpp">
+      <Filter>Module\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -455,9 +463,6 @@
     <ClInclude Include="Module\Input\AssignSanitizer.h">
       <Filter>Module\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Module\Input\InputAssignement.h">
-      <Filter>Module\Input</Filter>
-    </ClInclude>
     <ClInclude Include="Module\Input\InputManager.h">
       <Filter>Module\Input</Filter>
     </ClInclude>
@@ -668,7 +673,24 @@
     <ClInclude Include="Module\GUI\UIConstraint.h">
       <Filter>Module\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="Module\LuaBindings\Attribute.h" />
+    <ClInclude Include="Module\Input\InputType.h">
+      <Filter>Module\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Input\AssignAddress.h">
+      <Filter>Module\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Input\AssignDictionnary.h">
+      <Filter>Module\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\LuaBindings\Attribute.h">
+      <Filter>Module\LuaBindings</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Input\InputException.h">
+      <Filter>Module\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Statistics.h">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Base\Math\Rect.inl">
@@ -679,12 +701,6 @@
     </None>
     <None Include="Base\Math\Vec3.inl">
       <Filter>Base\Math</Filter>
-    </None>
-    <None Include="Module\ECS\Entity.inl">
-      <Filter>Module\ECS</Filter>
-    </None>
-    <None Include="Module\ECS\ComponentManager.inl">
-      <Filter>Module\ECS</Filter>
     </None>
     <None Include="Base\Allocators\Allocator.inl">
       <Filter>Base\Allocators</Filter>

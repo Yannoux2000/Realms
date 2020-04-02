@@ -14,11 +14,11 @@
 // Rangeless input : referes to keypressed when interpreted as non-binary i.e.
 
 namespace rlms {
-	class IAssignement {
+	class IInput {
 	public:
 
-		IAssignement () {};
-		virtual ~IAssignement () {};
+		IInput () {};
+		virtual ~IInput () {};
 
 		virtual void update (Input &n) {}
 		virtual void reset () {}
@@ -51,7 +51,7 @@ namespace rlms {
 		//}
 	};
 
-	class InputAssignement : public IAssignement {
+	class ButtonInput : public IInput {
 	protected:
 		bool m_pressflag;
 		bool m_holdflag;
@@ -60,8 +60,8 @@ namespace rlms {
 		void flagUpdate (const bool& new_input);
 	public:
 
-		InputAssignement () : m_pressflag (false), m_holdflag (false), m_releaseflag (false) {};
-		virtual ~InputAssignement () {};
+		ButtonInput () : m_pressflag (false), m_holdflag (false), m_releaseflag (false) {};
+		virtual ~ButtonInput () {};
 
 		virtual const bool isPressed () const { //Action
 			return m_pressflag;
@@ -76,7 +76,7 @@ namespace rlms {
 		}
 	};
 
-	class SlideInputAssignement : public InputAssignement {
+	class SlideInput : public ButtonInput {
 	protected:
 		rlms::Vec2i m_pos;
 		rlms::Vec2i m_deltaPos;
@@ -84,14 +84,14 @@ namespace rlms {
 
 		void slideUpdate (const bool& new_input, rlms::Vec2i new_pos);
 	public:
-		SlideInputAssignement () : InputAssignement () {};
+		SlideInput () : ButtonInput () {};
 
 		const rlms::Vec2i getStartPos () const override;
 		const rlms::Vec2i getEndPos () const override;
 		const rlms::Vec2i getDeltaPos () const override;
 	};
 
-	class EventAssignement : public InputAssignement {
+	class EventInput : public ButtonInput {
 	private:
 	//	sf::Event::EventType m_type;
 	//	std::unique_ptr<sf::Event> m_event;
@@ -100,15 +100,14 @@ namespace rlms {
 		void update (Input& n) override;
 		void reset () override;
 	//	const sf::Event* getEvent () const override;
-
 	};
 
-	class KeyInputAssignement : public InputAssignement {
+	class KeyboardButtonInput : public ButtonInput {
 	private:
 		int m_key;
 
 	public:
-		KeyInputAssignement (int && key) : m_key (key), InputAssignement () {};
+		KeyboardButtonInput (int && key) : m_key (key), ButtonInput () {};
 
 		void update (Input& n) override {
 			if(n.scancode == m_key) {
@@ -117,12 +116,12 @@ namespace rlms {
 		}
 	};
 
-	class KeyMouseSlideAssignement : public SlideInputAssignement {
+	class KeyboardSlideInput : public SlideInput {
 	protected:
 		int m_key;
 
 	public:
-		KeyMouseSlideAssignement (int && key) : m_key (key), SlideInputAssignement () {};
+		KeyboardSlideInput (int && key) : m_key (key), SlideInput () {};
 
 		void update (Input& n) override {
 			if (n.scancode == m_key) {
@@ -131,12 +130,12 @@ namespace rlms {
 		}
 	};
 
-	class MouseButtonInputAssignement : public InputAssignement {
+	class MouseButtonInput : public ButtonInput {
 	protected:
 		int m_button;
 
 	public:
-		MouseButtonInputAssignement (int && button) : m_button (button), InputAssignement () {};
+		MouseButtonInput (int && button) : m_button (button), ButtonInput () {};
 
 		void update (Input& n) override {
 			if (n.scancode == m_button) {
@@ -145,12 +144,12 @@ namespace rlms {
 		}
 	};
 
-	class MouseButtonSlideAssignement : public SlideInputAssignement {
+	class MouseSlideInput : public SlideInput {
 	protected:
 		int m_button;
 
 	public:
-		MouseButtonSlideAssignement (int && button) : m_button (button), SlideInputAssignement () {};
+		MouseSlideInput (int && button) : m_button (button), SlideInput () {};
 
 		void update (Input& n) override {
 			if (n.scancode == m_button) {

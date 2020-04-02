@@ -19,12 +19,11 @@ namespace rlms {
 		};
 
 		InputAction action = None;
-
 		int scancode = 0;
 		int mods = 0;
 	};
 
-	Input KeyInput (int key, int scancode, int action, int mods);
-	Input MouseButtonInput (int button, int action, int mods);
-	Input EventInput (int button, int action, int mods);
+	Input CreatingKeyboardButtonInput (int key, int scancode, int action, int mods);
+	Input CreatingMouseButtonInput (int button, int action, int mods);
+	Input CreatingEventInput (int button, int action, int mods);
 }

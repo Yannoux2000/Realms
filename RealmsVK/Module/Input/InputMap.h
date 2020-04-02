@@ -2,7 +2,8 @@
 
 #include <string>
 #include <unordered_map>
-#include "InputAssignement.h"
+#include "InputType.h"
+#include "AssignAddress.h"
 
 #include "../../Base/Math/Vec2.h"
 
@@ -11,16 +12,16 @@ namespace rlms {
 	//represent the multiple bindings between a sf::event and the Actions (action type is std::string typed)
 	//can be different depending on the context
 	private:
-		std::unordered_map<std::string, IAssignement*> m_assignedInputs;
+		std::unordered_map<INPUT_ADDRESS_SUB_TYPE, IInput*> m_assignedInputs;
 		bool m_active = false;
 	public:
-		void bindKey (std::string name, int && key);
-		void bindMouseButton (std::string name, int && button);
-		void bindKeySlide (std::string name, int && key);
-		void bindMouseButtonSlide (std::string name, int && button);
-		//void bindEvent (std::string const& name, sf::Event::EventType && e);
+		void bindKey (INPUT_ADDRESS_SUB_TYPE addr, int && key);
+		void bindMouseButton (INPUT_ADDRESS_SUB_TYPE addr, int && button);
+		void bindKeySlide (INPUT_ADDRESS_SUB_TYPE addr, int && key);
+		void bindMouseButtonSlide (INPUT_ADDRESS_SUB_TYPE addr, int && button);
+		//void bindEvent (INPUT_ADDRESS_SUB_TYPE addr, sf::Event::EventType && e);
 
-		void unbindInput (std::string name);
+		void unbindInput (INPUT_ADDRESS_SUB_TYPE addr);
 		void clearInputs ();
 
 		void update (Input& n);
@@ -30,16 +31,14 @@ namespace rlms {
 		void disable ();
 		const bool& active ();
 
-		const bool hasInput (std::string const& name);
-		const bool isPressed (std::string const& name) const; //Action
-		const bool isDown (std::string const& name) const; //State
-		const bool isReleased (std::string const& name) const; //State
+		const bool hasInput (INPUT_ADDRESS_SUB_TYPE const& addr);
+		const bool isPressed (INPUT_ADDRESS_SUB_TYPE const& addr) const; //Action
+		const bool isDown (INPUT_ADDRESS_SUB_TYPE const& addr) const; //State
+		const bool isReleased (INPUT_ADDRESS_SUB_TYPE const& addr) const; //State
 
-		const rlms::Vec2i getStartPos (std::string const& name) const; //State
-		const rlms::Vec2i getDeltaPos (std::string const& name) const; //State
-		const rlms::Vec2i getEndPos (std::string const& name) const; //State
-
-		//const sf::Event* getEvent (std::string const& name) const;
+		const rlms::Vec2i getStartPos (INPUT_ADDRESS_SUB_TYPE const& addr) const; //State
+		const rlms::Vec2i getDeltaPos (INPUT_ADDRESS_SUB_TYPE const& addr) const; //State
+		const rlms::Vec2i getEndPos (INPUT_ADDRESS_SUB_TYPE const& addr) const; //State
 	};
 }
 

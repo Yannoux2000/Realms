@@ -1,12 +1,12 @@
-#include "InputAssignement.h"
+#include "InputType.h"
 
-void rlms::InputAssignement::flagUpdate (const bool& new_input) {
+void rlms::ButtonInput::flagUpdate (const bool& new_input) {
 	m_pressflag = (new_input && new_input != m_holdflag); //
 	m_releaseflag = (!new_input && new_input != m_holdflag);
 	m_holdflag = new_input;
 }
 
-void rlms::SlideInputAssignement::slideUpdate (const bool& new_input, rlms::Vec2i new_pos) {
+void rlms::SlideInput::slideUpdate (const bool& new_input, rlms::Vec2i new_pos) {
 	flagUpdate (new_input);
 
 	if (m_pressflag) {
@@ -20,15 +20,15 @@ void rlms::SlideInputAssignement::slideUpdate (const bool& new_input, rlms::Vec2
 	}
 }
 
-const rlms::Vec2i rlms::SlideInputAssignement::getStartPos () const {
+const rlms::Vec2i rlms::SlideInput::getStartPos () const {
 	return m_pos;
 }
 
-const rlms::Vec2i rlms::SlideInputAssignement::getEndPos () const {
+const rlms::Vec2i rlms::SlideInput::getEndPos () const {
 	return m_lastPos;
 }
 
-const rlms::Vec2i rlms::SlideInputAssignement::getDeltaPos () const {
+const rlms::Vec2i rlms::SlideInput::getDeltaPos () const {
 	return m_deltaPos;
 }
 

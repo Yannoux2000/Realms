@@ -9,6 +9,8 @@
 
 #include "GLFW/glfw3.h"
 #include "Input.h"
+#include "AssignAddress.h"
+#include "InputException.h"
 
 //Voc:
 // *hardware* input : the key being pressed (as presented from the OS)
@@ -42,19 +44,6 @@ the idea :
 
 */
 namespace rlms {
-	class InvalidInput : public Exception {
-	public:
-		InvalidInput (std::string t_type, std::string t_description) noexcept : Exception (t_type, t_description) {};
-	};
-
-	struct InvalidMapName : public InvalidInput {
-		InvalidMapName () noexcept : InvalidInput ("Invalid map name.", "all input name must be formated as {MapName}::{ActionName}.") {};
-	};
-
-	struct UnbindedInput : public InvalidInput {
-		UnbindedInput () noexcept : InvalidInput ("Unbinded input.", "action has not been binded to an input.") {};
-	};
-
 	class InputManagerImpl;
 
 	class InputManager {
@@ -78,10 +67,12 @@ namespace rlms {
 		//static void BindEvent (std::string const& name, sf::Event::EventType&& e);
 
 		//map names would be separated by a :: from the key tag, to separate different maps, enabeling a map would be throught the use of 
+		static void EnableInputMap (INPUT_ADDRESS_SUB_TYPE const& map);
 		static void EnableInputMap (std::string const& name);
+		static void DisableInputMap (INPUT_ADDRESS_SUB_TYPE const& map);
 		static void DisableInputMap (std::string const& name);
 
-		static void UnBindInput (std::string const& name);
+		static void UnBindInput (AssignAddress const& addr);
 		static void ClearInputs ();
 
 		static void Poll (GLFWwindow*& window);
@@ -90,14 +81,16 @@ namespace rlms {
 		static void UpdateScroll (rlms::Vec2i s_pos);
 
 		static const bool HasInput (std::string const& name);
-		static const bool IsPressed (std::string const& name);
-		static const bool IsDown (std::string const& name);
-		static const bool IsReleased (std::string const& name);
+		static const bool HasInput (AssignAddress const& addr);
+		static const AssignAddress GetInput (std::string const& name);
+
+		static const bool IsPressed (AssignAddress const& addr);
+		static const bool IsDown (AssignAddress const& addr);
+		static const bool IsReleased (AssignAddress const& addr);
 
 		static const rlms::Vec2i GetCursorPos ();
-		static const rlms::Vec2i GetDeltaPos (std::string const& name);
-		static const rlms::Vec2i GetEndPos (std::string const& name);
-
-		//static const sf::Event* GetEvent (std::string const& name);
+		static const rlms::Vec2i GetDeltaPos (AssignAddress const& addr);
+		static const rlms::Vec2i GetEndPos (AssignAddress const& addr);
+		//static const sf::Event* GetEvent (AssignAddress const& addr);
 	};
 }

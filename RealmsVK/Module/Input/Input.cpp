@@ -1,6 +1,6 @@
 #include "Input.h"
 
-rlms::Input rlms::KeyInput (int key, int scancode, int action, int mods) {
+rlms::Input rlms::CreatingKeyboardButtonInput (int key, int scancode, int action, int mods) {
 	Input n;
 	n.type = Input::InputType::Keyboard;
 	n.scancode = scancode;
@@ -19,7 +19,7 @@ rlms::Input rlms::KeyInput (int key, int scancode, int action, int mods) {
 	return n;
 }
 
-rlms::Input rlms::MouseButtonInput (int button, int action, int mods) {
+rlms::Input rlms::CreatingMouseButtonInput (int button, int action, int mods) {
 	Input n;
 	n.type = Input::InputType::Mouse;
 	n.scancode = button;
@@ -35,7 +35,7 @@ rlms::Input rlms::MouseButtonInput (int button, int action, int mods) {
 	return n;
 }
 
-rlms::Input rlms::EventInput (int button, int action, int mods) {
+rlms::Input rlms::CreatingEventInput (int button, int action, int mods) {
 	Input n;
 	n.type = Input::InputType::Mouse;
 	n.scancode = button;

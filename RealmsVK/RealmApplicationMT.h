@@ -4,6 +4,8 @@
 #include "Base/Logging/DebugConsoleLogger.h"
 #include "Base/Logging/FileLogger.h"
 
+#include "Base/Statistics.h"
+
 #include "Base/Allocators/ProxyAllocator.h"
 //#include "Base/Allocators/StackAllocator.h"
 #include "Base/Allocators/MasqueradeAllocator.h"
@@ -56,7 +58,13 @@ namespace rlms {
 		std::atomic<SystemsStatus> statusGraphics;
 		std::atomic<SystemsStatus> statusWindow;
 
+		Statistics statsInput;
+		Statistics statsUpdate;
+		Statistics statsGraphics;
+
 		std::atomic_bool stop_signal;
+
+		AssignAddress game_quit;
 
 	public:
 		struct MemorySettings {
@@ -82,6 +90,9 @@ namespace rlms {
 			stop_signal.store (false);
 
 			//read all graphics and controls and mods options
+			statsInput.reset ();
+			statsUpdate.reset ();
+			statsGraphics.reset ();
 
 			//Memory initialisation
 			void* mem = malloc (stgs.memory.total_size);
@@ -162,6 +173,7 @@ namespace rlms {
 
 					rlms::InputManager::BindKey ("game::quit", glfwGetKeyScancode (GLFW_KEY_ESCAPE));
 					rlms::InputManager::EnableInputMap ("game");
+					game_quit = rlms::InputManager::GetInput ("game::quit");
 
 					//rlms::InputManager::BindKey ("cam::reset", glfwGetKeyScancode (GLFW_KEY_SPACE));
 					//rlms::InputManager::BindKey ("cam::test", glfwGetKeyScancode (GLFW_KEY_E));
@@ -189,32 +201,60 @@ namespace rlms {
 				},
 				[this]() {
 					logger->tag (LogTags::Info) << "Application is Ready, Initializing.\n";
-					//Graphical Loop
+					//Graphics Loop
 					JobSystem::Register (PeriodicJob<std::ratio<1, 60>> (
 						[this]() {
 							if(statusGraphics != Idle) {
+								auto start = std::chrono::high_resolution_clock::now ();
+
 								rlms::GraphicsManager::Draw ();
+
+								auto end = std::chrono::high_resolution_clock::now ();
+								std::chrono::duration<double, std::micro> ms = end - start;
+
+								statsGraphics.add (ms.count ());
+
+								//std::ostringstream oss ("");
+								//oss << "Graphical:\t(" << statsGraphics.min () << " ms" <<
+								//	",  " << statsGraphics.mean () << " ms" <<
+								//	",  " << statsGraphics.max () << " ms" <<
+								//	",  " << statsGraphics.sD () << " ms)";
+								//logger->log (oss.str (), LogTags::Dev);
 							}
 						}
 					, stop_signal));
 
 					//Input Loop
-					JobSystem::Register (PeriodicJob<std::ratio<1, 500>> (
+					JobSystem::Register (PeriodicJob<std::ratio<1, 120>> (
 						[this]() {
+							auto start = std::chrono::high_resolution_clock::now ();
 							//logger->tag (LogTags::Dev) << "(Input)\n";
 							rlms::InputManager::Poll (window);
 							if (glfwWindowShouldClose (window)) {
 								logger->tag (LogTags::Info) << "stop_signal has been received !\n";
 								stop_signal.store (true);
 							}
+							auto end = std::chrono::high_resolution_clock::now ();
+							std::chrono::duration<double, std::micro> ms = end - start;
+
+							statsInput.add (ms.count ());
+
+							//std::ostringstream oss ("");
+							//oss << "Input:    \t(" << statsInput.min () << " ms" <<
+							//	",  " << statsInput.mean () << " ms" <<
+							//	",  " << statsInput.max () << " ms" <<
+							//	",  " << statsInput.sD () << " ms)";
+							//logger->log (oss.str (), LogTags::Dev);
 						}
 					, stop_signal));
 
 					//Update Loop
-					JobSystem::Register (PeriodicJob<std::ratio<1, 30>> (
+					JobSystem::Register (PeriodicJob<std::ratio<1, 120>> (
 						[this]() {
 							if(statusUpdate != Idle) {
-								if (rlms::InputManager::IsPressed ("game::quit") || rlms::InputManager::IsPressed ("close")) {
+								auto start = std::chrono::high_resolution_clock::now ();
+
+								if (rlms::InputManager::IsPressed (game_quit) /*|| rlms::InputManager::IsPressed (rlms::InputManager::GetInput ("close"))*/) {
 									running = false;
 								}
 					
@@ -244,6 +284,18 @@ namespace rlms {
 								//if (rlms::InputManager::IsDown ("cam::right")) {
 								//	Camera::MainCamera->move (Camera::MainCamera->right);
 								//}
+								
+								auto end = std::chrono::high_resolution_clock::now ();
+								std::chrono::duration<double, std::micro> ms = end - start;
+
+								statsUpdate.add (ms.count ());
+
+								//std::ostringstream oss ("");
+								//oss << "Update:  \t(" << statsUpdate.min() << " ms" <<
+								//	",  " << statsUpdate.mean () << " ms" <<
+								//	",  " << statsUpdate.max () << " ms" <<
+								//	",  " << statsUpdate.sD () << " ms)";
+								//logger->log (oss.str (), LogTags::Dev);
 							}
 						}
 					, stop_signal));

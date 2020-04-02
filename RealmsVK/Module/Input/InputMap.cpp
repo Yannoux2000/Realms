@@ -2,50 +2,50 @@
 
 using namespace rlms;
 
-void InputMap::bindKey (std::string name, int && key) {
+void InputMap::bindKey (INPUT_ADDRESS_SUB_TYPE addr, int && key) {
 
-	auto it = m_assignedInputs.find (name);
+	auto it = m_assignedInputs.find (addr);
 
 	//Entity exists
 	if (it != m_assignedInputs.end ()) {
-		unbindInput (name);
+		unbindInput (addr);
 	}
 
-	m_assignedInputs.insert (std::make_pair (name, new KeyInputAssignement (std::move (key))));
+	m_assignedInputs.insert (std::make_pair (addr, new KeyboardButtonInput (std::move (key))));
 }
 
-void InputMap::bindMouseButton (std::string name, int && button) {
-	auto it = m_assignedInputs.find (name);
+void InputMap::bindMouseButton (INPUT_ADDRESS_SUB_TYPE addr, int && button) {
+	auto it = m_assignedInputs.find (addr);
 
 	//Assign exists
 	if (it != m_assignedInputs.end ()) {
-		unbindInput (name);
+		unbindInput (addr);
 	}
 
-	m_assignedInputs.insert (std::make_pair (name, new MouseButtonInputAssignement (std::move (button))));
+	m_assignedInputs.insert (std::make_pair (addr, new MouseButtonInput (std::move (button))));
 }
 
-void InputMap::bindKeySlide (std::string name, int && key) {
+void InputMap::bindKeySlide (INPUT_ADDRESS_SUB_TYPE addr, int && key) {
 
-	auto it = m_assignedInputs.find (name);
+	auto it = m_assignedInputs.find (addr);
 
 	//Assign exists
 	if (it != m_assignedInputs.end ()) {
-		unbindInput (name);
+		unbindInput (addr);
 	}
 
-	m_assignedInputs.insert (std::make_pair (name, new KeyMouseSlideAssignement (std::move (key))));
+	m_assignedInputs.insert (std::make_pair (addr, new KeyboardSlideInput (std::move (key))));
 }
 
-void InputMap::bindMouseButtonSlide (std::string name, int && button) {
-	auto it = m_assignedInputs.find (name);
+void InputMap::bindMouseButtonSlide (INPUT_ADDRESS_SUB_TYPE addr, int && button) {
+	auto it = m_assignedInputs.find (addr);
 
 	//Assign exists
 	if (it != m_assignedInputs.end ()) {
-		unbindInput (name);
+		unbindInput (addr);
 	}
 
-	m_assignedInputs.insert (std::make_pair (name, new MouseButtonSlideAssignement (std::move (button))));
+	m_assignedInputs.insert (std::make_pair (addr, new MouseSlideInput (std::move (button))));
 }
 
 //void rlms::InputMap::bindEvent (std::string const& name, sf::Event::EventType && e) {
@@ -59,21 +59,21 @@ void InputMap::bindMouseButtonSlide (std::string name, int && button) {
 //	m_assignedInputs.insert (std::make_pair (name, new EventAssignement (std::move (e))));
 //}
 
-void InputMap::unbindInput (std::string name) {
-	auto it = m_assignedInputs.find (name);
+void InputMap::unbindInput (INPUT_ADDRESS_SUB_TYPE addr) {
+	auto it = m_assignedInputs.find (addr);
 
 	//Assign exists
 	if (it != m_assignedInputs.end ()) {
-		it->second->~IAssignement ();
+		it->second->~IInput ();
 		delete it->second;
-		m_assignedInputs.erase (name);
+		m_assignedInputs.erase (addr);
 	}
 }
 
 void InputMap::clearInputs () {
 	while (!m_assignedInputs.empty ()) {
 		auto it = m_assignedInputs.begin ();
-		it->second->~IAssignement ();
+		it->second->~IInput ();
 		delete it->second;
 		m_assignedInputs.erase (it);
 	}
@@ -107,31 +107,31 @@ const bool& rlms::InputMap::active () {
 	return m_active;
 }
 
-const bool InputMap::hasInput (std::string const& name) {
-	return m_assignedInputs.find (name) != m_assignedInputs.end ();
+const bool InputMap::hasInput (INPUT_ADDRESS_SUB_TYPE const& addr) {
+	return m_assignedInputs.find (addr) != m_assignedInputs.end ();
 }
 
-const bool InputMap::isPressed (std::string const& name) const { //Action
+const bool InputMap::isPressed (INPUT_ADDRESS_SUB_TYPE const& addr) const { //Action
 
-	auto it = m_assignedInputs.find (name);
+	auto it = m_assignedInputs.find (addr);
 
 	if (it != m_assignedInputs.end ()) {
 		return it->second->isPressed ();
 	}
 	return false;
 }
-const bool InputMap::isDown (std::string const& name) const { //State
+const bool InputMap::isDown (INPUT_ADDRESS_SUB_TYPE const& addr) const { //State
 
-	auto it = m_assignedInputs.find (name);
+	auto it = m_assignedInputs.find (addr);
 
 	if (it != m_assignedInputs.end ()) {
 		return it->second->isDown ();
 	}
 	return false;
 }
-const bool InputMap::isReleased (std::string const& name) const { //State
+const bool InputMap::isReleased (INPUT_ADDRESS_SUB_TYPE const& addr) const { //State
 
-	auto it = m_assignedInputs.find (name);
+	auto it = m_assignedInputs.find (addr);
 
 	if (it != m_assignedInputs.end ()) {
 		return it->second->isReleased ();
@@ -139,8 +139,8 @@ const bool InputMap::isReleased (std::string const& name) const { //State
 	return false;
 }
 
-const rlms::Vec2i rlms::InputMap::getStartPos (std::string const& name) const {
-	auto it = m_assignedInputs.find (name);
+const rlms::Vec2i rlms::InputMap::getStartPos (INPUT_ADDRESS_SUB_TYPE const& addr) const {
+	auto it = m_assignedInputs.find (addr);
 
 	if (it != m_assignedInputs.end ()) {
 		return it->second->getStartPos ();
@@ -148,9 +148,9 @@ const rlms::Vec2i rlms::InputMap::getStartPos (std::string const& name) const {
 	return rlms::Vec2i();
 }
 
-const rlms::Vec2i InputMap::getDeltaPos (std::string const& name) const { //State
+const rlms::Vec2i InputMap::getDeltaPos (INPUT_ADDRESS_SUB_TYPE const& addr) const { //State
 
-	auto it = m_assignedInputs.find (name);
+	auto it = m_assignedInputs.find (addr);
 
 	if (it != m_assignedInputs.end ()) {
 		return it->second->getDeltaPos ();
@@ -158,9 +158,9 @@ const rlms::Vec2i InputMap::getDeltaPos (std::string const& name) const { //Stat
 	return rlms::Vec2i ();
 }
 
-const rlms::Vec2i InputMap::getEndPos (std::string const& name) const { //State
+const rlms::Vec2i InputMap::getEndPos (INPUT_ADDRESS_SUB_TYPE const& addr) const { //State
 
-	auto it = m_assignedInputs.find (name);
+	auto it = m_assignedInputs.find (addr);
 
 	if (it != m_assignedInputs.end ()) {
 		return it->second->getEndPos ();
@@ -168,9 +168,9 @@ const rlms::Vec2i InputMap::getEndPos (std::string const& name) const { //State
 	return rlms::Vec2i ();
 }
 
-//const sf::Event* InputMap::getEvent (std::string const& name) const { //State
+//const sf::Event* InputMap::getEvent (INPUT_ADDRESS_SUB_TYPE const& addr) const { //State
 //
-//	auto it = m_assignedInputs.find (name);
+//	auto it = m_assignedInputs.find (addr);
 //
 //	if (it != m_assignedInputs.end ()) {
 //		return it->second->getEvent ();

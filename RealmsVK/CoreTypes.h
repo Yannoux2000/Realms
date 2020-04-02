@@ -22,6 +22,8 @@ namespace rlms {
 	using COMPONENT_TYPE_ID = uint16_t;
 	using EVENT_ID = uint16_t;
 
+	using INPUT_ADDRESS_SUB_TYPE = uint8_t;
+
 	using GAME_TICK_TYPE = uint16_t;
 	using BLOCK_TYPE_ID = uint16_t;
 

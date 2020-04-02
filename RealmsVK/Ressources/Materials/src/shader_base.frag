@@ -7,6 +7,9 @@ vec2 iResolution = vec2(800, 600);
 #define MAX_DIST 100.
 #define SURFACE_DIST .01
 
+layout(location = 0) in vec3 fragColor;
+layout(location = 0) out vec4 diffuseColor;
+
 float dBox(vec3 p, float s){
     return length(max(abs(p) - s, 0.));
 }
@@ -54,8 +57,6 @@ float GetLight(vec3 p) {
     return dif;
 }
 
-layout(location = 0) out vec4 diffuseColor;
-
 void main() {    
     vec2 uv = (.5*iResolution.xy - gl_FragCoord.xy)/iResolution.y;
 
@@ -67,6 +68,8 @@ void main() {
     vec3 p = ray_ori + ray_dir * d;
     float dif = GetLight(p);
     vec3 col = vec3(dif);
+
+    vec3 ref = refract(normalize(vec3(0.5,0.5,0.0)), normalize(vec3(0.0,1.0,0.0)), 1.33);
     
     diffuseColor = vec4(1.0,0.0,0.0,1.0);
 }
