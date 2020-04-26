@@ -61,11 +61,11 @@ void ECS_CoreImpl::start (Allocator* const& alloc, size_t ecs_pool_size, std::sh
 	logger->tag (LogTags::None) << "Initialized correctly !" << '\n';
 }
 
-void rlms::ECS_CoreImpl::update (double dt) {
+void ECS_CoreImpl::update (double dt) {
 
 }
 
-void rlms::ECS_CoreImpl::stop () {
+void ECS_CoreImpl::stop () {
 	logger->tag (LogTags::None) << "Stopping" << '\n';
 
 	m_global_allocator.reset ();

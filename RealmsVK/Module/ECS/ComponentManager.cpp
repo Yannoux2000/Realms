@@ -42,7 +42,7 @@ public:
 };
 
 int ComponentManager::n_errors;
-std::unique_ptr<rlms::ComponentManagerImpl> ComponentManager::instance;
+std::unique_ptr<ComponentManagerImpl> ComponentManager::instance;
 
 std::shared_ptr<LoggerHandler> ComponentManager::GetLogger () {
 	return instance->getLogger();
@@ -62,11 +62,11 @@ const ENTITY_ID& ComponentManager::GetEntity (COMPONENT_ID c_id) {
 	return instance->getEntity (c_id);
 }
 
-const COMPONENT_ID rlms::ComponentManager::CreateComponent (COMPONENT_TYPE_ID const& c_type, Entity* entity) {
+const COMPONENT_ID ComponentManager::CreateComponent (COMPONENT_TYPE_ID const& c_type, Entity* entity) {
 	return instance->createComponent (c_type, entity);
 }
 
-const COMPONENT_ID rlms::ComponentManager::CreateComponent (COMPONENT_TYPE_ID const& c_type, COMPONENT_ID c_id, Entity* entity) {
+const COMPONENT_ID ComponentManager::CreateComponent (COMPONENT_TYPE_ID const& c_type, COMPONENT_ID c_id, Entity* entity) {
 	return instance->createComponent (c_type, c_id, entity);
 }
 
@@ -82,11 +82,11 @@ IComponent* ComponentManager::GetComponent (COMPONENT_ID c_id) {
 	return instance->getComponent (c_id);
 }
 
-std::vector<IComponent*> rlms::ComponentManager::GetComponents (COMPONENT_TYPE_ID const& c_type) {
+std::vector<IComponent*> ComponentManager::GetComponents (COMPONENT_TYPE_ID const& c_type) {
 	return instance->getComponents (c_type);
 }
 
-void rlms::ComponentManager::DestroyComponent (COMPONENT_TYPE_ID const& c_type, Entity* entity) {
+void ComponentManager::DestroyComponent (COMPONENT_TYPE_ID const& c_type, Entity* entity) {
 	instance->destroyComponent (c_type, entity);
 }
 
@@ -261,7 +261,7 @@ IComponent* ComponentManagerImpl::getComponent (COMPONENT_ID c_id) {
 	return it->second;
 }
 
-std::vector<IComponent*> rlms::ComponentManagerImpl::getComponents (COMPONENT_TYPE_ID const& c_type) {
+std::vector<IComponent*> ComponentManagerImpl::getComponents (COMPONENT_TYPE_ID const& c_type) {
 	std::vector<IComponent*> vec;
 	for (const auto& c : _lookup_table) {
 		if (c.second->type_id () == c_type) {
@@ -271,7 +271,7 @@ std::vector<IComponent*> rlms::ComponentManagerImpl::getComponents (COMPONENT_TY
 	return vec;
 }
 
-void rlms::ComponentManagerImpl::destroyComponent (COMPONENT_TYPE_ID const& c_type, Entity* entity) {
+void ComponentManagerImpl::destroyComponent (COMPONENT_TYPE_ID const& c_type, Entity* entity) {
 	if (entity != nullptr) {
 		IComponent* c = entity->get (c_type);
 		COMPONENT_ID c_id = c->id ();

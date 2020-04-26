@@ -21,9 +21,9 @@ namespace rlms {
 			m_type_id (Block::None), m_transparency (true), m_mesh (nullptr) {};
 
 		void load() {
-			m_mesh->import ();
+			//m_mesh->import ();
 			m_mesh->optimise ();
-			m_mesh->load ();
+			//m_mesh->load ();
 		}
 
 		void create (Block& b) {

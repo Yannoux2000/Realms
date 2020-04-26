@@ -40,22 +40,23 @@ namespace rlms {
 			return m_anchor;
 		}
 
-		T& getXRef () {
+		T& X () {
 			return m_anchor.getX();
 		}
 
-		T& getYRef () {
+		T& Y () {
 			return m_anchor.getY();
 		}
 
-		T& getWRef () {
+		T& W () {
 			return m_area.getX();
 		}
 
-		T& getHRef () {
+		T& H () {
 			return m_area.getY();
 		}
 
+		//Lua loading
 		static Rect Parse (std::string const& s) {
 			Rect r;
 			return r;

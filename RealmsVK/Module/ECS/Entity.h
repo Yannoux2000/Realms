@@ -128,10 +128,10 @@ namespace rlms {
 } //namespace rlms
 
 ////////////////////////////////////////////////////////////
-/// \class rlms::Entity
+/// \class Entity
 /// \ingroup RealmsCore
 ///
-/// rlms::Entity provides an interface for components to be 
+/// Entity provides an interface for components to be 
 /// attached onto and be managed dynamicaly.
 /// 
 /// This class allows mods and game Developper to attach
@@ -147,6 +147,6 @@ namespace rlms {
 /// \endcode
 /// ! This code would only be present in a related ISystem inherited class.
 ///
-/// \see rlms::IComponent, rlms::ISystem, rlms::ECS_Core
+/// \see IComponent, ISystem, ECS_Core
 ///
 ////////////////////////////////////////////////////////////

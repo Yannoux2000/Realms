@@ -3,14 +3,16 @@
 #include <algorithm>
 #include <cctype>
 
-std::string rlms::MeshNameSanitizer::Sanitize (std::string name) {
+using namespace rlms;
+
+std::string MeshNameSanitizer::Sanitize (std::string name) {
 	std::transform (name.begin (), name.end (), name.begin (), [](unsigned char c) { return std::tolower (c); }); // sets everycaracter to lowercase
 	name = std::regex_replace (name, std::regex ("\\s+"), "_"); //replace white caracters with _
 	name = std::regex_replace (name, std::regex ("\\W+"), "");	//remove everything that is not alpha or num or _
 	return name.substr (0, 31);
 }
 
-std::string rlms::MeshNameSanitizer::GetAlias (std::string filename) {
+std::string MeshNameSanitizer::GetAlias (std::string filename) {
 	std::regex format{ "(.*\\/|\\\\)*(.+)\\.(vox)$" };
 	std::smatch m;
 	std::regex_match (filename, m, format);
@@ -18,7 +20,7 @@ std::string rlms::MeshNameSanitizer::GetAlias (std::string filename) {
 	return m[2].str ();
 }
 
-std::string rlms::MeshNameSanitizer::IncrementAlias (std::string name) {
+std::string MeshNameSanitizer::IncrementAlias (std::string name) {
 	std::string newname;
 	std::regex format{ "_(\\d+)$" };
 	std::smatch m;

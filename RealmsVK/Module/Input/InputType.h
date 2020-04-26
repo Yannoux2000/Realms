@@ -34,16 +34,16 @@ namespace rlms {
 			return false;
 		}
 
-		virtual const rlms::Vec2i getStartPos () const { //Pointed
-			return rlms::Vec2i ();
+		virtual const Vec2i getStartPos () const { //Pointed
+			return Vec2i ();
 		}
 
-		virtual const rlms::Vec2i getEndPos () const { //Slided
-			return rlms::Vec2i ();
+		virtual const Vec2i getEndPos () const { //Slided
+			return Vec2i ();
 		}
 
-		virtual const rlms::Vec2i getDeltaPos () const { //Slided
-			return rlms::Vec2i ();
+		virtual const Vec2i getDeltaPos () const { //Slided
+			return Vec2i ();
 		}
 
 		//virtual const sf::Event* getEvent () const {
@@ -78,17 +78,17 @@ namespace rlms {
 
 	class SlideInput : public ButtonInput {
 	protected:
-		rlms::Vec2i m_pos;
-		rlms::Vec2i m_deltaPos;
-		rlms::Vec2i m_lastPos;
+		Vec2i m_pos;
+		Vec2i m_deltaPos;
+		Vec2i m_lastPos;
 
-		void slideUpdate (const bool& new_input, rlms::Vec2i new_pos);
+		void slideUpdate (const bool& new_input, Vec2i new_pos);
 	public:
 		SlideInput () : ButtonInput () {};
 
-		const rlms::Vec2i getStartPos () const override;
-		const rlms::Vec2i getEndPos () const override;
-		const rlms::Vec2i getDeltaPos () const override;
+		const Vec2i getStartPos () const override;
+		const Vec2i getEndPos () const override;
+		const Vec2i getDeltaPos () const override;
 	};
 
 	class EventInput : public ButtonInput {

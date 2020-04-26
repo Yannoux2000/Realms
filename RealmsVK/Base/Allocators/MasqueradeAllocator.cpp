@@ -18,7 +18,7 @@ void* MasqueradeAllocator::allocate (size_t size, uint8_t alignment) {
 		_alloc.push_back (mem);
 		return mem;
 	}
-	throw rlms::BadAlloc ();
+	throw BadAlloc ();
 }
 
 void MasqueradeAllocator::deallocate (void* p) {
@@ -34,5 +34,5 @@ void MasqueradeAllocator::deallocate (void* p) {
 	//	}
 	//	it++;
 	//}
-	//throw rlms::OutOfMemory ();
+	//throw OutOfMemory ();
 }

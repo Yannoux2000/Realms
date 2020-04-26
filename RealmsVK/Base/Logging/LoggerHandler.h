@@ -38,9 +38,7 @@ namespace rlms {
 		void log (const std::string& s, const char& tag, std::string disp_name = "") override;
 
 		void print (const char& tag = LogTags::None, std::string const& s = "") {
-			_lock.lock ();
 			log (s, tag, disp_name ());
-			_lock.unlock ();
 		}
 
 		void channelIn (std::shared_ptr<Logger>);

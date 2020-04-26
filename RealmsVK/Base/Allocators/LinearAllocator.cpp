@@ -10,7 +10,7 @@ LinearAllocator::LinearAllocator(size_t size, void* start)
 
 }
 
-rlms::LinearAllocator::~LinearAllocator () {}
+LinearAllocator::~LinearAllocator () {}
 
 void LinearAllocator::deallocate(void* p)
 {

@@ -1,6 +1,8 @@
 #include "Version.h"
 
-inline std::string const rlms::Version::toString () const {
+using namespace rlms;
+
+std::string const Version::toString () const {
 	std::ostringstream ss;
 	ss << "{ " << major << "." << minor << "." << revision;
 	if (!build.empty ()) {
@@ -10,7 +12,7 @@ inline std::string const rlms::Version::toString () const {
 	return ss.str ();
 }
 
-inline bool rlms::VersionConstraint::is_valid (Version const& v) const {
+bool VersionConstraint::is_valid (Version const& v) const {
 	switch (constraint) {
 		case never:
 			return false;

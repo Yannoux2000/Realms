@@ -5,7 +5,7 @@
 
 using namespace rlms;
 
-void rlms::VoxFileParser::Load (Voxelite& data, std::string const& filename) {
+void VoxFileParser::Load (Voxelite& data, std::string const& filename) {
 	std::ifstream file (filename, std::ios::in | std::ios::binary);
 	if (!fileHasValidSignature (filename, &file)) {
 		throw InvalidVoxFile ();

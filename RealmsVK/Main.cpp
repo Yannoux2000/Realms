@@ -1,16 +1,19 @@
 //#include "RealmsVK.h"
 //#include "VKExemple.h"
-#include "RealmApplicationMT.h"
+#include "RealmApplication.h"
+//#include "RealmApplicationMT.h"
 #include "_MemLeakMonitor.h"
 #include "lua.hpp"
 #include <iostream>
+
+using namespace rlms;
 
 int lua_tests ();
 //int application_test();
 
 int application_test () {
-	rlms::RealmApplication app;
-	rlms::RealmApplication::ApplicationSettings settings;
+	RealmApplication app;
+	RealmApplication::ApplicationSettings settings;
 
 	try {
 		app.start (settings);
@@ -42,15 +45,15 @@ int application_test () {
 
 int checkbindings () {
 	void* mem = malloc (4096);
-	rlms::MasqueradeAllocator alloc (4096, mem);
-	rlms::EntityManager::Initialize (&alloc, 4096);
+	MasqueradeAllocator alloc (4096, mem);
+	EntityManager::Initialize (&alloc, 4096);
 	lua_State* L = luaL_newstate ();
 
-	rlms::Bindings_EntityManager::Bind (L);
+	Bindings_EntityManager::Bind (L);
 
-	auto e_id = rlms::EntityManager::Create ();
-	auto e = rlms::EntityManager::Get (e_id);
-	rlms::EntityManager::Destroy (e_id);
+	auto e_id = EntityManager::Create ();
+	auto e = EntityManager::Get (e_id);
+	EntityManager::Destroy (e_id);
 
 	auto LuaPrint = [](lua_State* L) -> int {
 		if (lua_isstring (L, -1)) {
@@ -69,7 +72,7 @@ EntityManager.Destroy(e_id)
 )");
 
 	lua_close (L);
-	rlms::EntityManager::Terminate ();
+	EntityManager::Terminate ();
 	free (mem);
 	return 0;
 }
@@ -111,10 +114,10 @@ int lua_statistics () {
 
 	lua_State* L = luaL_newstate ();
 
-	rlms::Entity* e = new rlms::Entity (5);
-	rlms::IComponent* c = nullptr;
-	if (rlms::IBase::is <rlms::IComponent> ((rlms::IBase*)e)) {
-		c = rlms::IBase::to <rlms::IComponent>((rlms::IBase*)e);
+	Entity* e = new Entity (5);
+	IComponent* c = nullptr;
+	if (IBase::is <IComponent> ((IBase*)e)) {
+		c = IBase::to <IComponent>((IBase*)e);
 	} else {
 		std::cout << "pute";
 	}
@@ -179,7 +182,7 @@ Prototypes["GaletteSaucice"] = {
 
 		std::string name = lua_tostring (L, -2);
 		if (lua_istable (L, -1)) {
-			rlms::LuaComponentPrototype proto (L, name);
+			LuaComponentPrototype proto (L, name);
 			std::cout << proto.debug () << "\n";
 
 			IComponent* c = proto.Create (&alloc, 50, 1);
@@ -205,67 +208,67 @@ Prototypes["GaletteSaucice"] = {
 #include <future>
 
 int test_scheduler () {
-	rlms::JobSystem::Initialize ();
+	JobSystem::Initialize ();
 
-	rlms::Job jba1 ([]() { std::cout << "(s)"; }, 101);
-	rlms::Job jbb1 ([]() { std::cout << "(a)"; }, 102);
-	rlms::Job jbc1 ([]() { std::cout << "(l)"; }, 103);
-	rlms::Job jbd1 ([]() { std::cout << "(u)"; }, 104);
-	rlms::Job jbe1 ([]() { std::cout << "(t_start)"; }, 105);
+	Job jba1 ([]() { std::cout << "(s)"; }, 101);
+	Job jbb1 ([]() { std::cout << "(a)"; }, 102);
+	Job jbc1 ([]() { std::cout << "(l)"; }, 103);
+	Job jbd1 ([]() { std::cout << "(u)"; }, 104);
+	Job jbe1 ([]() { std::cout << "(t_start)"; }, 105);
 
-	rlms::Job jba2 ([]() { std::cout << "[s]"; }, 101);
-	rlms::Job jbb2 ([]() { std::cout << "[a]"; }, 102);
-	rlms::Job jbc2 ([]() { std::cout << "[l]"; }, 103);
-	rlms::Job jbd2 ([]() { std::cout << "[u]"; }, 104);
-	rlms::Job jbe2 ([]() { std::cout << "[t_start]"; }, 105);
+	Job jba2 ([]() { std::cout << "[s]"; }, 101);
+	Job jbb2 ([]() { std::cout << "[a]"; }, 102);
+	Job jbc2 ([]() { std::cout << "[l]"; }, 103);
+	Job jbd2 ([]() { std::cout << "[u]"; }, 104);
+	Job jbe2 ([]() { std::cout << "[t_start]"; }, 105);
 
-	rlms::Job jba3 ([]() { std::cout << "{s}"; }, 101);
-	rlms::Job jbb3 ([]() { std::cout << "{a}"; }, 102);
-	rlms::Job jbc3 ([]() { std::cout << "{l}"; }, 103);
-	rlms::Job jbd3 ([]() { std::cout << "{u}"; }, 104);
-	rlms::Job jbe3 ([]() { std::cout << "{t_start}"; }, 105);
+	Job jba3 ([]() { std::cout << "{s}"; }, 101);
+	Job jbb3 ([]() { std::cout << "{a}"; }, 102);
+	Job jbc3 ([]() { std::cout << "{l}"; }, 103);
+	Job jbd3 ([]() { std::cout << "{u}"; }, 104);
+	Job jbe3 ([]() { std::cout << "{t_start}"; }, 105);
 
-	rlms::Job jba4 ([]() { std::cout << "\n"; }, 101);
-	rlms::Job jbb4 ([]() { std::cout << "\n"; }, 102);
-	rlms::Job jbc4 ([]() { std::cout << "\n"; }, 103);
-	rlms::Job jbd4 ([]() { std::cout << "\n"; }, 104);
-	rlms::Job jbe4 ([]() { std::cout << "\n"; }, 105);
+	Job jba4 ([]() { std::cout << "\n"; }, 101);
+	Job jbb4 ([]() { std::cout << "\n"; }, 102);
+	Job jbc4 ([]() { std::cout << "\n"; }, 103);
+	Job jbd4 ([]() { std::cout << "\n"; }, 104);
+	Job jbe4 ([]() { std::cout << "\n"; }, 105);
 
 
-	rlms::Job finaljob ([]() { rlms::JobSystem::FreeMainThread (); }, 200);
+	Job finaljob ([]() { JobSystem::FreeMainThread (); }, 200);
 
-	rlms::JobSystem::Register (std::move (jba1));
-	rlms::JobSystem::Register (std::move (jbb1));
-	rlms::JobSystem::Register (std::move (jbc1));
-	rlms::JobSystem::Register (std::move (jbd1));
-	rlms::JobSystem::Register (std::move (jbe1));
+	JobSystem::Register (std::move (jba1));
+	JobSystem::Register (std::move (jbb1));
+	JobSystem::Register (std::move (jbc1));
+	JobSystem::Register (std::move (jbd1));
+	JobSystem::Register (std::move (jbe1));
 
-	rlms::JobSystem::Register (std::move (jba2));
-	rlms::JobSystem::Register (std::move (jbb2));
-	rlms::JobSystem::Register (std::move (jbc2));
-	rlms::JobSystem::Register (std::move (jbd2));
-	rlms::JobSystem::Register (std::move (jbe2));
+	JobSystem::Register (std::move (jba2));
+	JobSystem::Register (std::move (jbb2));
+	JobSystem::Register (std::move (jbc2));
+	JobSystem::Register (std::move (jbd2));
+	JobSystem::Register (std::move (jbe2));
 
-	rlms::JobSystem::Register (std::move (jba3));
-	rlms::JobSystem::Register (std::move (jbb3));
-	rlms::JobSystem::Register (std::move (jbc3));
-	rlms::JobSystem::Register (std::move (jbd3));
-	rlms::JobSystem::Register (std::move (jbe3));
+	JobSystem::Register (std::move (jba3));
+	JobSystem::Register (std::move (jbb3));
+	JobSystem::Register (std::move (jbc3));
+	JobSystem::Register (std::move (jbd3));
+	JobSystem::Register (std::move (jbe3));
 
-	rlms::JobSystem::Register (std::move (jba4));
-	rlms::JobSystem::Register (std::move (jbb4));
-	rlms::JobSystem::Register (std::move (jbc4));
-	rlms::JobSystem::Register (std::move (jbd4));
-	rlms::JobSystem::Register (std::move (jbe4));
+	JobSystem::Register (std::move (jba4));
+	JobSystem::Register (std::move (jbb4));
+	JobSystem::Register (std::move (jbc4));
+	JobSystem::Register (std::move (jbd4));
+	JobSystem::Register (std::move (jbe4));
 
-	rlms::JobSystem::Register (std::move (finaljob));
+	JobSystem::Register (std::move (finaljob));
 
-	rlms::JobSystem::WakeUp ();
+	JobSystem::WakeUp ();
 
-	rlms::JobSystem::CaptureMainWorker ();
+	JobSystem::CaptureMainWorker ();
 
-	//while (!rlms::JobSystem::IsBusy ());
-	rlms::JobSystem::Terminate ();
+	//while (!JobSystem::IsBusy ());
+	JobSystem::Terminate ();
 
 	return 0;
 }
@@ -289,62 +292,62 @@ int test_applicationtime () {
 
 int test_scheduler2 () {
 
-	rlms::ApplicationTime::Initialize ();
-	rlms::JobSystem::Initialize ();
+	ApplicationTime::Initialize ();
+	JobSystem::Initialize ();
 
 	std::atomic_bool stop = false;
 
-	rlms::Job jb1 ([]() { std::cout << "(=)"; }, 101);
-	rlms::PeriodicJob<std::ratio<1, 1>> jba1 ([]() { std::cout << "(Display)"; }, stop);
-	rlms::PeriodicJob<std::ratio<100, 120>> jba2 ([]() { std::cout << "(Update)"; }, stop);
-	rlms::PeriodicJob<std::ratio<100, 120>> jba3 ([]() { std::cout << "(Inputs)\n"; }, stop);
+	Job jb1 ([]() { std::cout << "(=)"; }, 101);
+	PeriodicJob<std::ratio<1, 1>> jba1 ([]() { std::cout << "(Display)"; }, stop);
+	PeriodicJob<std::ratio<100, 120>> jba2 ([]() { std::cout << "(Update)"; }, stop);
+	PeriodicJob<std::ratio<100, 120>> jba3 ([]() { std::cout << "(Inputs)\n"; }, stop);
 
-	rlms::JobSystem::Register (std::move (jb1));
-	rlms::JobSystem::Register (std::move (jba1));
-	rlms::JobSystem::Register (std::move (jba2));
-	rlms::JobSystem::Register (std::move (jba3));
+	JobSystem::Register (std::move (jb1));
+	JobSystem::Register (std::move (jba1));
+	JobSystem::Register (std::move (jba2));
+	JobSystem::Register (std::move (jba3));
 
-	rlms::JobSystem::WakeUp ();
+	JobSystem::WakeUp ();
 
-	while (rlms::ApplicationTime::Since () < std::chrono::seconds (3)) {
-		rlms::JobSystem::MainWorker ();
+	while (ApplicationTime::Since () < std::chrono::seconds (3)) {
+		JobSystem::MainWorker ();
 	}
 
 	stop.store (true);
 
-	rlms::JobSystem::Terminate ();
+	JobSystem::Terminate ();
 	return 0;
 }
 
 int test_scheduler3 () {
-	rlms::ApplicationTime::Initialize ();
-	rlms::JobSystem::Initialize ();
+	ApplicationTime::Initialize ();
+	JobSystem::Initialize ();
 
 	std::atomic_bool stop_a = false;
 	std::atomic_bool stop_b = false;
 
-	rlms::JobSystem::Execute (std::move (Job ([&stop_a, &stop_b]() {
+	JobSystem::Execute (std::move (Job ([&stop_a, &stop_b]() {
 		while (!stop_a || !stop_b);
 		std::cout << "salut" << std::endl;
 		}, 200)));
 
-	while (rlms::ApplicationTime::Since () < std::chrono::seconds (3)) { }
+	while (ApplicationTime::Since () < std::chrono::seconds (3)) { }
 
-	rlms::JobSystem::Execute (std::move (Job ([&stop_a]() {
+	JobSystem::Execute (std::move (Job ([&stop_a]() {
 		std::cout << "wow a" << std::endl;
 		stop_a.store (true);
 		}, 100)));
 
-	while (rlms::ApplicationTime::Since () < std::chrono::seconds (6)) { }
+	while (ApplicationTime::Since () < std::chrono::seconds (6)) { }
 
-	rlms::JobSystem::Execute (std::move (Job ([&stop_b]() {
+	JobSystem::Execute (std::move (Job ([&stop_b]() {
 		std::cout << "wow b" << std::endl;
 		stop_b.store (true);
 		}, 100)));
 
 	std::cout << "timed out ?" << std::endl;
 
-	rlms::JobSystem::Terminate ();
+	JobSystem::Terminate ();
 	return 0;
 }
 

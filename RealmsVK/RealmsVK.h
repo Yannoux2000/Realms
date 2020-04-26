@@ -125,7 +125,7 @@ private:
 		createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 		createInfo.pApplicationInfo = &appInfo;
 
-		auto extensions = getRequiredExtensions ();
+		auto extensions = getRequiredInstanceExtensions ();
 		createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size ());
 		createInfo.ppEnabledExtensionNames = extensions.data ();
 
@@ -263,7 +263,7 @@ private:
 		return indices;
 	}
 
-	std::vector<const char*> getRequiredExtensions () {
+	std::vector<const char*> getRequiredInstanceExtensions () {
 		uint32_t glfwExtensionCount = 0;
 		const char** glfwExtensions;
 		glfwExtensions = glfwGetRequiredInstanceExtensions (&glfwExtensionCount);

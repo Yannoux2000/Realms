@@ -17,19 +17,19 @@ glm::mat4 Camera::getMainView () {
 	return MainCamera->getView ();
 }
 
-glm::mat4 rlms::Camera::getMainPerspectivePtr () {
+glm::mat4 Camera::getMainPerspectivePtr () {
 	return MainCamera->getPerspective ();
 }
 
-void rlms::Camera::CreateMainCamera (glm::vec3 pos, float t_yaw, float t_pitch, float zm) {
+void Camera::CreateMainCamera (glm::vec3 pos, float t_yaw, float t_pitch, float zm) {
 	MainCamera = std::make_shared<Camera> (pos, t_yaw, t_pitch, zm);
 }
 
-void rlms::Camera::setMainCamera () {
+void Camera::setMainCamera () {
 	MainCamera = std::shared_ptr<Camera> (this);
 }
 
-glm::mat4 rlms::Camera::getView () {
+glm::mat4 Camera::getView () {
 	return glm::lookAt (
 		position,
 		position + forward,
@@ -37,16 +37,16 @@ glm::mat4 rlms::Camera::getView () {
 	);
 }
 
-glm::mat4 rlms::Camera::getPerspective () {
+glm::mat4 Camera::getPerspective () {
 	//std::cout << "Ratio : " << AspectRatio::Ratio () << "( " << AspectRatio::Width () << ", " << AspectRatio::Height () << ")" << std::endl;
 	return glm::perspective (glm::radians (zoom), AspectRatio::Ratio (), 0.5f, 2500.0f);
 }
 
-uint8_t const rlms::Camera::getBFCullingflags () {
-	return rlms::VoxelMath::BackfacesCulling (forward);
+uint8_t const Camera::getBFCullingflags () {
+	return VoxelMath::BackfacesCulling (forward);
 }
 
-void rlms::Camera::reset () {
+void Camera::reset () {
 	position = DEF_POSITION;
 	yaw = DEF_YAW;
 	pitch = DEF_PITCH;
@@ -54,7 +54,7 @@ void rlms::Camera::reset () {
 	update ();
 }
 
-void rlms::Camera::look (glm::ivec2 delta) {
+void Camera::look (glm::ivec2 delta) {
 	float xoffset = delta.x * SENSITIVITY;
 	float yoffset = delta.y * SENSITIVITY;
 
@@ -67,7 +67,7 @@ void rlms::Camera::look (glm::ivec2 delta) {
 	update ();
 }
 
-void rlms::Camera::update () {
+void Camera::update () {
 	glm::vec3 fwd;
 	fwd.x = cos (glm::radians (yaw)) * cos (glm::radians (pitch));
 	fwd.y = sin (glm::radians (yaw)) * cos (glm::radians (pitch));
@@ -78,20 +78,20 @@ void rlms::Camera::update () {
 	up = glm::normalize (glm::cross (right, forward));
 }
 
-void rlms::Camera::rotate (float rot) {
+void Camera::rotate (float rot) {
 	position = glm::rotate (glm::mat4 (1), glm::radians (rot), glm::vec3 (0.0f, 0.0f, 1.0f)) * glm::vec4 (position, 1.0);
 }
 
-void rlms::Camera::rotation (float rot) {
+void Camera::rotation (float rot) {
 	reset ();
 	position = glm::rotate (glm::mat4 (1), glm::radians (rot), glm::vec3 (0.0f, 0.0f, 1.0f)) * glm::vec4 (position, 1.0);
 }
 
-void rlms::Camera::move (glm::vec3 pos) { //!\\ COORDS GLOBAL
+void Camera::move (glm::vec3 pos) { //!\\ COORDS GLOBAL
 	position = position + pos;
 }
 
-void rlms::Camera::postion (glm::vec3 pos) {
+void Camera::postion (glm::vec3 pos) {
 	reset ();
 	position = pos;
 }

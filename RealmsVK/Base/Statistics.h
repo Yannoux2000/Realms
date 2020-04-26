@@ -49,7 +49,7 @@ namespace rlms {
 		}
 
 		double variance () {
-			return (squared_sum / size) - mean ();
+			return (squared_sum / size) - (mean ()* mean());
 		}
 
 		double sD () {

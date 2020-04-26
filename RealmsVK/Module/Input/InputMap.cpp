@@ -48,7 +48,7 @@ void InputMap::bindMouseButtonSlide (INPUT_ADDRESS_SUB_TYPE addr, int && button)
 	m_assignedInputs.insert (std::make_pair (addr, new MouseSlideInput (std::move (button))));
 }
 
-//void rlms::InputMap::bindEvent (std::string const& name, sf::Event::EventType && e) {
+//void InputMap::bindEvent (std::string const& name, sf::Event::EventType && e) {
 //	auto it = m_assignedInputs.find (name);
 //
 //	//Assign exists
@@ -87,7 +87,7 @@ void InputMap::update (Input &n) {
 	}
 }
 
-void rlms::InputMap::reset () {
+void InputMap::reset () {
 	if (m_active) {
 		for (auto it = m_assignedInputs.begin (); it != m_assignedInputs.end (); ++it) {
 			it->second->reset ();
@@ -95,15 +95,15 @@ void rlms::InputMap::reset () {
 	}
 }
 
-void rlms::InputMap::enable () {
+void InputMap::enable () {
 	m_active = true;
 }
 
-void rlms::InputMap::disable () {
+void InputMap::disable () {
 	m_active = false;
 }
 
-const bool& rlms::InputMap::active () {
+const bool& InputMap::active () {
 	return m_active;
 }
 
@@ -139,33 +139,33 @@ const bool InputMap::isReleased (INPUT_ADDRESS_SUB_TYPE const& addr) const { //S
 	return false;
 }
 
-const rlms::Vec2i rlms::InputMap::getStartPos (INPUT_ADDRESS_SUB_TYPE const& addr) const {
+const Vec2i InputMap::getStartPos (INPUT_ADDRESS_SUB_TYPE const& addr) const {
 	auto it = m_assignedInputs.find (addr);
 
 	if (it != m_assignedInputs.end ()) {
 		return it->second->getStartPos ();
 	}
-	return rlms::Vec2i();
+	return Vec2i();
 }
 
-const rlms::Vec2i InputMap::getDeltaPos (INPUT_ADDRESS_SUB_TYPE const& addr) const { //State
+const Vec2i InputMap::getDeltaPos (INPUT_ADDRESS_SUB_TYPE const& addr) const { //State
 
 	auto it = m_assignedInputs.find (addr);
 
 	if (it != m_assignedInputs.end ()) {
 		return it->second->getDeltaPos ();
 	}
-	return rlms::Vec2i ();
+	return Vec2i ();
 }
 
-const rlms::Vec2i InputMap::getEndPos (INPUT_ADDRESS_SUB_TYPE const& addr) const { //State
+const Vec2i InputMap::getEndPos (INPUT_ADDRESS_SUB_TYPE const& addr) const { //State
 
 	auto it = m_assignedInputs.find (addr);
 
 	if (it != m_assignedInputs.end ()) {
 		return it->second->getEndPos ();
 	}
-	return rlms::Vec2i ();
+	return Vec2i ();
 }
 
 //const sf::Event* InputMap::getEvent (INPUT_ADDRESS_SUB_TYPE const& addr) const { //State

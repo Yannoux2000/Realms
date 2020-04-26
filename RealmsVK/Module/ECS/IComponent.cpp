@@ -12,7 +12,7 @@ const COMPONENT_TYPE_ID& IComponentPrototype::getTypeId () {
 	return _type_id;
 }
 
-bool rlms::IComponentPrototype::is (IComponent* const c) {
+bool IComponentPrototype::is (IComponent* const c) {
 	return _type_id == c->_type_id;
 }
 

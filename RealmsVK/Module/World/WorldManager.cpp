@@ -22,7 +22,7 @@ private:
 
 };
 
-bool rlms::WorldManagerImpl::start (Allocator* const& alloc, size_t chunk_pool_size, std::shared_ptr<Logger> funnel) {
+bool WorldManagerImpl::start (Allocator* const& alloc, size_t chunk_pool_size, std::shared_ptr<Logger> funnel) {
 	startLogger (funnel);
 	logger->tag (LogTags::None) << "Initializing !" << '\n';
 
@@ -33,7 +33,7 @@ bool rlms::WorldManagerImpl::start (Allocator* const& alloc, size_t chunk_pool_s
 	return true;
 }
 
-void rlms::WorldManagerImpl::stop () {
+void WorldManagerImpl::stop () {
 	logger->tag (LogTags::None) << "Stopping !" << '\n';
 
 	logger->tag (LogTags::None) << "Stopped correctly !" << '\n';
@@ -42,16 +42,16 @@ void rlms::WorldManagerImpl::stop () {
 int WorldManager::n_errors;
 std::unique_ptr<WorldManagerImpl> WorldManager::instance;
 
-std::shared_ptr<rlms::LoggerHandler> rlms::WorldManager::GetLogger () {
+std::shared_ptr<LoggerHandler> WorldManager::GetLogger () {
 	return instance->getLogger ();
 }
 
-bool rlms::WorldManager::Initialize (Allocator* const& alloc, size_t chunk_pool_size, std::shared_ptr<Logger> funnel) {
+bool WorldManager::Initialize (Allocator* const& alloc, size_t chunk_pool_size, std::shared_ptr<Logger> funnel) {
 	instance = std::make_unique<WorldManagerImpl> ();
 	return instance->start (alloc, chunk_pool_size, funnel);
 }
 
-void rlms::WorldManager::Terminate () {
+void WorldManager::Terminate () {
 	instance->stop ();
 	instance.reset ();
 }

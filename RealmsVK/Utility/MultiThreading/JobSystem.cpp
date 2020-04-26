@@ -60,59 +60,59 @@ public:
 	~JobSystemImpl ();
 };
 
-std::unique_ptr<rlms::JobSystemImpl> JobSystem::instance;
+std::unique_ptr<JobSystemImpl> JobSystem::instance;
 
-std::shared_ptr<LoggerHandler> rlms::JobSystem::GetLogger () {
+std::shared_ptr<LoggerHandler> JobSystem::GetLogger () {
 	return instance->getLogger ();
 }
 
-void rlms::JobSystem::Initialize (std::shared_ptr<Logger> funnel) {
+void JobSystem::Initialize (std::shared_ptr<Logger> funnel) {
 	instance = std::make_unique<JobSystemImpl> ();
 	instance->start (funnel);
 }
 
-void rlms::JobSystem::Register (IJob* j) {
+void JobSystem::Register (IJob* j) {
 	instance->register_job (j);
 }
 
-void rlms::JobSystem::Execute (IJob* j) {
+void JobSystem::Execute (IJob* j) {
 	instance->execute_job (j);
 }
 
-void rlms::JobSystem::Reset () {
+void JobSystem::Reset () {
 	instance->reset ();
 }
 
-void rlms::JobSystem::WakeUp (uint8_t n) {
+void JobSystem::WakeUp (uint8_t n) {
 	instance->pass (n);
 }
 
-void rlms::JobSystem::MainWorker () {
+void JobSystem::MainWorker () {
 	instance->main_worker ();
 }
 
-void rlms::JobSystem::CaptureMainWorker () {
+void JobSystem::CaptureMainWorker () {
 	instance->main_worker_loop ();
 }
 
-void rlms::JobSystem::FreeMainThread () {
+void JobSystem::FreeMainThread () {
 	instance->endMainSignal.store (true);
 }
 
-void rlms::JobSystem::Dispatch (uint32_t jobCount, uint32_t groupSize, const std::function<void (JobDispatchArgs)>& job) {
+void JobSystem::Dispatch (uint32_t jobCount, uint32_t groupSize, const std::function<void (JobDispatchArgs)>& job) {
 	instance->dispatch (jobCount, groupSize, job);
 }
 
-bool rlms::JobSystem::IsBusy () {
+bool JobSystem::IsBusy () {
 	return instance->isBusy();
 }
 
-void rlms::JobSystem::Terminate () {
+void JobSystem::Terminate () {
 	instance->stop ();
 	instance.reset ();
 }
 
-void rlms::JobSystemImpl::start (std::shared_ptr<Logger> funnel) {
+void JobSystemImpl::start (std::shared_ptr<Logger> funnel) {
 	startLogger (funnel);
 	logger->tag (LogTags::None) << "Initializing !" << '\n';
 
@@ -157,7 +157,7 @@ void rlms::JobSystemImpl::start (std::shared_ptr<Logger> funnel) {
 	logger->tag (LogTags::None) << "Initialized correctly !" << '\n';
 }
 
-void rlms::JobSystemImpl::stop () {
+void JobSystemImpl::stop () {
 	//wait for all jobs to end
 	while (isBusy ()) {
 		poll ();
@@ -176,12 +176,12 @@ void rlms::JobSystemImpl::stop () {
 	logger->tag (LogTags::None) << "Stopped correctly !" << '\n';
 }
 
-inline void rlms::JobSystemImpl::poll () {
+inline void JobSystemImpl::poll () {
 	wakeCondition.notify_one (); // wake one worker thread
 	std::this_thread::yield (); // allow this thread to be rescheduled
 }
 
-void rlms::JobSystemImpl::execute_job (IJob* job) {
+void JobSystemImpl::execute_job (IJob* job) {
 	// The main thread label state is updated:
 	currentLabel += 1;
 
@@ -194,11 +194,11 @@ void rlms::JobSystemImpl::execute_job (IJob* job) {
 	wakeCondition.notify_one (); // wake one thread
 }
 
-void rlms::JobSystemImpl::reset () {
+void JobSystemImpl::reset () {
 	jobSched.reset ();
 }
 
-void rlms::JobSystemImpl::pass (uint8_t n) {
+void JobSystemImpl::pass (uint8_t n) {
 
 	logger->tag (LogTags::None) << "Waking ";
 	
@@ -213,7 +213,7 @@ void rlms::JobSystemImpl::pass (uint8_t n) {
 	}
 }
 
-void rlms::JobSystemImpl::register_job (IJob* job) {
+void JobSystemImpl::register_job (IJob* job) {
 	// The main thread label state is updated:
 	currentLabel += 1;
 
@@ -223,7 +223,7 @@ void rlms::JobSystemImpl::register_job (IJob* job) {
 	}
 }
 
-void rlms::JobSystemImpl::main_worker () {
+void JobSystemImpl::main_worker () {
 	IJob* job = nullptr; // the current job for the thread, it's empty at start.
 	if (jobSched.elect_job (job)) // try to grab a job from the jobSequencer queue
 	{
@@ -234,7 +234,7 @@ void rlms::JobSystemImpl::main_worker () {
 	}
 }
 
-void rlms::JobSystemImpl::main_worker_loop () {
+void JobSystemImpl::main_worker_loop () {
 	IJob* job = nullptr; // the current job for the thread, it's empty at start.
 
 	while (!endSignal && !endMainSignal) {
@@ -256,7 +256,7 @@ void rlms::JobSystemImpl::main_worker_loop () {
 	}
 }
 
-void rlms::JobSystemImpl::dispatch (uint32_t jobCount, uint32_t groupSize, const std::function<void (JobDispatchArgs)>& job) {
+void JobSystemImpl::dispatch (uint32_t jobCount, uint32_t groupSize, const std::function<void (JobDispatchArgs)>& job) {
 	//if (jobCount == 0 || groupSize == 0)
 	//{
 	//	return;
@@ -296,10 +296,10 @@ void rlms::JobSystemImpl::dispatch (uint32_t jobCount, uint32_t groupSize, const
 	//}
 }
 
-bool rlms::JobSystemImpl::isBusy () {
+bool JobSystemImpl::isBusy () {
 	// Whenever the main thread label is not reached by the workers, it indicates that some worker is still alive
 	return finishedLabel.load () < currentLabel;
 }
 
-rlms::JobSystemImpl::JobSystemImpl () {}
-rlms::JobSystemImpl::~JobSystemImpl () {}
+JobSystemImpl::JobSystemImpl () {}
+JobSystemImpl::~JobSystemImpl () {}

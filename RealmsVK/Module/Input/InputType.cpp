@@ -1,17 +1,19 @@
 #include "InputType.h"
 
-void rlms::ButtonInput::flagUpdate (const bool& new_input) {
+using namespace rlms;
+
+void ButtonInput::flagUpdate (const bool& new_input) {
 	m_pressflag = (new_input && new_input != m_holdflag); //
 	m_releaseflag = (!new_input && new_input != m_holdflag);
 	m_holdflag = new_input;
 }
 
-void rlms::SlideInput::slideUpdate (const bool& new_input, rlms::Vec2i new_pos) {
+void SlideInput::slideUpdate (const bool& new_input, Vec2i new_pos) {
 	flagUpdate (new_input);
 
 	if (m_pressflag) {
 		m_pos = new_pos;
-		m_lastPos = rlms::Vec2i ();
+		m_lastPos = Vec2i ();
 	}
 
 	if (m_holdflag) {
@@ -20,19 +22,19 @@ void rlms::SlideInput::slideUpdate (const bool& new_input, rlms::Vec2i new_pos) 
 	}
 }
 
-const rlms::Vec2i rlms::SlideInput::getStartPos () const {
+const Vec2i SlideInput::getStartPos () const {
 	return m_pos;
 }
 
-const rlms::Vec2i rlms::SlideInput::getEndPos () const {
+const Vec2i SlideInput::getEndPos () const {
 	return m_lastPos;
 }
 
-const rlms::Vec2i rlms::SlideInput::getDeltaPos () const {
+const Vec2i SlideInput::getDeltaPos () const {
 	return m_deltaPos;
 }
 
-//void rlms::EventAssignement::update (sf::Event* e) {
+//void EventAssignement::update (sf::Event* e) {
 //	bool flag = false;
 //	if(e !=nullptr){
 //		if(e->type == m_type){
@@ -43,10 +45,10 @@ const rlms::Vec2i rlms::SlideInput::getDeltaPos () const {
 //	flagUpdate (flag);
 //}
 
-//void rlms::EventAssignement::reset () {
+//void EventAssignement::reset () {
 //	m_event.reset ();
 //}
 
-//const sf::Event* rlms::EventAssignement::getEvent () const {
+//const sf::Event* EventAssignement::getEvent () const {
 //	return m_event.get();
 //}

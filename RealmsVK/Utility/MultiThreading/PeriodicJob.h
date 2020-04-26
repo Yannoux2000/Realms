@@ -54,7 +54,7 @@ namespace rlms {
 			} else throw std::exception ("invalid job");
 
 			if(kill_signal != true) {
-				rlms::JobSystem::Register (PeriodicJob<period> (std::move(job), std::max(t_end, ApplicationTime::Now()), kill_signal));
+				JobSystem::Register (PeriodicJob<period> (std::move(job), std::max(t_end, ApplicationTime::Now()), kill_signal));
 			}
 		}
 

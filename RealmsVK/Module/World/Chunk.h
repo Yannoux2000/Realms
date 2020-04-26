@@ -4,7 +4,6 @@
 #include "Block.h"
 #include "BlockRegister.h"
 
-#include "../Graphics/GameRenderer.h"
 #include "glm/glm.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -59,36 +58,36 @@ namespace rlms {
 			}
 		}
 
-		void render (GameRenderer* const &gr) {
-			float pas = 8;
+		//void render () {
+		//	float pas = 8;
 
-			gr->use ();
-			glm::mat4 trans = glm::mat4 (1.0f);
+		//	gr->use ();
+		//	glm::mat4 trans = glm::mat4 (1.0f);
 
-			BLOCK_TYPE_ID prev = Block::None;
+		//	BLOCK_TYPE_ID prev = Block::None;
 
-			for (int z = 0; z < CHUNK_DIM; z++) {
-				for (int y = 0; y < CHUNK_DIM; y++) {
-					for (int x = 0; x < CHUNK_DIM; x++) {
+		//	for (int z = 0; z < CHUNK_DIM; z++) {
+		//		for (int y = 0; y < CHUNK_DIM; y++) {
+		//			for (int x = 0; x < CHUNK_DIM; x++) {
 
-						Block &current = m_blocks[x][y][z];
-						if(Block::isValid(current) && IVoxel::HasAny (current, IVoxel::Faces)){
-							if(current.type_id != prev){
-								gr->bind (BlockRegister::Get (current.type_id)->mesh());
-							}
+		//				Block &current = m_blocks[x][y][z];
+		//				if(Block::isValid(current) && IVoxel::HasAny (current, IVoxel::Faces)){
+		//					if(current.type_id != prev){
+		//						gr->bind (BlockRegister::Get (current.type_id)->mesh());
+		//					}
 
-							trans = glm::translate (glm::mat4(1.0f), origin);
-							trans = glm::translate (trans, glm::vec3 (pas * x, pas * y, pas * z));
+		//					trans = glm::translate (glm::mat4(1.0f), origin);
+		//					trans = glm::translate (trans, glm::vec3 (pas * x, pas * y, pas * z));
 
-							gr->setModelTrans (trans);
-							gr->draw ();
+		//					gr->setModelTrans (trans);
+		//					gr->draw ();
 
-						}
-					}
-				}
-			}
-			IMesh::Unbind ();
-		}
+		//				}
+		//			}
+		//		}
+		//	}
+		//	IMesh::Unbind ();
+		//}
 
 		~Chunk() {}
 

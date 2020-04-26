@@ -36,9 +36,9 @@ namespace rlms {
 		const bool isDown (INPUT_ADDRESS_SUB_TYPE const& addr) const; //State
 		const bool isReleased (INPUT_ADDRESS_SUB_TYPE const& addr) const; //State
 
-		const rlms::Vec2i getStartPos (INPUT_ADDRESS_SUB_TYPE const& addr) const; //State
-		const rlms::Vec2i getDeltaPos (INPUT_ADDRESS_SUB_TYPE const& addr) const; //State
-		const rlms::Vec2i getEndPos (INPUT_ADDRESS_SUB_TYPE const& addr) const; //State
+		const Vec2i getStartPos (INPUT_ADDRESS_SUB_TYPE const& addr) const; //State
+		const Vec2i getDeltaPos (INPUT_ADDRESS_SUB_TYPE const& addr) const; //State
+		const Vec2i getEndPos (INPUT_ADDRESS_SUB_TYPE const& addr) const; //State
 	};
 }
 

@@ -38,7 +38,7 @@ LuaComponentPrototype::LuaComponentPrototype (lua_State* L, std::string& compone
 	} else throw std::exception ("lua_istable (L, index) = false");
 }
 
-void rlms::LuaComponentPrototype::Populate (IComponent* const& c) {
+void LuaComponentPrototype::Populate (IComponent* const& c) {
 	uintptr_t addr = (uintptr_t)c + sizeof (IComponent);
 	for (auto it = attributes_sub_address.begin (); it != attributes_sub_address.end (); it++) {
 		std::memcpy ((void*)addr, it->second.default_value, it->second.size);
@@ -46,7 +46,7 @@ void rlms::LuaComponentPrototype::Populate (IComponent* const& c) {
 	}
 }
 
-void* rlms::LuaComponentPrototype::GetAttrib (IComponent* const& c, std::string& member) {
+void* LuaComponentPrototype::GetAttrib (IComponent* const& c, std::string& member) {
 	if (IBase::is<LuaComponent> (c)) {
 		uintptr_t addr = (uintptr_t)c + sizeof (IComponent);
 		for (auto it = attributes_sub_address.begin (); it != attributes_sub_address.end (); it++) {
@@ -59,7 +59,7 @@ void* rlms::LuaComponentPrototype::GetAttrib (IComponent* const& c, std::string&
 	}
 }
 
-void rlms::LuaComponentPrototype::SetAttrib (IComponent* const c, std::string& member) {
+void LuaComponentPrototype::SetAttrib (IComponent* const c, std::string& member) {
 	if (IBase::is<LuaComponent> (c)) {
 
 		uintptr_t addr = (uintptr_t)c + sizeof (IComponent);
@@ -73,7 +73,7 @@ void rlms::LuaComponentPrototype::SetAttrib (IComponent* const c, std::string& m
 	} else throw std::exception ("object is not a Component");
 }
 
-std::string rlms::LuaComponentPrototype::debug () {
+std::string LuaComponentPrototype::debug () {
 	std::stringstream ss ("");
 	ss << "\t Prototype " << _type_name << " :\n";
 	for (auto it = attributes_sub_address.begin (); it != attributes_sub_address.end (); it++) {
@@ -101,7 +101,7 @@ std::string rlms::LuaComponentPrototype::debug () {
 	return ss.str ();
 }
 
-std::string rlms::LuaComponentPrototype::debug (IComponent* const& c) {
+std::string LuaComponentPrototype::debug (IComponent* const& c) {
 	std::stringstream ss ("");
 	uintptr_t addr = (uintptr_t)c + sizeof (IComponent);
 

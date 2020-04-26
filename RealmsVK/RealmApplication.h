@@ -36,6 +36,8 @@ namespace rlms {
 	private:
 		using _allocType = MasqueradeAllocator;
 
+		AssignAddress game_quit;
+
 	public:
 		struct MemorySettings {
 			size_t total_size = 16384;
@@ -135,7 +137,6 @@ namespace rlms {
 
 			// crée la fenêtre
 			glfwInit ();
-
 			glfwWindowHint (GLFW_CLIENT_API, GLFW_NO_API);
 			glfwWindowHint (GLFW_RESIZABLE, GLFW_FALSE);
 			glfwWindowHint (GLFW_SCALE_TO_MONITOR, GLFW_TRUE);
@@ -149,49 +150,50 @@ namespace rlms {
 			}
 		}
 		void initInputs (ApplicationSettings& stgs) {
-			rlms::InputManager::Initialize (logger);
+			InputManager::Initialize (logger);
 
-			rlms::InputManager::SetCallbacks (window);
+			InputManager::SetCallbacks (window);
 
-			//rlms::InputManager::BindEvent ("close", sf::Event::Closed);
-			//rlms::InputManager::BindEvent ("resized", sf::Event::Resized);
+			//InputManager::BindEvent ("close", sf::Event::Closed);
+			//InputManager::BindEvent ("resized", sf::Event::Resized);
 
 			// chargement des ressources, initialisation des états OpenGL, ...
-			rlms::InputManager::BindKey ("game::quit", glfwGetKeyScancode (GLFW_KEY_ESCAPE));
-			rlms::InputManager::EnableInputMap ("game");
+			InputManager::BindKey ("game::quit", glfwGetKeyScancode (GLFW_KEY_ESCAPE));
+			game_quit = InputManager::GetInput ("game::quit");
+			InputManager::EnableInputMap (game_quit.map);
 
-			rlms::InputManager::BindKey ("cam::reset", glfwGetKeyScancode (GLFW_KEY_SPACE));
-			rlms::InputManager::BindKey ("cam::test", glfwGetKeyScancode (GLFW_KEY_E));
-			rlms::InputManager::BindKey ("cam::reload", glfwGetKeyScancode (GLFW_KEY_R));
-			rlms::InputManager::BindKey ("cam::zoom", glfwGetKeyScancode (GLFW_KEY_PAGE_UP));
+			//InputManager::BindKey ("cam::reset", glfwGetKeyScancode (GLFW_KEY_SPACE));
+			//InputManager::BindKey ("cam::test", glfwGetKeyScancode (GLFW_KEY_E));
+			//InputManager::BindKey ("cam::reload", glfwGetKeyScancode (GLFW_KEY_R));
+			//InputManager::BindKey ("cam::zoom", glfwGetKeyScancode (GLFW_KEY_PAGE_UP));
 
-			//rlms::InputManager::BindSlide ("cam::look", sf::Mouse::Right);
+			//InputManager::BindSlide ("cam::look", sf::Mouse::Right);
 
-			rlms::InputManager::BindKey ("cam::forward", glfwGetKeyScancode (GLFW_KEY_Z));
-			rlms::InputManager::BindKey ("cam::left", glfwGetKeyScancode (GLFW_KEY_Q));
-			rlms::InputManager::BindKey ("cam::backward", glfwGetKeyScancode (GLFW_KEY_S));
-			rlms::InputManager::BindKey ("cam::right", glfwGetKeyScancode (GLFW_KEY_D));
-			rlms::InputManager::EnableInputMap ("cam");
+			//InputManager::BindKey ("cam::forward", glfwGetKeyScancode (GLFW_KEY_Z));
+			//InputManager::BindKey ("cam::left", glfwGetKeyScancode (GLFW_KEY_Q));
+			//InputManager::BindKey ("cam::backward", glfwGetKeyScancode (GLFW_KEY_S));
+			//InputManager::BindKey ("cam::right", glfwGetKeyScancode (GLFW_KEY_D));
+			//InputManager::EnableInputMap ("cam");
 		}
 		void initGraphics (ApplicationSettings& stgs) {
-			rlms::GraphicsManager::Initialize (app_alloc.get (), stgs.memory.mesh_size, window, logger);
-			rlms::GraphicsManager::Load ();
+			GraphicsManager::Initialize (app_alloc.get (), stgs.memory.mesh_size, window, logger);
+			GraphicsManager::Load ();
 		}
 		void initGameCore (ApplicationSettings& stgs) {
-			rlms::ECS_Core::Initialize (app_alloc.get (), stgs.memory.ecs_size, logger);
+			ECS_Core::Initialize (app_alloc.get (), stgs.memory.ecs_size, logger);
 
 			logger->tag (LogTags::Dev) << "Testing ECS_Core's Entity system.\n";
 /*
 			ENTITY_ID e = Entity::NULL_ID;
 			Entity* p_e;
-			//e = rlms::EntityManager::Create ();
-			//p_e = rlms::EntityManager::Get (e);
+			//e = EntityManager::Create ();
+			//p_e = EntityManager::Get (e);
 			//p_e->setType ("ghost");
 
 			//auto p = p_e->get<IComponent> ();
 
-			//auto c = rlms::ComponentManager::CreateComponent<TransformComponent> (p_e);
-			//auto p_c = rlms::ComponentManager::GetComponent<TransformComponent> (e);
+			//auto c = ComponentManager::CreateComponent<TransformComponent> (p_e);
+			//auto p_c = ComponentManager::GetComponent<TransformComponent> (e);
 			//p_c->phrase = "Wow i'm so scary";
 
 			lua_State* L = luaL_newstate (); 
@@ -207,7 +209,7 @@ namespace rlms {
 			lua_getfield (L, -1, "TransformComponent");
 
 			lua_close (L);
-			p_e = rlms::EntityManager::Get (e);
+			p_e = EntityManager::Get (e);
 			if (p_e->has<TransformComponent> ()) {
 				logger->tag (LogTags::Info) << "Good the component is register\n";
 
@@ -219,41 +221,9 @@ namespace rlms {
 		}
 
 		void InputLoop () {
-			rlms::InputManager::Poll (window);
-			if (rlms::InputManager::IsPressed ("game::quit") || rlms::InputManager::IsPressed ("close")) {
+			InputManager::Poll (window);
+			if (InputManager::IsPressed (game_quit)) {
 				running = false;
-			}
-
-			if (rlms::InputManager::IsPressed ("cam::set")) {
-				logger->tag (LogTags::Debug) << "Enter\n";
-			}
-
-			if (rlms::InputManager::IsDown ("cam::forward")) {
-				Camera::MainCamera->move (Camera::MainCamera->forward);
-			}
-
-			if (rlms::InputManager::IsDown ("cam::backward")) {
-				Camera::MainCamera->move (-Camera::MainCamera->forward);
-			}
-
-			if (rlms::InputManager::IsDown ("cam::left")) {
-				Camera::MainCamera->move (-Camera::MainCamera->right);
-			}
-
-			if (rlms::InputManager::IsDown ("cam::right")) {
-				Camera::MainCamera->move (Camera::MainCamera->right);
-			}
-
-			if (rlms::InputManager::IsPressed ("cam::reset")) {
-				Camera::MainCamera->reset ();
-			}
-
-			if (rlms::InputManager::IsDown ("cam::look")) {
-				glm::ivec2 delta;
-				auto vec = InputManager::GetDeltaPos ("cam::look");
-				delta.x = vec[0];
-				delta.y = vec[1];
-				Camera::MainCamera->look (delta);
 			}
 		}
 		void UpdateLoop () {
@@ -263,7 +233,7 @@ namespace rlms {
 
 		}
 		void DisplayLoop () {
-			rlms::GraphicsManager::Draw ();
+			GraphicsManager::Draw ();
 		}
 		void GameCoreLoop () {
 
@@ -282,11 +252,11 @@ namespace rlms {
 			InputManager::Terminate ();
 		}
 		void termGraphics () {
-			rlms::GraphicsManager::Unload ();
-			rlms::GraphicsManager::Terminate ();
+			GraphicsManager::Unload ();
+			GraphicsManager::Terminate ();
 		}
 		void termGameCore () {
-			rlms::ECS_Core::Terminate ();
+			ECS_Core::Terminate ();
 		}
 	};
 }

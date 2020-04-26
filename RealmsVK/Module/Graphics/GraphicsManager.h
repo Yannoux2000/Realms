@@ -2,15 +2,13 @@
 #include "../../Base/Logging/ILogged.h"
 #include "../../Base/Allocators/Allocator.h"
 
-#define GLFW_INCLUDE_VULKAN
-#include <GLFW/glfw3.h>
-
 #include <memory>
 
 #include "MeshRegister.h"
 
 namespace rlms {
 	class GraphicsManagerImpl;
+
 	class GraphicsManager {
 	private:
 		static std::unique_ptr<GraphicsManagerImpl> instance;

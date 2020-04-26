@@ -151,8 +151,8 @@ namespace rlms {
 						&& statusGraphics == Initializing;
 				}
 				, [this, stgs]() {
-					rlms::GraphicsManager::Initialize (app_alloc.get (), stgs.memory.mesh_size, window, logger);
-					rlms::GraphicsManager::Load ();
+					GraphicsManager::Initialize (app_alloc.get (), stgs.memory.mesh_size, window, logger);
+					GraphicsManager::Load ();
 
 					statusGraphics.store (Ready);
 				}
@@ -165,28 +165,28 @@ namespace rlms {
 						&& statusInput == Initializing;
 				}
 				, [this, stgs]() {
-					rlms::InputManager::Initialize ();
-					rlms::InputManager::SetCallbacks (window);
+					InputManager::Initialize ();
+					InputManager::SetCallbacks (window);
 
-					//rlms::InputManager::BindEvent ("close", sf::Event::Closed);
-					//rlms::InputManager::BindEvent ("resized", sf::Event::Resized);
+					//InputManager::BindEvent ("close", sf::Event::Closed);
+					//InputManager::BindEvent ("resized", sf::Event::Resized);
 
-					rlms::InputManager::BindKey ("game::quit", glfwGetKeyScancode (GLFW_KEY_ESCAPE));
-					rlms::InputManager::EnableInputMap ("game");
-					game_quit = rlms::InputManager::GetInput ("game::quit");
+					InputManager::BindKey ("game::quit", glfwGetKeyScancode (GLFW_KEY_ESCAPE));
+					InputManager::EnableInputMap ("game");
+					game_quit = InputManager::GetInput ("game::quit");
 
-					//rlms::InputManager::BindKey ("cam::reset", glfwGetKeyScancode (GLFW_KEY_SPACE));
-					//rlms::InputManager::BindKey ("cam::test", glfwGetKeyScancode (GLFW_KEY_E));
-					//rlms::InputManager::BindKey ("cam::reload", glfwGetKeyScancode (GLFW_KEY_R));
-					//rlms::InputManager::BindKey ("cam::zoom", glfwGetKeyScancode (GLFW_KEY_PAGE_UP));
+					//InputManager::BindKey ("cam::reset", glfwGetKeyScancode (GLFW_KEY_SPACE));
+					//InputManager::BindKey ("cam::test", glfwGetKeyScancode (GLFW_KEY_E));
+					//InputManager::BindKey ("cam::reload", glfwGetKeyScancode (GLFW_KEY_R));
+					//InputManager::BindKey ("cam::zoom", glfwGetKeyScancode (GLFW_KEY_PAGE_UP));
 					//
-					//rlms::InputManager::BindSlide ("cam::look", sf::Mouse::Right);
+					//InputManager::BindSlide ("cam::look", sf::Mouse::Right);
 					//
-					//rlms::InputManager::BindKey ("cam::forward", glfwGetKeyScancode (GLFW_KEY_Z));
-					//rlms::InputManager::BindKey ("cam::left", glfwGetKeyScancode (GLFW_KEY_Q));
-					//rlms::InputManager::BindKey ("cam::backward", glfwGetKeyScancode (GLFW_KEY_S));
-					//rlms::InputManager::BindKey ("cam::right", glfwGetKeyScancode (GLFW_KEY_D));
-					//rlms::InputManager::EnableInputMap ("cam");
+					//InputManager::BindKey ("cam::forward", glfwGetKeyScancode (GLFW_KEY_Z));
+					//InputManager::BindKey ("cam::left", glfwGetKeyScancode (GLFW_KEY_Q));
+					//InputManager::BindKey ("cam::backward", glfwGetKeyScancode (GLFW_KEY_S));
+					//InputManager::BindKey ("cam::right", glfwGetKeyScancode (GLFW_KEY_D));
+					//InputManager::EnableInputMap ("cam");
 					statusInput.store (Ready);
 				}
 			, 2));
@@ -207,19 +207,19 @@ namespace rlms {
 							if(statusGraphics != Idle) {
 								auto start = std::chrono::high_resolution_clock::now ();
 
-								rlms::GraphicsManager::Draw ();
+								GraphicsManager::Draw ();
 
 								auto end = std::chrono::high_resolution_clock::now ();
 								std::chrono::duration<double, std::micro> ms = end - start;
 
 								statsGraphics.add (ms.count ());
 
-								//std::ostringstream oss ("");
-								//oss << "Graphical:\t(" << statsGraphics.min () << " ms" <<
-								//	",  " << statsGraphics.mean () << " ms" <<
-								//	",  " << statsGraphics.max () << " ms" <<
-								//	",  " << statsGraphics.sD () << " ms)";
-								//logger->log (oss.str (), LogTags::Dev);
+								std::ostringstream oss ("");
+								oss << "Graphical:\t(" << statsGraphics.min () << " ms" <<
+									",  " << statsGraphics.mean () << " ms" <<
+									",  " << statsGraphics.max () << " ms" <<
+									",  " << statsGraphics.sD () << " ms)";
+								logger->log (oss.str (), LogTags::Dev);
 							}
 						}
 					, stop_signal));
@@ -229,7 +229,7 @@ namespace rlms {
 						[this]() {
 							auto start = std::chrono::high_resolution_clock::now ();
 							//logger->tag (LogTags::Dev) << "(Input)\n";
-							rlms::InputManager::Poll (window);
+							InputManager::Poll (window);
 							if (glfwWindowShouldClose (window)) {
 								logger->tag (LogTags::Info) << "stop_signal has been received !\n";
 								stop_signal.store (true);
@@ -239,12 +239,12 @@ namespace rlms {
 
 							statsInput.add (ms.count ());
 
-							//std::ostringstream oss ("");
-							//oss << "Input:    \t(" << statsInput.min () << " ms" <<
-							//	",  " << statsInput.mean () << " ms" <<
-							//	",  " << statsInput.max () << " ms" <<
-							//	",  " << statsInput.sD () << " ms)";
-							//logger->log (oss.str (), LogTags::Dev);
+							std::ostringstream oss ("");
+							oss << "Input:    \t(" << statsInput.min () << " ms" <<
+								",  " << statsInput.mean () << " ms" <<
+								",  " << statsInput.max () << " ms" <<
+								",  " << statsInput.sD () << " ms)";
+							logger->log (oss.str (), LogTags::Dev);
 						}
 					, stop_signal));
 
@@ -254,17 +254,17 @@ namespace rlms {
 							if(statusUpdate != Idle) {
 								auto start = std::chrono::high_resolution_clock::now ();
 
-								if (rlms::InputManager::IsPressed (game_quit) /*|| rlms::InputManager::IsPressed (rlms::InputManager::GetInput ("close"))*/) {
+								if (InputManager::IsPressed (game_quit) /*|| InputManager::IsPressed (InputManager::GetInput ("close"))*/) {
 									running = false;
 								}
 					
-								//if (rlms::InputManager::IsPressed ("cam::set")) {
+								//if (InputManager::IsPressed ("cam::set")) {
 								//	logger->tag (LogTags::Debug) << "Enter\n";
 								//}
-								//if (rlms::InputManager::IsPressed ("cam::reset")) {
+								//if (InputManager::IsPressed ("cam::reset")) {
 								//	Camera::MainCamera->reset ();
 								//}
-								//if (rlms::InputManager::IsDown ("cam::look")) {
+								//if (InputManager::IsDown ("cam::look")) {
 								//	glm::ivec2 delta;
 								//	auto vec = InputManager::GetDeltaPos ("cam::look");
 								//	delta.x = vec[0];
@@ -272,16 +272,16 @@ namespace rlms {
 								//	Camera::MainCamera->look (delta);
 								//}
 								//
-								//if (rlms::InputManager::IsDown ("cam::forward")) {
+								//if (InputManager::IsDown ("cam::forward")) {
 								//	Camera::MainCamera->move (Camera::MainCamera->forward);
 								//}
-								//if (rlms::InputManager::IsDown ("cam::backward")) {
+								//if (InputManager::IsDown ("cam::backward")) {
 								//	Camera::MainCamera->move (-Camera::MainCamera->forward);
 								//}
-								//if (rlms::InputManager::IsDown ("cam::left")) {
+								//if (InputManager::IsDown ("cam::left")) {
 								//	Camera::MainCamera->move (-Camera::MainCamera->right);
 								//}
-								//if (rlms::InputManager::IsDown ("cam::right")) {
+								//if (InputManager::IsDown ("cam::right")) {
 								//	Camera::MainCamera->move (Camera::MainCamera->right);
 								//}
 								
@@ -290,12 +290,12 @@ namespace rlms {
 
 								statsUpdate.add (ms.count ());
 
-								//std::ostringstream oss ("");
-								//oss << "Update:  \t(" << statsUpdate.min() << " ms" <<
-								//	",  " << statsUpdate.mean () << " ms" <<
-								//	",  " << statsUpdate.max () << " ms" <<
-								//	",  " << statsUpdate.sD () << " ms)";
-								//logger->log (oss.str (), LogTags::Dev);
+								std::ostringstream oss ("");
+								oss << "Update:  \t(" << statsUpdate.min() << " ms" <<
+									",  " << statsUpdate.mean () << " ms" <<
+									",  " << statsUpdate.max () << " ms" <<
+									",  " << statsUpdate.sD () << " ms)";
+								logger->log (oss.str (), LogTags::Dev);
 							}
 						}
 					, stop_signal));
@@ -347,8 +347,8 @@ namespace rlms {
 					return stop_signal && statusGraphics == Stopped;
 				}
 				, [this]() {
-					rlms::GraphicsManager::Unload ();
-					rlms::GraphicsManager::Terminate ();
+					GraphicsManager::Unload ();
+					GraphicsManager::Terminate ();
 					statusGraphics.store (Terminated);
 				}
 				, JOB_MIN_PRIORITY - 1));

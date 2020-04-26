@@ -77,8 +77,8 @@ namespace rlms {
 
 		static void Poll (GLFWwindow*& window);
 		static void Update (Input&& n);
-		static void UpdateCursor (rlms::Vec2i c_pos);
-		static void UpdateScroll (rlms::Vec2i s_pos);
+		static void UpdateCursor (Vec2i c_pos);
+		static void UpdateScroll (Vec2i s_pos);
 
 		static const bool HasInput (std::string const& name);
 		static const bool HasInput (AssignAddress const& addr);
@@ -88,9 +88,9 @@ namespace rlms {
 		static const bool IsDown (AssignAddress const& addr);
 		static const bool IsReleased (AssignAddress const& addr);
 
-		static const rlms::Vec2i GetCursorPos ();
-		static const rlms::Vec2i GetDeltaPos (AssignAddress const& addr);
-		static const rlms::Vec2i GetEndPos (AssignAddress const& addr);
+		static const Vec2i GetCursorPos ();
+		static const Vec2i GetDeltaPos (AssignAddress const& addr);
+		static const Vec2i GetEndPos (AssignAddress const& addr);
 		//static const sf::Event* GetEvent (AssignAddress const& addr);
 	};
 }

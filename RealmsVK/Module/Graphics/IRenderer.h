@@ -1,32 +1,26 @@
 #pragma once
 #include "../../Base/Logging/ILogged.h"
-#include "IShaderProgram.h"
 #include "IDrawable.h"
 
 #include <memory>
 
 namespace rlms {
-	class IRenderer : public ILogged {
-	protected:
-		IShaderProgram* m_shader;
-		size_t vertex_count;
+	class IRenderer {
 	public:
 
-		IRenderer ();
-		~IRenderer ();
+		IRenderer () { }
+		virtual ~IRenderer () { }
 
-		IShaderProgram* getIShader ();
+		virtual void start () {
 
-		void start (std::shared_ptr<Logger> funnel = nullptr);
+		}
 
-		virtual bool load () { return false; };
-		virtual void unload () {};
+		virtual void draw () {
 
-		void use ();
-		void bind (IDrawable drawable);
-		void bind (IDrawable* drawable);
-		void draw (bool const single = false);
-		void unbind ();
+		}
 
+		virtual void stop () {
+
+		}
 	};
 }

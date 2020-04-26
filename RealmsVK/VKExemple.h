@@ -196,7 +196,7 @@ private:
 		createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 		createInfo.pApplicationInfo = &appInfo;
 
-		auto extensions = getRequiredExtensions ();
+		auto extensions = getRequiredInstanceExtensions ();
 		createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size ());
 		createInfo.ppEnabledExtensionNames = extensions.data ();
 
@@ -205,8 +205,16 @@ private:
 			createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size ());
 			createInfo.ppEnabledLayerNames = validationLayers.data ();
 
+			VkValidationFeatureEnableEXT enables[] = { VK_VALIDATION_FEATURE_ENABLE_BEST_PRACTICES_EXT };
+			VkValidationFeaturesEXT features = {};
+			features.sType = VK_STRUCTURE_TYPE_VALIDATION_FEATURES_EXT;
+			features.enabledValidationFeatureCount = 1;
+			features.pEnabledValidationFeatures = enables;
+
 			populateDebugMessengerCreateInfo (debugCreateInfo);
+			debugCreateInfo.pNext = &features;
 			createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)& debugCreateInfo;
+
 		} else {
 			createInfo.enabledLayerCount = 0;
 
@@ -535,7 +543,7 @@ private:
 		pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
 
 		if (vkCreateGraphicsPipelines (device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &graphicsPipeline) != VK_SUCCESS) {
-			throw std::runtime_error ("failed to create graphics pipeline!");
+			throw std::runtime_error ("failed to create graphics_idx pipeline!");
 		}
 
 		vkDestroyShaderModule (device, fragShaderModule, nullptr);
@@ -718,7 +726,6 @@ private:
 
 		return availableFormats[0];
 	}
-
 	VkPresentModeKHR chooseSwapPresentMode (const std::vector<VkPresentModeKHR>& availablePresentModes) {
 		for (const auto& availablePresentMode : availablePresentModes) {
 			if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR) {
@@ -728,7 +735,6 @@ private:
 
 		return VK_PRESENT_MODE_FIFO_KHR;
 	}
-
 	VkExtent2D chooseSwapExtent (const VkSurfaceCapabilitiesKHR& capabilities) {
 		if (capabilities.currentExtent.width != UINT32_MAX) {
 			return capabilities.currentExtent;
@@ -807,12 +813,12 @@ private:
 
 		int i = 0;
 		for (const auto& queueFamily : queueFamilies) {
+			VkBool32 presentSupport = false;
+			vkGetPhysicalDeviceSurfaceSupportKHR (device, i, surface, &presentSupport);
+
 			if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
 				indices.graphicsFamily = i;
 			}
-
-			VkBool32 presentSupport = false;
-			vkGetPhysicalDeviceSurfaceSupportKHR (device, i, surface, &presentSupport);
 
 			if (presentSupport) {
 				indices.presentFamily = i;
@@ -828,7 +834,7 @@ private:
 		return indices;
 	}
 
-	std::vector<const char*> getRequiredExtensions () {
+	std::vector<const char*> getRequiredInstanceExtensions () {
 		uint32_t glfwExtensionCount = 0;
 		const char** glfwExtensions;
 		glfwExtensions = glfwGetRequiredInstanceExtensions (&glfwExtensionCount);

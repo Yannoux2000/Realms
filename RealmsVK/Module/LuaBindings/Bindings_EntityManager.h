@@ -7,7 +7,7 @@
 namespace rlms {
 	class Bindings_EntityManager {
 	public:
-		//static int rlms::EntityManager::n_errors ;
+		//static int EntityManager::n_errors ;
 		static int Bind_GetNErrors (lua_State* L);
 		static int Bind_ResetNErrors (lua_State* L);
 		static int Bind_NErrors (lua_State* L);

@@ -3,7 +3,7 @@
 
 using namespace rlms;
 
-void rlms::Voxelite::addVoxel (char const& x, char const& y, char const& z, unsigned char const& color) {
+void Voxelite::addVoxel (char const& x, char const& y, char const& z, unsigned char const& color) {
 	Voxel v;
 
 	v.x = x;
@@ -14,25 +14,25 @@ void rlms::Voxelite::addVoxel (char const& x, char const& y, char const& z, unsi
 	m_voxelsArray.push_back (v);
 }
 
-void rlms::Voxelite::setDims (unsigned char const& dim_x, unsigned char const& dim_y, unsigned char const& dim_z) {
+void Voxelite::setDims (unsigned char const& dim_x, unsigned char const& dim_y, unsigned char const& dim_z) {
 	m_dim_x = dim_x;
 	m_dim_y = dim_y;
 	m_dim_z = dim_z;
 }
 
-const Voxel* rlms::Voxelite::getData () const {
+const Voxel* Voxelite::getData () const {
 	return &m_voxelsArray.front ();
 }
 
-const size_t rlms::Voxelite::getSize () const {
+const size_t Voxelite::getSize () const {
 	return m_voxelsArray.size ();
 }
 
-const std::vector<Voxel>& rlms::Voxelite::getVoxels () {
+const std::vector<Voxel>& Voxelite::getVoxels () {
 	return m_voxelsArray;
 }
 
-const void rlms::Voxelite::optimise () {
+const void Voxelite::optimise () {
 	std::vector<std::vector<std::vector<IVoxel>>> chunk;
 
 	char offset_x = m_dim_x / 2, offset_y = m_dim_y / 2, offset_z = m_dim_z / 2;

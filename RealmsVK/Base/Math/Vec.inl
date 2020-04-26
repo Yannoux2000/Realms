@@ -28,7 +28,7 @@ template<typename T, size_t S> inline T& Vec<T, S>::operator[](size_t i) {
 	return _v[i];
 }
 
-template<typename T, size_t S> inline T rlms::Vec<T, S>::operator[](size_t i) const {
+template<typename T, size_t S> inline T Vec<T, S>::operator[](size_t i) const {
 	return _v[i];
 }
 

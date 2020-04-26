@@ -135,43 +135,43 @@
 //		}
 //
 //		void initInputs (ApplicationSettings& stgs) {
-//			rlms::InputManager::Initialize (logger);
+//			InputManager::Initialize (logger);
 //
-//			rlms::InputManager::BindEvent ("close", sf::Event::Closed);
-//			rlms::InputManager::BindEvent ("resized", sf::Event::Resized);
+//			InputManager::BindEvent ("close", sf::Event::Closed);
+//			InputManager::BindEvent ("resized", sf::Event::Resized);
 //
 //			// chargement des ressources, initialisation des états OpenGL, ...
-//			rlms::InputManager::BindInput ("game::quit", sf::Keyboard::Escape);
-//			rlms::InputManager::EnableInputMap ("game");
+//			InputManager::BindInput ("game::quit", sf::Keyboard::Escape);
+//			InputManager::EnableInputMap ("game");
 //
-//			rlms::InputManager::BindInput ("cam::reset", sf::Keyboard::Space);
-//			rlms::InputManager::BindInput ("cam::test", sf::Keyboard::E);
-//			rlms::InputManager::BindInput ("cam::reload", sf::Keyboard::R);
-//			rlms::InputManager::BindInput ("cam::zoom", sf::Keyboard::Add);
+//			InputManager::BindInput ("cam::reset", sf::Keyboard::Space);
+//			InputManager::BindInput ("cam::test", sf::Keyboard::E);
+//			InputManager::BindInput ("cam::reload", sf::Keyboard::R);
+//			InputManager::BindInput ("cam::zoom", sf::Keyboard::Add);
 //
-//			rlms::InputManager::BindSlide ("cam::look", sf::Mouse::Right);
+//			InputManager::BindSlide ("cam::look", sf::Mouse::Right);
 //
-//			rlms::InputManager::BindInput ("cam::forward", sf::Keyboard::Z);
-//			rlms::InputManager::BindInput ("cam::left", sf::Keyboard::Q);
-//			rlms::InputManager::BindInput ("cam::backward", sf::Keyboard::S);
-//			rlms::InputManager::BindInput ("cam::right", sf::Keyboard::D);
-//			rlms::InputManager::EnableInputMap ("cam");
+//			InputManager::BindInput ("cam::forward", sf::Keyboard::Z);
+//			InputManager::BindInput ("cam::left", sf::Keyboard::Q);
+//			InputManager::BindInput ("cam::backward", sf::Keyboard::S);
+//			InputManager::BindInput ("cam::right", sf::Keyboard::D);
+//			InputManager::EnableInputMap ("cam");
 //		}
 //
 //		void initGraphics (ApplicationSettings& stgs) {
-//			rlms::GraphicsManagerOld::Initialize (app_alloc.get (), stgs.memory.mesh_size, logger);
+//			GraphicsManagerOld::Initialize (app_alloc.get (), stgs.memory.mesh_size, logger);
 //
-//			rlms::GraphicsManagerOld::Register (0, "Models/Default/Workbench.vox");
-//			rlms::GraphicsManagerOld::Register (1, "Models/Default/Blocks/Dirt.vox");
-//			rlms::GraphicsManagerOld::Register (2, "Models/Default/Blocks/Wood.vox");
-//			rlms::GraphicsManagerOld::Register (3, "Models/Default/Perso_m1.vox");
+//			GraphicsManagerOld::Register (0, "Models/Default/Workbench.vox");
+//			GraphicsManagerOld::Register (1, "Models/Default/Blocks/Dirt.vox");
+//			GraphicsManagerOld::Register (2, "Models/Default/Blocks/Wood.vox");
+//			GraphicsManagerOld::Register (3, "Models/Default/Perso_m1.vox");
 //
 //			try {
-//				rlms::GraphicsManagerOld::LoadModels ();
+//				GraphicsManagerOld::LoadModels ();
 //				openGL_Error_Poll ();
-//				rlms::GraphicsManagerOld::LoadRenderer ();
+//				GraphicsManagerOld::LoadRenderer ();
 //				openGL_Error_Poll ();
-//				rlms::GraphicsManagerOld::Load ();
+//				GraphicsManagerOld::Load ();
 //				openGL_Error_Poll ();
 //
 //			} catch (RlmsException& e) {
@@ -181,36 +181,36 @@
 //		}
 //
 //		void InputLoop () {
-//			rlms::InputManager::Poll (window);
-//			if (rlms::InputManager::IsPressed ("game::quit") || rlms::InputManager::IsPressed ("close")) {
+//			InputManager::Poll (window);
+//			if (InputManager::IsPressed ("game::quit") || InputManager::IsPressed ("close")) {
 //				running = false;
 //			}
 //
-//			if (rlms::InputManager::IsPressed ("cam::set")) {
+//			if (InputManager::IsPressed ("cam::set")) {
 //				logger->tag (LogTags::Debug) << "Enter\n";
 //			}
 //
-//			if (rlms::InputManager::IsDown ("cam::forward")) {
+//			if (InputManager::IsDown ("cam::forward")) {
 //				Camera::MainCamera->move (Camera::MainCamera->forward);
 //			}
 //
-//			if (rlms::InputManager::IsDown ("cam::backward")) {
+//			if (InputManager::IsDown ("cam::backward")) {
 //				Camera::MainCamera->move (-Camera::MainCamera->forward);
 //			}
 //
-//			if (rlms::InputManager::IsDown ("cam::left")) {
+//			if (InputManager::IsDown ("cam::left")) {
 //				Camera::MainCamera->move (-Camera::MainCamera->right);
 //			}
 //
-//			if (rlms::InputManager::IsDown ("cam::right")) {
+//			if (InputManager::IsDown ("cam::right")) {
 //				Camera::MainCamera->move (Camera::MainCamera->right);
 //			}
 //
-//			if (rlms::InputManager::IsPressed ("cam::reset")) {
+//			if (InputManager::IsPressed ("cam::reset")) {
 //				Camera::MainCamera->reset ();
 //			}
 //
-//			if (rlms::InputManager::IsDown ("cam::look")) {
+//			if (InputManager::IsDown ("cam::look")) {
 //				glm::ivec2 delta;
 //				auto vec = InputManager::GetDeltaPos ("cam::look");
 //				delta.x = vec.x;
@@ -228,7 +228,7 @@
 //		}
 //
 //		void DisplayLoop () {
-//			rlms::GraphicsManagerOld::Draw ();
+//			GraphicsManagerOld::Draw ();
 //			// Termine la frame courante (en interne, échange les deux tampons de rendu)
 //			window->display ();
 //		}

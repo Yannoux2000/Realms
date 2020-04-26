@@ -17,6 +17,6 @@ ApplicationTime::time_point ApplicationTime::Now () {
 	return chrono::now ();
 }
 
-DURATION rlms::ApplicationTime::Since (time_point const t_start) {
+DURATION ApplicationTime::Since (time_point const t_start) {
 	return std::chrono::duration_cast<DURATION>(chrono::now () - t_start);
 }

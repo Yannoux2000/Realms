@@ -47,32 +47,14 @@
     <ClCompile Include="Module\Graphics\AspectRatio.cpp">
       <Filter>Module\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Module\Graphics\IDrawable.cpp">
-      <Filter>Module\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Module\Graphics\IRenderer.cpp">
-      <Filter>Module\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Module\Graphics\GameShaderProgram.cpp">
-      <Filter>Module\Graphics\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Module\Graphics\GameRenderer.cpp">
-      <Filter>Module\Graphics\Game</Filter>
-    </ClCompile>
     <ClCompile Include="Module\Graphics\Camera.cpp">
       <Filter>Module\Graphics\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Module\Graphics\IShaderProgram.cpp">
-      <Filter>Module\Graphics\Shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="Module\Graphics\Shader.cpp">
-      <Filter>Module\Graphics\Shaders</Filter>
-    </ClCompile>
     <ClCompile Include="Module\Graphics\ScreenShaderProgram.cpp">
-      <Filter>Module\Graphics\Screen</Filter>
+      <Filter>Module\Graphics\OpenGL\Screen</Filter>
     </ClCompile>
     <ClCompile Include="Module\Graphics\ViewportFrameBuffer.cpp">
-      <Filter>Module\Graphics\Screen</Filter>
+      <Filter>Module\Graphics\OpenGL\Screen</Filter>
     </ClCompile>
     <ClCompile Include="Module\Graphics\UITexture.cpp">
       <Filter>Module\Graphics</Filter>
@@ -89,26 +71,8 @@
     <ClCompile Include="Module\Input\Input.cpp">
       <Filter>Module\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Module\Graphics\GraphicsManager_Old.cpp">
-      <Filter>Module\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Module\Graphics\GraphicsManager.cpp">
       <Filter>Module\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Module\Graphics\VulkanEnvironment.cpp">
-      <Filter>Module\Graphics\VulkanBase</Filter>
-    </ClCompile>
-    <ClCompile Include="Module\Graphics\VulkanRenderPipeline.cpp">
-      <Filter>Module\Graphics\VulkanBase</Filter>
-    </ClCompile>
-    <ClCompile Include="Module\Graphics\Vulkan.cpp">
-      <Filter>Module\Graphics\VulkanBase</Filter>
-    </ClCompile>
-    <ClCompile Include="Module\Graphics\VulkanDevice.cpp">
-      <Filter>Module\Graphics\VulkanBase</Filter>
-    </ClCompile>
-    <ClCompile Include="Module\Graphics\VulkanSwapChain.cpp">
-      <Filter>Module\Graphics\VulkanBase</Filter>
     </ClCompile>
     <ClCompile Include="Module\ECS\Entity.cpp">
       <Filter>Module\ECS</Filter>
@@ -118,9 +82,6 @@
     </ClCompile>
     <ClCompile Include="Module\ECS\ComponentManager.cpp">
       <Filter>Module\ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="Module\Graphics\VulkanBackend.cpp">
-      <Filter>Module\Graphics\VulkanBase</Filter>
     </ClCompile>
     <ClCompile Include="Base\Allocators\InvalidMemory.cpp">
       <Filter>Base\Allocators</Filter>
@@ -166,9 +127,6 @@
     </ClCompile>
     <ClCompile Include="Base\Version.cpp">
       <Filter>Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Module\Graphics\VulkanException.cpp">
-      <Filter>Module\Graphics\VulkanBase</Filter>
     </ClCompile>
     <ClCompile Include="Module\Graphics\MeshNameSanitizer.cpp">
       <Filter>Module\Graphics\Meshs</Filter>
@@ -218,9 +176,6 @@
     <ClCompile Include="Module\ECS\IComponent.cpp">
       <Filter>Module\ECS</Filter>
     </ClCompile>
-    <ClCompile Include="Module\Graphics\GLError.cpp">
-      <Filter>Module\Graphics\OpenGLBase</Filter>
-    </ClCompile>
     <ClCompile Include="Base\Timer\ApplicationTime.cpp">
       <Filter>Base\Timer</Filter>
     </ClCompile>
@@ -250,6 +205,72 @@
     </ClCompile>
     <ClCompile Include="Module\Input\InputException.cpp">
       <Filter>Module\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\IContext.cpp">
+      <Filter>Module\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\Vulkan\Vks.cpp">
+      <Filter>Module\Graphics\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\Vulkan\Vulkan.cpp">
+      <Filter>Module\Graphics\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\Vulkan\VulkanBuffer.cpp">
+      <Filter>Module\Graphics\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\Vulkan\VulkanContext.cpp">
+      <Filter>Module\Graphics\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\Vulkan\VulkanDevice.cpp">
+      <Filter>Module\Graphics\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\Vulkan\VulkanException.cpp">
+      <Filter>Module\Graphics\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\Vulkan\VulkanQueues.cpp">
+      <Filter>Module\Graphics\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\Vulkan\VulkanSwapChain.cpp">
+      <Filter>Module\Graphics\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\Vulkan\VulkanTexture.cpp">
+      <Filter>Module\Graphics\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Math\Octree.cpp">
+      <Filter>Base\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\OpenGL\GLError.cpp">
+      <Filter>Module\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\OpenGL\IOpenGLRenderer.cpp">
+      <Filter>Module\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\OpenGL\IShaderProgram.cpp">
+      <Filter>Module\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\OpenGL\OpenGLContext.cpp">
+      <Filter>Module\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\OpenGL\OpenGLRatalizationRenderer.cpp">
+      <Filter>Module\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\OpenGL\ScreenShaderProgram.cpp">
+      <Filter>Module\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\OpenGL\Shader.cpp">
+      <Filter>Module\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\OpenGL\ViewportFrameBuffer.cpp">
+      <Filter>Module\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\Vulkan\IVulkanRenderer.cpp">
+      <Filter>Module\Graphics\Vulkan\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\Vulkan\VulkanComputeRenderer.cpp">
+      <Filter>Module\Graphics\Vulkan\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Module\Graphics\Vulkan\VulkanExempleRenderer.cpp">
+      <Filter>Module\Graphics\Vulkan\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -301,17 +322,8 @@
     <Filter Include="Module\World">
       <UniqueIdentifier>{91915beb-2a72-4cbd-9681-9324c4b6cd4c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Module\Graphics\Shaders">
-      <UniqueIdentifier>{519229f4-ec15-42c8-b284-d322c2245871}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Module\Graphics\Screen">
-      <UniqueIdentifier>{631dd2ad-3b5b-4c55-a6ac-5323aaec9516}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Module\Graphics\Game">
       <UniqueIdentifier>{f231c610-16d3-41df-a9b9-3308986a8d3b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Module\Graphics\Effects">
-      <UniqueIdentifier>{b92563bc-952a-489e-83f8-41ddf763b394}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application">
       <UniqueIdentifier>{3328fe7d-d00d-4949-af49-571e51eaa55d}</UniqueIdentifier>
@@ -328,17 +340,23 @@
     <Filter Include="Module\Graphics\Meshs">
       <UniqueIdentifier>{ebae185f-b341-49a7-9c60-f442a2248407}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Module\Graphics\VulkanBase">
-      <UniqueIdentifier>{85cdc5b4-fdc2-4859-a903-be875fb9407a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Module\Graphics\OpenGLBase">
-      <UniqueIdentifier>{012216e6-8e5b-4fac-8e1b-eb564c8e4188}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Base\Timer">
       <UniqueIdentifier>{776e964a-b742-45f5-885d-09f1c480ebc2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Utility\DataManagement">
       <UniqueIdentifier>{3e07e0aa-2f38-4a22-a80e-525727eeed15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Module\Graphics\Vulkan">
+      <UniqueIdentifier>{85cdc5b4-fdc2-4859-a903-be875fb9407a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Module\Graphics\OpenGL">
+      <UniqueIdentifier>{012216e6-8e5b-4fac-8e1b-eb564c8e4188}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Module\Graphics\OpenGL\Screen">
+      <UniqueIdentifier>{631dd2ad-3b5b-4c55-a6ac-5323aaec9516}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Module\Graphics\Vulkan\Renderer">
+      <UniqueIdentifier>{521f021c-27df-48e7-ad61-8bdfcfaa2202}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -418,44 +436,17 @@
     <ClInclude Include="Module\Graphics\IRenderer.h">
       <Filter>Module\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Module\Graphics\GameShaderProgram.h">
-      <Filter>Module\Graphics\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Module\Graphics\GameRenderer.h">
-      <Filter>Module\Graphics\Game</Filter>
-    </ClInclude>
     <ClInclude Include="Module\Graphics\Camera.h">
       <Filter>Module\Graphics\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Module\Graphics\IShaderProgram.h">
-      <Filter>Module\Graphics\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Module\Graphics\Shader.h">
-      <Filter>Module\Graphics\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Module\Graphics\ShaderPrototype1.h">
-      <Filter>Module\Graphics\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Module\Graphics\ShaderPrototype2.h">
-      <Filter>Module\Graphics\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Module\Graphics\ShaderPrototypeCulling.h">
-      <Filter>Module\Graphics\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Module\Graphics\ShaderPrototypeLights.h">
-      <Filter>Module\Graphics\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Module\Graphics\ShaderPrototypeSSAO.h">
-      <Filter>Module\Graphics\Shaders</Filter>
-    </ClInclude>
     <ClInclude Include="Module\Graphics\ScreenShaderProgram.h">
-      <Filter>Module\Graphics\Screen</Filter>
+      <Filter>Module\Graphics\OpenGL\Screen</Filter>
     </ClInclude>
     <ClInclude Include="Module\Graphics\ScreenShaderPrototype1.h">
-      <Filter>Module\Graphics\Screen</Filter>
+      <Filter>Module\Graphics\OpenGL\Screen</Filter>
     </ClInclude>
     <ClInclude Include="Module\Graphics\ViewportFrameBuffer.h">
-      <Filter>Module\Graphics\Screen</Filter>
+      <Filter>Module\Graphics\OpenGL\Screen</Filter>
     </ClInclude>
     <ClInclude Include="Module\Graphics\UITexture.h">
       <Filter>Module\Graphics</Filter>
@@ -481,26 +472,8 @@
     <ClInclude Include="Module\Input\Input.h">
       <Filter>Module\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Module\Graphics\GraphicsManager_Old.h">
-      <Filter>Module\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Module\Graphics\GraphicsManager.h">
       <Filter>Module\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Module\Graphics\Vulkan.h">
-      <Filter>Module\Graphics\VulkanBase</Filter>
-    </ClInclude>
-    <ClInclude Include="Module\Graphics\VulkanEnvironment.h">
-      <Filter>Module\Graphics\VulkanBase</Filter>
-    </ClInclude>
-    <ClInclude Include="Module\Graphics\VulkanRenderPipeline.h">
-      <Filter>Module\Graphics\VulkanBase</Filter>
-    </ClInclude>
-    <ClInclude Include="Module\Graphics\VulkanSwapChain.h">
-      <Filter>Module\Graphics\VulkanBase</Filter>
-    </ClInclude>
-    <ClInclude Include="Module\Graphics\VulkanDevice.h">
-      <Filter>Module\Graphics\VulkanBase</Filter>
     </ClInclude>
     <ClInclude Include="Module\ECS\Entity.h">
       <Filter>Module\ECS</Filter>
@@ -516,9 +489,6 @@
     </ClInclude>
     <ClInclude Include="Module\ECS\TransformComponent.h">
       <Filter>Module\ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="Module\Graphics\VulkanBackend.h">
-      <Filter>Module\Graphics\VulkanBase</Filter>
     </ClInclude>
     <ClInclude Include="Base\Allocators\InvalidMemory.h">
       <Filter>Base\Allocators</Filter>
@@ -579,9 +549,6 @@
     </ClInclude>
     <ClInclude Include="Base\Version.h">
       <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Module\Graphics\VulkanException.h">
-      <Filter>Module\Graphics\VulkanBase</Filter>
     </ClInclude>
     <ClInclude Include="Module\Graphics\MeshNameSanitizer.h">
       <Filter>Module\Graphics\Meshs</Filter>
@@ -646,12 +613,6 @@
     <ClInclude Include="Utility\MultiThreading\Job.h">
       <Filter>Utility\MultiThreading</Filter>
     </ClInclude>
-    <ClInclude Include="Module\Graphics\OpenGL.h">
-      <Filter>Module\Graphics\OpenGLBase</Filter>
-    </ClInclude>
-    <ClInclude Include="Module\Graphics\GLError.h">
-      <Filter>Module\Graphics\OpenGLBase</Filter>
-    </ClInclude>
     <ClInclude Include="Base\Timer\ApplicationTime.h">
       <Filter>Base\Timer</Filter>
     </ClInclude>
@@ -690,6 +651,93 @@
     </ClInclude>
     <ClInclude Include="Base\Statistics.h">
       <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\IContext.h">
+      <Filter>Module\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\Vulkan\Vks.h">
+      <Filter>Module\Graphics\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\Vulkan\Vulkan.h">
+      <Filter>Module\Graphics\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\Vulkan\VulkanBuffer.h">
+      <Filter>Module\Graphics\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\Vulkan\VulkanContext.h">
+      <Filter>Module\Graphics\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\Vulkan\VulkanDevice.h">
+      <Filter>Module\Graphics\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\Vulkan\VulkanException.h">
+      <Filter>Module\Graphics\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\Vulkan\VulkanQueues.h">
+      <Filter>Module\Graphics\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\Vulkan\VulkanSwapChain.h">
+      <Filter>Module\Graphics\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\Vulkan\VulkanTexture.h">
+      <Filter>Module\Graphics\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Math\Octree.h">
+      <Filter>Base\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\OpenGL\GLError.h">
+      <Filter>Module\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\OpenGL\IOpenGLRenderer.h">
+      <Filter>Module\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\OpenGL\IShaderProgram.h">
+      <Filter>Module\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\OpenGL\OpenGL.h">
+      <Filter>Module\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\OpenGL\OpenGLContext.h">
+      <Filter>Module\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\OpenGL\OpenGLRatalizationRenderer.h">
+      <Filter>Module\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\OpenGL\ScreenShaderProgram.h">
+      <Filter>Module\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\OpenGL\ScreenShaderPrototype1.h">
+      <Filter>Module\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\OpenGL\Shader.h">
+      <Filter>Module\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\OpenGL\ShaderPrototype1.h">
+      <Filter>Module\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\OpenGL\ShaderPrototype2.h">
+      <Filter>Module\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\OpenGL\ShaderPrototypeCulling.h">
+      <Filter>Module\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\OpenGL\ShaderPrototypeLights.h">
+      <Filter>Module\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\OpenGL\ShaderPrototypeSSAO.h">
+      <Filter>Module\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\OpenGL\ViewportFrameBuffer.h">
+      <Filter>Module\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\Vulkan\IVulkanRenderer.h">
+      <Filter>Module\Graphics\Vulkan\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\Vulkan\VulkanComputeRenderer.h">
+      <Filter>Module\Graphics\Vulkan\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Module\Graphics\Vulkan\VulkanExempleRenderer.h">
+      <Filter>Module\Graphics\Vulkan\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

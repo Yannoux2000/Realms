@@ -129,10 +129,10 @@ namespace rlms {
 } //namespace rlms
 
 ////////////////////////////////////////////////////////////
-/// \class rlms::IComponent
+/// \class IComponent
 /// \ingroup RealmsCore
 ///
-/// rlms::IComponent provides an interface for data to be 
+/// IComponent provides an interface for data to be 
 /// attached to entities and be managed dynamicaly.
 /// 
 /// This class allows mods and game Developper to attach
@@ -140,13 +140,13 @@ namespace rlms {
 ///
 /// Usage example:
 /// \code
-/// struct HealthComponent : public rlms::IComponent {
+/// struct HealthComponent : public IComponent {
 /// 	int max_hp;
 /// 	int cur_hp;
 /// 	int reg_hp;
 /// }
 /// \endcode
 ///
-/// \see rlms::Entity, rlms::ISystem, rlms::ECS_Core
+/// \see Entity, ISystem, ECS_Core
 ///
 ////////////////////////////////////////////////////////////

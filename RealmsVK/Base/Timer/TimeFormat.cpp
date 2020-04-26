@@ -3,7 +3,9 @@
 #include <iomanip>
 #include <sstream>
 
-std::string rlms::TimeFormat::Precise (DURATION d) {
+using namespace rlms;
+
+std::string TimeFormat::Precise (DURATION d) {
 	std::ostringstream oss;
 
 	auto hours = std::chrono::duration_cast<std::chrono::hours>(d);
@@ -22,7 +24,7 @@ std::string rlms::TimeFormat::Precise (DURATION d) {
 	return oss.str ();
 }
 
-std::string rlms::TimeFormat::Human (DURATION d) {
+std::string TimeFormat::Human (DURATION d) {
 	std::ostringstream oss;
 
 	auto hours = std::chrono::duration_cast<std::chrono::hours>(d);
@@ -38,7 +40,7 @@ std::string rlms::TimeFormat::Human (DURATION d) {
 	return oss.str ();
 }
 
-std::string rlms::TimeFormat::NowDate () {
+std::string TimeFormat::NowDate () {
 	std::ostringstream oss;
 	auto now = std::chrono::system_clock::to_time_t (std::chrono::system_clock::now ());
 

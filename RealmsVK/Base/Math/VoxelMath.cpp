@@ -5,7 +5,7 @@
 
 using namespace rlms;
 
-uint8_t rlms::VoxelMath::BackfacesCulling (glm::vec3 cameraPos) {
+uint8_t VoxelMath::BackfacesCulling (glm::vec3 cameraPos) {
 
 	uint8_t backfaces_Culling = IVoxel::Hidden | IVoxel::Transparent; //to avoid overriding this flag
 
@@ -36,7 +36,7 @@ uint8_t rlms::VoxelMath::BackfacesCulling (glm::vec3 cameraPos) {
 	return backfaces_Culling;
 }
 
-void rlms::VoxelMath::OcclusionCulling (std::vector<std::vector<std::vector<IVoxel>>>& chunk, uint8_t flags) {
+void VoxelMath::OcclusionCulling (std::vector<std::vector<std::vector<IVoxel>>>& chunk, uint8_t flags) {
 	for (size_t x = 0; x < chunk.size (); x++) {
 		for (size_t y = 0; y < chunk[x].size (); y++) {
 			for (size_t z = 0; z < chunk[x][y].size (); z++) {

@@ -4,7 +4,9 @@
 
 #include "MeshNameSanitizer.h"
 
-void rlms::MeshRegister::start (Allocator* const& alloc, size_t mesh_pool_size, std::shared_ptr<Logger> funnel) {
+using namespace rlms;
+
+void MeshRegister::start (Allocator* const& alloc, size_t mesh_pool_size, std::shared_ptr<Logger> funnel) {
 	startLogger (funnel);
 	logger->tag (LogTags::None) << "Initializing !" << '\n';
 
@@ -13,7 +15,7 @@ void rlms::MeshRegister::start (Allocator* const& alloc, size_t mesh_pool_size, 
 	logger->tag (LogTags::None) << "Initialized correctly !" << '\n';
 }
 
-void rlms::MeshRegister::stop () {
+void MeshRegister::stop () {
 	logger->tag (LogTags::None) << "Stopping !" << '\n';
 
 	for (auto it = m_register.begin (); it != m_register.end (); it++) {
@@ -23,7 +25,7 @@ void rlms::MeshRegister::stop () {
 	logger->tag (LogTags::None) << "Stopped correctly !" << '\n';
 }
 
-void rlms::MeshRegister::RegisterAlias (IMESH_TYPE_ID type_id, std::string&& name) {
+void MeshRegister::RegisterAlias (IMESH_TYPE_ID type_id, std::string&& name) {
 	name = MeshNameSanitizer::Sanitize (name);
 
 	auto it = m_dict.find (name);
@@ -36,41 +38,41 @@ void rlms::MeshRegister::RegisterAlias (IMESH_TYPE_ID type_id, std::string&& nam
 	m_dict.emplace (std::make_pair (name, type_id));
 }
 
-void rlms::MeshRegister::imports () {
+void MeshRegister::imports () {
 	for (auto it = m_register.begin (); it != m_register.end (); it++) {
-		it->second->import ();
+		//it->second->import ();
 	}
 }
 
-void rlms::MeshRegister::optimises () {
+void MeshRegister::optimises () {
 	for (auto it = m_register.begin (); it != m_register.end (); it++) {
 		it->second->optimise ();
 	}
 }
 
-void rlms::MeshRegister::loads () {
+void MeshRegister::loads () {
 	for (auto it = m_register.begin (); it != m_register.end (); it++) {
-		it->second->load ();
+		//it->second->load ();
 	}
 }
 
-void rlms::MeshRegister::unloads () {
+void MeshRegister::unloads () {
 	for (auto it = m_register.begin (); it != m_register.end (); it++) {
-		it->second->unload ();
+		//it->second->unload ();
 	}
 }
 
-void rlms::MeshRegister::free () {
+void MeshRegister::free () {
 	for (auto it = m_register.begin (); it != m_register.end (); it++) {
 		allocator::deallocateDelete<IMesh> (*m_model_Allocator.get (), it->second);
 	}
 }
 
-IMesh* rlms::MeshRegister::get (IMESH_TYPE_ID const& type_id) {
+IMesh* MeshRegister::get (IMESH_TYPE_ID const& type_id) {
 	return m_register[type_id];
 }
 
-IMesh* rlms::MeshRegister::get (std::string const& alias) {
+IMesh* MeshRegister::get (std::string const& alias) {
 	auto it = m_dict.find (alias);
 	if (it == m_dict.end ()) {
 		throw Exception ("Mesh not found");
@@ -79,7 +81,7 @@ IMesh* rlms::MeshRegister::get (std::string const& alias) {
 	return m_register[type_id];
 }
 
-IMESH_TYPE_ID rlms::MeshRegister::getId (std::string const& alias) {
+IMESH_TYPE_ID MeshRegister::getId (std::string const& alias) {
 	auto it = m_dict.find (alias);
 	if (it == m_dict.end ()) {
 		throw Exception ("Mesh not found");
@@ -88,7 +90,7 @@ IMESH_TYPE_ID rlms::MeshRegister::getId (std::string const& alias) {
 	return it->second;
 }
 
-std::string rlms::MeshRegister::getAlias (IMESH_TYPE_ID const& type_id) {
+std::string MeshRegister::getAlias (IMESH_TYPE_ID const& type_id) {
 	for (auto it = m_dict.begin(); it != m_dict.end(); it++) {
 		if (it->second == type_id) return it->first;
 	}

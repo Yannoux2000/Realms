@@ -19,8 +19,8 @@ private:
 		return "InputManager";
 	};
 
-	rlms::Vec2i m_cursor_pos, m_scroll_pos;
-	std::unordered_map<INPUT_ADDRESS_SUB_TYPE, rlms::InputMap*> m_maps;
+	Vec2i m_cursor_pos, m_scroll_pos;
+	std::unordered_map<INPUT_ADDRESS_SUB_TYPE, InputMap*> m_maps;
 	AssignDictionnary dict;
 	std::string text_typed;
 	bool m_typing;
@@ -29,10 +29,10 @@ private:
 	void stop ();
 
 	//get will create a new map if no one is found
-	std::unordered_map<INPUT_ADDRESS_SUB_TYPE, rlms::InputMap*>::iterator __getMap (INPUT_ADDRESS_SUB_TYPE map);
+	std::unordered_map<INPUT_ADDRESS_SUB_TYPE, InputMap*>::iterator __getMap (INPUT_ADDRESS_SUB_TYPE map);
 
 	//find will search for an existing map, otherwise throws an error
-	std::unordered_map<INPUT_ADDRESS_SUB_TYPE, rlms::InputMap*>::iterator __findMap (INPUT_ADDRESS_SUB_TYPE map);
+	std::unordered_map<INPUT_ADDRESS_SUB_TYPE, InputMap*>::iterator __findMap (INPUT_ADDRESS_SUB_TYPE map);
 
 	void bindKey (std::string const& name, int&& key);
 	void bindMouseButton (std::string const& name, int&& button);
@@ -60,9 +60,9 @@ private:
 	const bool isDown (AssignAddress const& addr);
 	const bool isReleased (AssignAddress const& addr);
 
-	rlms::Vec2i getCursorPos ();
-	const rlms::Vec2i getDeltaPos (AssignAddress const& addr);
-	const rlms::Vec2i getEndPos (AssignAddress const& addr);
+	Vec2i getCursorPos ();
+	const Vec2i getDeltaPos (AssignAddress const& addr);
+	const Vec2i getEndPos (AssignAddress const& addr);
 	//const sf::Event* getEvent (std::string const& name);
 
 	static void MouseButtonFunction (GLFWwindow* window, int button, int action, int mods) {
@@ -87,21 +87,21 @@ public:
 	~InputManagerImpl () {};
 };
 
-bool rlms::InputManagerImpl::start (std::shared_ptr<Logger> funnel) {
+bool InputManagerImpl::start (std::shared_ptr<Logger> funnel) {
 	startLogger (funnel);
 	logger->tag (LogTags::None) << "Initializing !" << '\n';
 	dict.reset ();
 	logger->tag (LogTags::None) << "Initialized correctly !" << '\n';
 	return true;
 }
-void rlms::InputManagerImpl::stop () {
+void InputManagerImpl::stop () {
 	logger->tag (LogTags::None) << "Terminating" << '\n';
 	clearInputs ();
 	logger->tag (LogTags::None) << "Terminated correctly !" << '\n';
 }
 
 //get will create a new map if no one is found
-std::unordered_map<INPUT_ADDRESS_SUB_TYPE, rlms::InputMap*>::iterator InputManagerImpl::__getMap (INPUT_ADDRESS_SUB_TYPE map) {
+std::unordered_map<INPUT_ADDRESS_SUB_TYPE, InputMap*>::iterator InputManagerImpl::__getMap (INPUT_ADDRESS_SUB_TYPE map) {
 	auto it = m_maps.find (map);
 	if (it == m_maps.end ()) {
 		logger->tag (LogTags::Info) << "Creating map(" << map << ").\n";
@@ -112,7 +112,7 @@ std::unordered_map<INPUT_ADDRESS_SUB_TYPE, rlms::InputMap*>::iterator InputManag
 }
 
 //find will search for an existing map, otherwise throws an error
-std::unordered_map<INPUT_ADDRESS_SUB_TYPE, rlms::InputMap*>::iterator InputManagerImpl::__findMap (INPUT_ADDRESS_SUB_TYPE map) {
+std::unordered_map<INPUT_ADDRESS_SUB_TYPE, InputMap*>::iterator InputManagerImpl::__findMap (INPUT_ADDRESS_SUB_TYPE map) {
 	auto it = m_maps.find (map);
 	if (it == m_maps.end ()) {
 		throw InvalidFormat ();
@@ -121,35 +121,35 @@ std::unordered_map<INPUT_ADDRESS_SUB_TYPE, rlms::InputMap*>::iterator InputManag
 	return it;
 }
 
-void rlms::InputManagerImpl::bindKey (std::string const& name, int && key) {
+void InputManagerImpl::bindKey (std::string const& name, int && key) {
 	dict.set (name);
 	AssignAddress addr = dict.get (name);
 
 	auto it = __getMap (addr.map);
 	it->second->bindKey (addr.input, std::move (key));
 }
-void rlms::InputManagerImpl::bindMouseButton (std::string const& name, int && button) {
+void InputManagerImpl::bindMouseButton (std::string const& name, int && button) {
 	dict.set (name);
 	AssignAddress addr = dict.get (name);
 
 	auto it = __getMap (addr.map);
 	it->second->bindKey (addr.input, std::move (button));
 }
-void rlms::InputManagerImpl::bindKeySlide (std::string const& name, int && key) {
+void InputManagerImpl::bindKeySlide (std::string const& name, int && key) {
 	dict.set (name);
 	AssignAddress addr = dict.get (name);
 
 	auto it = __getMap (addr.map);
 	it->second->bindKeySlide (addr.input, std::move (key));
 }
-void rlms::InputManagerImpl::bindMouseButtonSlide (std::string const& name, int && button) {
+void InputManagerImpl::bindMouseButtonSlide (std::string const& name, int && button) {
 	dict.set (name);
 	AssignAddress addr = dict.get (name);
 
 	auto it = __getMap (addr.map);
 	it->second->bindKeySlide (addr.input, std::move (button));
 }
-//void rlms::InputManagerImpl::bindEvent (std::string const& name, sf::Event::EventType && e) {
+//void InputManagerImpl::bindEvent (std::string const& name, sf::Event::EventType && e) {
 //	dict.set (name);
 //	AssignAddress addr = dict.get (name);
 //
@@ -159,24 +159,24 @@ void rlms::InputManagerImpl::bindMouseButtonSlide (std::string const& name, int 
 //	}
 //}
 
-void rlms::InputManagerImpl::enableInputMap (INPUT_ADDRESS_SUB_TYPE const& map) {
+void InputManagerImpl::enableInputMap (INPUT_ADDRESS_SUB_TYPE const& map) {
 	logger->tag (LogTags::Info) << "Enabled Map : " << map << ".\n";
 	auto it = __findMap (map);
 	it->second->enable ();
 }
 
-void rlms::InputManagerImpl::disableInputMap (INPUT_ADDRESS_SUB_TYPE const& map) {
+void InputManagerImpl::disableInputMap (INPUT_ADDRESS_SUB_TYPE const& map) {
 	logger->tag (LogTags::Info) << "Disabled Map : " << map << ".\n";
 	auto it = __findMap (map);
 	it->second->disable ();
 }
 
-void rlms::InputManagerImpl::unbindInput (AssignAddress const& addr) {
+void InputManagerImpl::unbindInput (AssignAddress const& addr) {
 	auto it = __findMap (addr.map);
 	it->second->unbindInput (addr.input);
 }
 
-void rlms::InputManagerImpl::clearInputs () {
+void InputManagerImpl::clearInputs () {
 	logger->tag (LogTags::Warn) << "Clearing all Inputs.\n";
 	while (!m_maps.empty ()) {
 		auto it = m_maps.begin ();
@@ -186,37 +186,37 @@ void rlms::InputManagerImpl::clearInputs () {
 	}
 	dict.reset ();
 }
-void rlms::InputManagerImpl::poll (GLFWwindow*& window) {
+void InputManagerImpl::poll (GLFWwindow*& window) {
 	//logger->tag (LogTags::None) << "Polling new Inputs" << '\n';
 	glfwPollEvents ();
 }
 
-void rlms::InputManagerImpl::update (Input&& n) {
+void InputManagerImpl::update (Input&& n) {
 	logger->tag (LogTags::None) << "update ! ("<< n.scancode << ", " << static_cast<char>(glfwGetKeyScancode(n.scancode)) << ")" << '\n';
 	for (auto it = m_maps.begin (); it != m_maps.end (); it++) {
 		it->second->update (n);
 	}
 }
 
-const void rlms::InputManagerImpl::setTyping (bool typing) {
+const void InputManagerImpl::setTyping (bool typing) {
 	m_typing = typing;
 }
-const bool rlms::InputManagerImpl::isTyping () {
+const bool InputManagerImpl::isTyping () {
 	return m_typing;
 }
 
-const bool rlms::InputManagerImpl::hasInput (std::string const& name) {
+const bool InputManagerImpl::hasInput (std::string const& name) {
 	AssignAddress addr = dict.get (name);
 	if (!dict.valid (addr)) {
 		logger->tag (LogTags::Warn) << "invalid input address : " << name << "\n";
 	}
 	return dict.valid (addr);
 }
-const bool rlms::InputManagerImpl::hasInput (AssignAddress const& addr) {
+const bool InputManagerImpl::hasInput (AssignAddress const& addr) {
 	auto it = __findMap (addr.map);
 	return it->second->hasInput (addr.input);
 }
-const AssignAddress rlms::InputManagerImpl::getInput (std::string const& name) {
+const AssignAddress InputManagerImpl::getInput (std::string const& name) {
 	AssignAddress addr = dict.get (name);
 	if (!dict.valid (addr)) {
 		logger->tag (LogTags::Warn) << "invalid input address : " << name << "\n";
@@ -224,32 +224,32 @@ const AssignAddress rlms::InputManagerImpl::getInput (std::string const& name) {
 	return addr;
 }
 
-rlms::Vec2i rlms::InputManagerImpl::getCursorPos () {
+Vec2i InputManagerImpl::getCursorPos () {
 	return m_cursor_pos;
 }
-const bool rlms::InputManagerImpl::isPressed (AssignAddress const& addr) {
+const bool InputManagerImpl::isPressed (AssignAddress const& addr) {
 	auto it = __findMap (addr.map);
 	return it->second->isPressed (addr.input);
 }
-const bool rlms::InputManagerImpl::isDown (AssignAddress const& addr) {
+const bool InputManagerImpl::isDown (AssignAddress const& addr) {
 	auto it = __findMap (addr.map);
 	return it->second->isDown (addr.input);
 }
-const bool rlms::InputManagerImpl::isReleased (AssignAddress const& addr) {
+const bool InputManagerImpl::isReleased (AssignAddress const& addr) {
 	auto it = __findMap (addr.map);
 	return it->second->isReleased (addr.input);
 }
 
-const rlms::Vec2i rlms::InputManagerImpl::getDeltaPos (AssignAddress const& addr) {
+const Vec2i InputManagerImpl::getDeltaPos (AssignAddress const& addr) {
 	auto it = __findMap (addr.map);
 	return it->second->getDeltaPos (addr.input);
 }
-const rlms::Vec2i rlms::InputManagerImpl::getEndPos (AssignAddress const& addr) {
+const Vec2i InputManagerImpl::getEndPos (AssignAddress const& addr) {
 	auto it = __findMap (addr.map);
 	return it->second->getEndPos (addr.input);
 }
 
-//const sf::Event* rlms::InputManagerImpl::getEvent (std::string const& name) {
+//const sf::Event* InputManagerImpl::getEvent (std::string const& name) {
 //	if (AssignSanitizer::IsGlobal (name)) {
 //		return m_globalMap.getEvent (name);
 //	} else {
@@ -262,115 +262,115 @@ const rlms::Vec2i rlms::InputManagerImpl::getEndPos (AssignAddress const& addr) 
 //}
 
 //InputManager
-std::unique_ptr<rlms::InputManagerImpl> rlms::InputManager::instance;
+std::unique_ptr<InputManagerImpl> InputManager::instance;
 
-std::shared_ptr<rlms::LoggerHandler> rlms::InputManager::GetLogger () {
+std::shared_ptr<LoggerHandler> InputManager::GetLogger () {
 	return instance->getLogger ();
 }
 
-bool rlms::InputManager::Initialize (std::shared_ptr<Logger> funnel) {
+bool InputManager::Initialize (std::shared_ptr<Logger> funnel) {
 	instance = std::make_unique<InputManagerImpl> ();
 	instance->start (funnel);
 	return true;
 }
 
-void rlms::InputManager::Terminate () {
+void InputManager::Terminate () {
 	instance->stop ();
 	instance.reset ();
 }
 
-void rlms::InputManager::SetCallbacks (GLFWwindow*& window) {
+void InputManager::SetCallbacks (GLFWwindow*& window) {
 	glfwSetMouseButtonCallback (window, InputManagerImpl::MouseButtonFunction);
 	glfwSetCursorPosCallback (window, InputManagerImpl::CursorPosFunction);
 	glfwSetKeyCallback (window, InputManagerImpl::KeyboardFunction);
 	glfwSetScrollCallback (window, InputManagerImpl::MouseScrollFunction);
 }
 
-void rlms::InputManager::BindKey (std::string const& name, int && key) {
+void InputManager::BindKey (std::string const& name, int && key) {
 	instance->bindKey (name, std::move(key));
 }
-void rlms::InputManager::BindMouseButton (std::string const& name, int && button) {
+void InputManager::BindMouseButton (std::string const& name, int && button) {
 	instance->bindMouseButton (name, std::move (button));
 }
-void rlms::InputManager::BindKeySlide (std::string const& name, int && key) {
+void InputManager::BindKeySlide (std::string const& name, int && key) {
 	instance->bindKeySlide (name, std::move (key));
 }
-void rlms::InputManager::BindMouseButtonSlide (std::string const& name, int && button) {
+void InputManager::BindMouseButtonSlide (std::string const& name, int && button) {
 	instance->bindMouseButtonSlide (name, std::move (button));
 }
 
-//void rlms::InputManager::BindEvent (std::string const& name, sf::Event::EventType && e) {
+//void InputManager::BindEvent (std::string const& name, sf::Event::EventType && e) {
 //	instance->bindEvent (name, std::move (e));
 //}
 
-void rlms::InputManager::EnableInputMap (INPUT_ADDRESS_SUB_TYPE const& map) {
+void InputManager::EnableInputMap (INPUT_ADDRESS_SUB_TYPE const& map) {
 	instance->enableInputMap(map);
 }
 
-void rlms::InputManager::EnableInputMap (std::string const& name) {
+void InputManager::EnableInputMap (std::string const& name) {
 	instance->enableInputMap(instance->dict.getWord (name));
 }
 
-void rlms::InputManager::DisableInputMap (INPUT_ADDRESS_SUB_TYPE const& map) {
+void InputManager::DisableInputMap (INPUT_ADDRESS_SUB_TYPE const& map) {
 	instance->disableInputMap (map);
 }
 
-void rlms::InputManager::DisableInputMap (std::string const& name) {
+void InputManager::DisableInputMap (std::string const& name) {
 	instance->disableInputMap (instance->dict.getWord (name));
 }
 
-void rlms::InputManager::UnBindInput (AssignAddress const& addr) {
+void InputManager::UnBindInput (AssignAddress const& addr) {
 	instance->unbindInput (addr);
 }
-void rlms::InputManager::ClearInputs () {
+void InputManager::ClearInputs () {
 	instance->clearInputs();
 }
 
-void rlms::InputManager::Poll (GLFWwindow*& window) {
+void InputManager::Poll (GLFWwindow*& window) {
 	instance->poll (window);
 }
 
-void rlms::InputManager::Update (Input&& n) {
+void InputManager::Update (Input&& n) {
 	instance->update (std::move(n));
 }
 
-void rlms::InputManager::UpdateCursor (rlms::Vec2i c_pos) {
+void InputManager::UpdateCursor (Vec2i c_pos) {
 	instance->m_cursor_pos = c_pos;
 }
-void rlms::InputManager::UpdateScroll (rlms::Vec2i s_pos) {
+void InputManager::UpdateScroll (Vec2i s_pos) {
 	instance->m_scroll_pos = s_pos;
 }
 
-const bool rlms::InputManager::HasInput (std::string const& name) {
+const bool InputManager::HasInput (std::string const& name) {
 	return instance->hasInput (name);
 }
-const bool rlms::InputManager::HasInput (AssignAddress const& addr) {
+const bool InputManager::HasInput (AssignAddress const& addr) {
 	return instance->hasInput (addr);
 }
-const AssignAddress rlms::InputManager::GetInput (std::string const& name) {
+const AssignAddress InputManager::GetInput (std::string const& name) {
 	return instance->getInput (name);
 }
 
-const bool rlms::InputManager::IsPressed (AssignAddress const& addr) {
+const bool InputManager::IsPressed (AssignAddress const& addr) {
 	return instance->isPressed(addr);
 }
-const bool rlms::InputManager::IsDown (AssignAddress const& addr) {
+const bool InputManager::IsDown (AssignAddress const& addr) {
 	return instance->isDown (addr);
 }
-const bool rlms::InputManager::IsReleased (AssignAddress const& addr) {
+const bool InputManager::IsReleased (AssignAddress const& addr) {
 	return instance->isReleased (addr);
 }
 
-const rlms::Vec2i rlms::InputManager::GetCursorPos () {
+const Vec2i InputManager::GetCursorPos () {
 	return instance->getCursorPos();
 }
-const rlms::Vec2i rlms::InputManager::GetDeltaPos (AssignAddress const& addr) {
+const Vec2i InputManager::GetDeltaPos (AssignAddress const& addr) {
 	return instance->getDeltaPos (addr);
 }
-const rlms::Vec2i rlms::InputManager::GetEndPos (AssignAddress const& addr) {
+const Vec2i InputManager::GetEndPos (AssignAddress const& addr) {
 	return instance->getEndPos (addr);
 }
 
-//const sf::Event* rlms::InputManager::GetEvent (AssignAddress const& addr) {
+//const sf::Event* InputManager::GetEvent (AssignAddress const& addr) {
 //	return instance->getEvent(name);
 //}

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "OpenGL.h"
-
 namespace rlms {
 	class IDrawable {
 	public:
@@ -20,10 +18,8 @@ namespace rlms {
 		virtual void bind () {};
 		//function called in frameloop encapsulate glDrawArrays
 		virtual void draw () {};
-		void unbind ();
-		
-		static inline void Unbind () {
-		}
+		//function called in frameloop encapsulate glBinds functions
+		virtual void unbind () {};
 
 		virtual ~IDrawable () {};
 	};
